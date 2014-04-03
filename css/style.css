@@ -1,0 +1,166 @@
+body{
+    margin:0;
+    padding:0;
+    width: 100%;
+
+	background: #91152f; /*fallback*/
+	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right; /* fallback */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#91152f), color-stop(100%,#3a0e1d)); /* Chrome,Safari4+ */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -webkit-linear-gradient(top, #91152f 0%,#3a0e1d 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -moz-linear-gradient(top, #91152f 0%, #3a0e1d 100%); /* FF3.6+ */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -ms-linear-gradient(top, #91152f 0%,#3a0e1d 100%); /* IE10+ */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -o-linear-gradient(top, #91152f 0%,#3a0e1d 100%); /* Opera 11.10+ */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, linear-gradient(to bottom, #91152f 0%,#3a0e1d 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91152f', endColorstr='#3a0e1d',GradientType=0 ); /* IE6-9 */
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+h1{
+	font-family: 'Kyboshed';
+	color: black;
+	font-size: 3em;
+	margin: 0;
+	padding:0;
+}
+
+.marginleft{
+	margin-left: 5px;
+}
+
+.white{
+	color: white;
+}
+
+ul{
+	list-style: none;
+}
+
+li{
+	display: inline;
+	float: left;
+	margin-right: 13%;	
+}
+
+li.search{
+	margin-right: 8px;
+}
+
+#logo{
+	display: block;
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+#header{
+	width: 80%;
+	margin: 0 auto;
+	padding: 10px;
+	margin-top: 0px;
+	margin-bottom: 40px;
+}
+
+#menu{
+	width: 80%;
+	margin: 0 auto;
+}
+
+/*#container{
+	min-width: 650px;
+	max-width: 100%;
+	margin: 0 auto;
+	margin-left: 100px;
+	margin-top: 30px;
+}*/
+
+#content{
+	margin: 0 auto;
+	width: 70%;
+	height: 100%;
+	padding:2%;
+}
+
+#search{
+	width: 40%;
+	margin: 0 auto;
+	display: block;
+	height: 100px;
+}
+
+#footer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0; 
+    text-align: center;
+    color: white;
+    font-size: 2em;
+}
+
+p.footer{
+	font-size: 0.4em;
+}
+
+a.sunshake{
+	font-family: "ClearLine";
+	color: white;
+	font-size: 3em; /*this affects the link text, even tho another font-size is defined for the p elem*/
+	margin: 0;
+	padding: 0;
+}
+
+.result-list{
+	width: 90%;
+	height: 30px;
+	border: 1px solid white;
+	background-color: #060606;
+	padding: 0;
+	margin: 0;
+}
+
+.result-color{
+	background-color: purple;
+	width: 20px;
+	height: 30px;
+	display: inline;
+	float: right;
+}
+
+.result-data{
+	display: inline;
+	float: left;
+
+}
+
+td
+{
+	padding:15px;
+}
+
+@font-face {
+  	font-family: "ClearLine";
+  	src: url("../assets/fonts/ClearLine.ttf");
+}
+
+@font-face {
+  	font-family: "ASwirlVelvet";
+  	src: url("../assets/fonts/ASwirlVelvet.ttf");
+}
+
+@font-face {
+  	font-family: "Kyboshed";
+  	src: url("../assets/fonts/Kyboshed.ttf");
+}
+
+@font-face {
+  	font-family: "StartlingFont";
+  	src: url("../assets/fonts/StartlingFont.ttf");
+}
+
+@font-face {
+  	font-family: "startlng";
+  	src: url("../assets/fonts/startlng.ttf");
+}
