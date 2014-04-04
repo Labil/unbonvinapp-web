@@ -66,13 +66,9 @@
             }*/
             while($row = mysql_fetch_array($result, MYSQL_ASSOC)){
                 $resultArray[] = array('id' => intval($row[ID]), 'name' => $row[NAME_S], 
-                    'type' => $row[TYPE_S], 'year' => $row[YEAR_S], 'grape' => $row[GRAPE_S],
-                    'country' => $row[COUNTRY_S], 'region' => $row[REGION_S],
-                    'score' => $row[SCORE_S], 'prodnum' => $row[PRODNUM_S], 
-                    'selection' => $row[SELECTION_S], 'price' => $row[PRICE_S], 'stars'=>$row[stars],
-                    'sweetness'=> $row[SWEETNESS_S], 'aroma'=> $row[AROMA_S], 'taste' =>$row[taste],
-                    'conclusion' => $row[CONCLUSION_S], 'source'=> $row[SOURCE_S], 
-                    'sourcedate' => $row[SOURCEDATE_S], 'note' => $row[NOTE_S]);
+                    'type' => $row[TYPE_S], 'year' => $row[YEAR_S],
+                    'country' => $row[COUNTRY_S],
+                     'price' => $row[PRICE_S], 'stars'=>$row[stars]);
                 $returnedRows++;
             }
            // $returnedRows = $result->num_rows;
@@ -86,37 +82,41 @@
 
             return json_encode($returnArray);
         }
-
+        //gets all wines limited by LIMIT
+        function getWines($param) {
+            $sql = "SELECT * FROM " . TABLE_WINES . " LIMIT 0," . RESULT_LIMIT;
+            return queryWines($sql);
+        }
         // Get wine by name LIKE 'name%' -> in list. Might return only one item in list if only one is found
-        function getWinesByName($name) {
+        function getWineByName($name, $param) {
             $sql = "SELECT * FROM " . TABLE_WINES . " WHERE " . NAME_S . " LIKE \"" . $name . "%\"";
             return queryWines($sql);
         }
         
-        function getWinesByPriceAsc($price){
+        function getWineByPriceAsc($price, $param){
             $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + PRICE_S + "<= " + $price +
                     " ORDER BY " + PRICE_S + " ASC LIMIT 0," +  RESULT_LIMIT;
             return queryWines($qry);
         }
-        function getWinesByPriceDesc($price){
+        function getWineByPriceDesc($price, $param){
             $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + PRICE_S + "<= " + $price +
             " ORDER BY " + PRICE_S + " DESC LIMIT 0, " + RESULT_LIMIT;
             return queryWines($qry);
         }
         
-        function getWinesByType($type){
+        function getWineByType($type, $param){
             $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + TYPE_S + "=\"" + $type +
                     "\" ORDER BY " + PRICE_S + " ASC";
             return queryWines($qry);
         }
         
-        function getWinesAlphabetically(){
+        function getWineAlphabetically($param){
             $qry = "SELECT * FROM " + TABLE_WINES + " ORDER BY " + NAME_S + " ASC LIMIT 0, "
                     + RESULT_LIMIT;
             return queryWines($qry);
         }
         
-        function getWinesByYear($year){
+        function getWineByYear($year, $param){
             $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + YEAR_S + "=" + $year + " LIMIT 0, "
                     + RESULT_LIMIT;
             return queryWines($qry);
@@ -160,6 +160,7 @@
             die("Could not select database");
         }
 
+        //To parse accented characters that are returned from the db
         mysql_query('SET CHARACTER SET utf8');
 
 
@@ -168,11 +169,32 @@
         */
         if($req == "name"){
             $name = (isset($_GET['name']) && $_GET['name']) ? $_GET['name'] : 'ERROR';
+            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
            /* if(preg_match("/^(\d+)(\.(\d+))?$/", $name) != 1) {
                 mysql_close($conn);
                 die(errorResponse("INVALID_ARGUMENT"));
             }*/
-            echo getWinesByName($name);
+            echo getWineByName($name, $param);
+        }
+        else if($req == "all"){
+            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
+            echo getWines($param);
+        }  
+        //Price is a bit unfinished. For now it returns prices lower than the input
+        else if($req == "price"){
+            $price = (isset($_GET['price']) && $_GET['price']) ? $_GET['price'] : 'ERROR';
+            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
+            echo getWineByPriceAsc($price, $param);
+        }
+        else if($req == "type"){
+            $type = (isset($_GET['type']) && $_GET['type']) ? $_GET['type'] : 'ERROR';
+            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
+            echo getWineByType($type, $param);
+        } 
+        else if($req == "year"){
+            $year = (isset($_GET['year']) && $_GET['year']) ? $_GET['year'] : 'ERROR';
+            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
+            echo getWineByYear($year, $param);
         } 
 
         /* 
