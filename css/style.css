@@ -173,6 +173,7 @@ a.sunshake{
 
 table{
 	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 /*table:first-child {
