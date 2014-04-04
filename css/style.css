@@ -4,13 +4,12 @@ body{
     width: 100%;
 
 	background: #91152f; /*fallback*/
-	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right; /* fallback */
 	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -webkit-gradient(linear, left top, left bottom, color-stop(0%,#91152f), color-stop(100%,#3a0e1d)); /* Chrome,Safari4+ */
-	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -webkit-linear-gradient(top, #91152f 0%,#3a0e1d 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed center right, -webkit-linear-gradient(top, #91152f 0%,#3a0e1d 100%); /* Chrome10+,Safari5.1+ */
 	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -moz-linear-gradient(top, #91152f 0%, #3a0e1d 100%); /* FF3.6+ */
 	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -ms-linear-gradient(top, #91152f 0%,#3a0e1d 100%); /* IE10+ */
 	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, -o-linear-gradient(top, #91152f 0%,#3a0e1d 100%); /* Opera 11.10+ */
-	background: url('../assets/glass_and_wine.png') no-repeat fixed bottom right, linear-gradient(to bottom, #91152f 0%,#3a0e1d 100%); /* W3C */
+	background: url('../assets/glass_and_wine.png') no-repeat fixed center right, linear-gradient(to bottom, #91152f 0%,#3a0e1d 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#91152f', endColorstr='#3a0e1d',GradientType=0 ); /* IE6-9 */
 }
 
@@ -25,6 +24,12 @@ h1{
 	font-size: 3em;
 	margin: 0;
 	padding:0;
+}
+
+.background{
+	bottom: 35px;
+	right: 0;
+	position: fixed;
 }
 
 .marginleft{
@@ -42,11 +47,24 @@ ul{
 li{
 	display: inline;
 	float: left;
-	margin-right: 13%;	
+	margin-right: 11%;
+	color: #D7D7D7;	
 }
 
 li.search{
 	margin-right: 8px;
+}
+
+li.filter{
+	margin-right: 30px;
+}
+
+li.logo{
+	margin-right: 40px;
+}
+
+li.nomargin{
+	margin: 0;
 }
 
 #logo{
@@ -56,15 +74,17 @@ li.search{
 }
 
 #header{
-	width: 80%;
+	position: fixed;
+	background-color: #91152f;
+	width: 100%;
 	margin: 0 auto;
 	padding: 10px;
 	margin-top: 0px;
-	margin-bottom: 40px;
+	z-index: 1000;
 }
 
 #menu{
-	width: 80%;
+	width: 100%;
 	margin: 0 auto;
 }
 
@@ -86,22 +106,55 @@ li.search{
 #search{
 	width: 40%;
 	margin: 0 auto;
+	margin-top: 120px;
 	display: block;
-	height: 100px;
+	height: 70px;
+}
+
+#filter{
+	width: 65%;
+	margin: 0 auto;
+	display: block;
 }
 
 #footer{
     position: fixed;
+    background-color: #060606;
     width: 100%;
     bottom: 0;
     left: 0; 
+    margin:0;
+    padding: 0;
     text-align: center;
     color: white;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 p.footer{
 	font-size: 0.4em;
+	margin: 0;
+	padding: 0;
+}
+
+table{
+	border-collapse: collapse;
+}
+
+th:first-child {
+    border-radius: 6px 0 0 0;
+}
+
+th:last-child {
+    border-radius: 0 6px 0 0;
+}
+
+th:only-child{
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered tr:hover {
+  background-color: #111111;
+  transition: all 0.1s ease-in-out;     
 }
 
 a.sunshake{
@@ -115,10 +168,10 @@ a.sunshake{
 .result-list{
 	width: 90%;
 	height: 30px;
-	border: 1px solid white;
 	background-color: #060606;
 	padding: 0;
 	margin: 0;
+
 }
 
 .result-color{
@@ -135,9 +188,41 @@ a.sunshake{
 
 }
 
+.results{
+	width: 95%;
+}
+
 td
 {
-	padding:15px;
+	padding: 5px;
+	padding-left:15px;
+	color: white;
+	border-bottom: 1px solid #D7D7D7;
+}
+
+td.name{
+	width: 48%;
+}
+
+td.year{
+	width: 8%;
+}
+
+td.country{
+	width: 20%;
+}
+
+td.price{
+	width: 8%;
+}
+
+td.stars{
+	width: 8%;
+}
+
+td.type{
+	background-color: purple;
+	width: 4%;
 }
 
 @font-face {
