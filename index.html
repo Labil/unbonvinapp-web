@@ -62,10 +62,10 @@
 						<input type="checkbox" value="" checked="checked" id="checkbox2" data-toggle="checkbox">
 						Pris lav-høy
 					</li>
-					<!--<li class="filter">
+					<li class="filter">
 						<input type="checkbox" id="checkbox2" data-toggle="checkbox">
 						Pris høy-lav
-					</li>-->
+					</li>
 				</ul>
 			</div><!--End of filter-->
 
@@ -74,11 +74,11 @@
 
 			<div id="results" >
 
-                
                    <script id="winelist-template" type="text/x-handlebars-template">
                    		<table class="result-list bordered">
 							{{#each this}}
-			                    <tr class="{{type}}">
+			                    <tr id="{{id}}" class="main_result">
+				                    
 			                        <td class="name">
 			                            {{name}}
 			                        </td>
@@ -95,10 +95,23 @@
 			                            {{stars}}
 			                        </td>
 			                    </tr>
+			                    <tr class="hidden" style="display:none;">
+			                    	<td colspan="6">
+			                    		<p class="title">Region: </p>{{region}}
+			                    	</td>
+			                    </tr>
+			                    <tr class="hidden" style="display:none;">
+			                    	<td colspan="6">
+			                    		<p class="title">Beskrivelse: </p>{{aroma}} {{taste}} {{conclusion}}
+			                    	</td>
+			                    </tr>
+			                    <tr class="{{type}}">
+			                    	<td colspan="6"></td>
+			                    </tr>
+
 	                    	{{/each}}
                     	</table>
                     </script>
-
                 
             </div><!--End of results-->
 

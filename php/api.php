@@ -23,7 +23,7 @@
     define("SWEETNESS_S", "sweetness");
     define("AROMA_S", "aroma");
     define("TASTE_S", "taste");
-    define("CONCLUSION_S", "clonclusion");
+    define("CONCLUSION_S", "conclusion");
     define("SOURCE_S", "source");
     define("SOURCEDATE_S", "sourcedate");
     define("NOTE_S", "note");
@@ -67,8 +67,10 @@
             while($row = mysql_fetch_array($result, MYSQL_ASSOC)){
                 $resultArray[] = array('id' => intval($row[ID]), 'name' => $row[NAME_S], 
                     'type' => $row[TYPE_S], 'year' => $row[YEAR_S],
-                    'country' => $row[COUNTRY_S],
-                     'price' => $row[PRICE_S], 'stars'=>$row[stars]);
+                    'country' => $row[COUNTRY_S], 'region' => $row[REGION_S],
+                     'price' => $row[PRICE_S], 'stars'=>$row[stars], 
+                     'aroma' => $row[AROMA_S], 'taste' => $row[taste], 
+                     'conclusion' => $row[CONCLUSION_S]);
                 $returnedRows++;
             }
            // $returnedRows = $result->num_rows;

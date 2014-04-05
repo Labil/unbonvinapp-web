@@ -2,34 +2,39 @@ table{
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-/*table:first-child {
-    border-radius: 6px 0 0 0;
+table:first-child {
+    border-radius: 8px 8px 0 0;
 }
 
 table:last-child {
-    border-radius: 0 6px 0 0;
+    border-radius: 8px 8px 0 0;
 }
 
 table:only-child{
-    border-radius: 6px 6px 0 0;
-}*/
+    border-radius: 8px 8px 0 0;
+}
 
-.bordered tr:hover {
+p.title{
+	font-weight: bold;
+}
+
+/*.bordered tr:hover {
   background-color: #111111;
   transition: all 0.1s ease-in-out;     
-}
+}*/
 
 td
 {
 	padding: 5px;
 	padding-left:15px;
 	color: white;
+	cursor: pointer;
 	
 }
 
 /*Default color for border in case type fails */
 tr{
-	border-bottom: 3px solid purple;
+	/*border-bottom: 3px solid purple;*/
 }
 
 /*Border color for different wine types, added dynamically via template. 
@@ -102,6 +107,12 @@ tr.Rom{
 	border-bottom: 3px solid #5c0027;
 }
 
+tr.hidden{
+	width: 100%;
+	border-bottom: none;
+	display: none; /*this doesn't work - have put styling inside element in html markup */
+}
+
 td.name{
 	width: 55%;
 }
@@ -120,4 +131,5 @@ td.price{
 
 td.stars{
 	width: 5%;
+	clear:right;
 }

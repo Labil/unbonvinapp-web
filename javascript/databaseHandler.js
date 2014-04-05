@@ -40,6 +40,24 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
     });
 };
 
+DatabaseHandler.prototype.setupResultClick = function(){
+    //var self = this;
+    var clickOpen = function(){
+        var first_row = $(this);
+        first_row.nextAll(':lt(2)').slideDown(500);
+        first_row.off('click');
+        first_row.on('click', clickClose);
+    };
+    var clickClose = function(){
+        var first_row = $(this);
+        first_row.nextAll(':lt(2)').slideUp(200);
+        first_row.off('click');
+        first_row.on('click', clickOpen);
+    };
+    $('.main_result').on('click', clickOpen);
+};
+
+
 DatabaseHandler.prototype.clearResults = function(){
     this.container.empty();
 };
@@ -91,12 +109,18 @@ DatabaseHandler.prototype.fetch = function(param){
 
             self.result = $.map(data.result, function(res){
                 return {
+                    id: res.id,
                     type: res.type,
                     name: res.name,
                     year: res.year,
                     country: res.country,
                     stars: res.stars,
-                    price: res.price
+                    price: res.price,
+                    region: res.region,
+                    conclusion: res.conclusion + ". ",
+                    taste: res.taste + ". ",
+                    aroma: res.aroma + ". "
+
                 };
 
             });
@@ -112,4 +136,6 @@ DatabaseHandler.prototype.fetch = function(param){
 DatabaseHandler.prototype.attachTemplate = function(){
     var template = Handlebars.compile(this.template);
     this.container.append(template(this.result));
+
+    this.setupResultClick();
 };
