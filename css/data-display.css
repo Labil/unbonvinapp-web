@@ -28,13 +28,16 @@ td
 	padding: 5px;
 	padding-left:15px;
 	color: white;
-	cursor: pointer;
-	
 }
 
 /*Default color for border in case type fails */
 tr{
+	width: 100%;
 	/*border-bottom: 3px solid purple;*/
+}
+
+tr.main_result{
+	cursor: pointer;
 }
 
 /*Border color for different wine types, added dynamically via template. 
@@ -107,12 +110,6 @@ tr.Rom{
 	border-bottom: 3px solid #5c0027;
 }
 
-tr.hidden{
-	width: 100%;
-	border-bottom: none;
-	display: none; /*this doesn't work - have put styling inside element in html markup */
-}
-
 td.name{
 	width: 55%;
 }
@@ -131,5 +128,4 @@ td.price{
 
 td.stars{
 	width: 5%;
-	clear:right;
 }
