@@ -18,6 +18,27 @@ DatabaseHandler.prototype.init = function(config){
     //Defaults to searching all wines sort by asc with a limit (see ../php/api.php)
     this.getWines();
 
+    this.setupSearchSubmit();
+
+};
+
+DatabaseHandler.prototype.setupSearchSubmit = function(){
+    var self = this;
+    $('#search_form').submit(function(evt){
+        evt.preventDefault();
+        var val = $('#search_box').val();
+        self.clearResults();
+        self.handleSearch(val);
+
+    });
+};
+
+DatabaseHandler.prototype.clearResults = function(){
+    this.container.empty();
+};
+
+DatabaseHandler.prototype.handleSearch = function(value){
+    this.getWineByPrice(value);
 };
 
 //optional param contains the current "sort by" checkbox-input

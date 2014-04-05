@@ -27,19 +27,22 @@
 					<span class="fui-list marginleft"></span></a></h4></li>
 			</ul>
 	</div>
-
 		<div id="content">
 
 			<div id="search">
 				<ul>
-					<li class="search">
-						<div class="form-group">
-				        	<input type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control" />
-			        	</div> 
-					</li>
-					<li>
-						<h4 class="white"><span class="fui-search"></span></h4>
-					</li>
+					<form id="search_form" action="">
+						<li class="search">
+							<div class="form-group">
+								
+					        		<input id="search_box" type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control" />
+					        	
+				        	</div> 
+						</li>
+						<li>
+							<h4 class="white"><button id="search_button" type="submit" class="fui-search"></button></h4>
+						</li>
+					</form>
 				</ul>
 			</div><!--End of search-->
 
@@ -66,31 +69,32 @@
 
 			<div id="results" >
 
-                <table id="templatingContainer" class="result-list bordered">
+                
                    <script id="winelist-template" type="text/x-handlebars-template">
-
-						{{#each this}}
-		                    <tr>
-		                        <td class="name">
-		                            {{name}}
-		                        </td>
-		                        <td class="country">
-		                            {{country}}
-		                        </td>
-		                        <td class="year">
-		                            {{year}}
-		                        </td>
-		                        <td class="price">
-		                            {{price}}
-		                        </td>
-		                        <td class="stars">
-		                            {{stars}}
-		                        </td>
-		                    </tr>
-                    	{{/each}}
+                   		<table class="result-list bordered">
+							{{#each this}}
+			                    <tr>
+			                        <td class="name">
+			                            {{name}}
+			                        </td>
+			                        <td class="country">
+			                            {{country}}
+			                        </td>
+			                        <td class="year">
+			                            {{year}}
+			                        </td>
+			                        <td class="price">
+			                            {{price}}
+			                        </td>
+			                        <td class="stars">
+			                            {{stars}}
+			                        </td>
+			                    </tr>
+	                    	{{/each}}
+                    	</table>
                     </script>
 
-                </table>
+                
             </div><!--End of results-->
 
 		</div><!--End of content-->
@@ -108,7 +112,7 @@
 		    var dbHandler = new DatabaseHandler();
 		    dbHandler.init({
 		        template: $('#winelist-template').html(),
-		        container: $('#templatingContainer'),
+		        container: $('#results'),
 		    });
 		})();
 	</script>

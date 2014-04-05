@@ -94,31 +94,29 @@
         }
         
         function getWineByPriceAsc($price, $param){
-            $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + PRICE_S + "<= " + $price +
-                    " ORDER BY " + PRICE_S + " ASC LIMIT 0," +  RESULT_LIMIT;
+            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . PRICE_S . " <= " . $price . " ORDER BY " . PRICE_S . " ASC LIMIT 0," . RESULT_LIMIT;
             return queryWines($qry);
         }
         function getWineByPriceDesc($price, $param){
-            $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + PRICE_S + "<= " + $price +
-            " ORDER BY " + PRICE_S + " DESC LIMIT 0, " + RESULT_LIMIT;
+            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . PRICE_S . "<= " . $price .            " ORDER BY " . PRICE_S . " DESC LIMIT 0, " . RESULT_LIMIT;
             return queryWines($qry);
         }
         
         function getWineByType($type, $param){
-            $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + TYPE_S + "=\"" + $type +
-                    "\" ORDER BY " + PRICE_S + " ASC";
+            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . TYPE_S . "=\"" . $type .
+                    "\" ORDER BY " . PRICE_S . " ASC";
             return queryWines($qry);
         }
         
         function getWineAlphabetically($param){
-            $qry = "SELECT * FROM " + TABLE_WINES + " ORDER BY " + NAME_S + " ASC LIMIT 0, "
-                    + RESULT_LIMIT;
+            $qry = "SELECT * FROM " . TABLE_WINES . " ORDER BY " . NAME_S . " ASC LIMIT 0, "
+                    . RESULT_LIMIT;
             return queryWines($qry);
         }
         
         function getWineByYear($year, $param){
-            $qry = "SELECT * FROM " + TABLE_WINES + " WHERE " + YEAR_S + "=" + $year + " LIMIT 0, "
-                    + RESULT_LIMIT;
+            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . YEAR_S . "=" . $year . " LIMIT 0, "
+                    . RESULT_LIMIT;
             return queryWines($qry);
         }
         

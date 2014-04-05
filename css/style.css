@@ -230,6 +230,10 @@ td.stars{
 	width: 4%;
 }*/
 
+#search_button{
+	cursor: pointer;
+}
+
 @font-face {
   	font-family: "ClearLine";
   	src: url("../assets/fonts/ClearLine.ttf");
