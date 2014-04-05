@@ -31,20 +31,14 @@
 		<div id="content">
 
 			<div id="search">
-				<ul>
-					<form id="search_form" action="">
-						<li class="search">
-							<div class="form-group">
-								
-					        		<input id="search_box" type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control" />
-					        	
-				        	</div> 
-						</li>
-						<li>
-							<h4 class="white"><button id="search_button" type="submit" class="fui-search"></button></h4>
-						</li>
-					</form>
-				</ul>
+				<form id="search_form" action="">
+					<div class="form-group">
+						
+			        		<input id="search_box" type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control" />
+
+			        		<h4 class="white"><button id="search_button" type="submit" class="fui-search"></button></h4>
+		        	</div> 
+				</form>
 			</div><!--End of search-->
 
 			<div id="filter">
@@ -77,8 +71,7 @@
                    <script id="winelist-template" type="text/x-handlebars-template">
                    		<table class="result-list bordered">
 							{{#each this}}
-			                    <tr id="{{id}}" class="main_result">
-				                    
+			                    <tr id="{{id}}" class="main_result" data-toggle="tooltip" data-placement="bottom" title="{{type}}">
 			                        <td class="name">
 			                            {{name}}
 			                        </td>

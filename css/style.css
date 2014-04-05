@@ -111,6 +111,20 @@ li.nomargin{
 	height: 70px;
 }
 
+#search_button{
+	cursor: pointer;
+	display: inline;
+	margin-top: 10px;
+	padding-top: 7px;
+	padding-bottom: 6px;
+}
+
+#search_box{
+	display: inline;
+	float: left;
+	margin-right: 5px;
+}
+
 #filter{
 	width: 70%;
 	margin: 0 auto;
@@ -169,10 +183,6 @@ a.sunshake{
 #results{
 	width: 85%;
 	margin: 0 auto;
-}
-
-#search_button{
-	cursor: pointer;
 }
 
 @font-face {
