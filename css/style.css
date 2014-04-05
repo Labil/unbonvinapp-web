@@ -112,7 +112,7 @@ li.nomargin{
 }
 
 #filter{
-	width: 50%;
+	width: 70%;
 	margin: 0 auto;
 }
 
@@ -170,65 +170,6 @@ a.sunshake{
 	width: 85%;
 	margin: 0 auto;
 }
-
-table{
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/*table:first-child {
-    border-radius: 6px 0 0 0;
-}
-
-table:last-child {
-    border-radius: 0 6px 0 0;
-}
-
-table:only-child{
-    border-radius: 6px 6px 0 0;
-}*/
-
-.bordered tr:hover {
-  background-color: #111111;
-  transition: all 0.1s ease-in-out;     
-}
-
-td
-{
-	padding: 5px;
-	padding-left:15px;
-	color: white;
-	
-}
-
-tr{
-	border-bottom: 3px solid purple;
-}
-
-td.name{
-	width: 55%;
-}
-
-td.year{
-	width: 10%;
-}
-
-td.country{
-	width: 20%;
-}
-
-td.price{
-	width: 10%;
-}
-
-td.stars{
-	width: 5%;
-}
-
-/*td.type{
-	background-color: purple;
-	width: 4%;
-}*/
 
 #search_button{
 	cursor: pointer;

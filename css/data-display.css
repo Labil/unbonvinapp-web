@@ -1,0 +1,123 @@
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/*table:first-child {
+    border-radius: 6px 0 0 0;
+}
+
+table:last-child {
+    border-radius: 0 6px 0 0;
+}
+
+table:only-child{
+    border-radius: 6px 6px 0 0;
+}*/
+
+.bordered tr:hover {
+  background-color: #111111;
+  transition: all 0.1s ease-in-out;     
+}
+
+td
+{
+	padding: 5px;
+	padding-left:15px;
+	color: white;
+	
+}
+
+/*Default color for border in case type fails */
+tr{
+	border-bottom: 3px solid purple;
+}
+
+/*Border color for different wine types, added dynamically via template. 
+  TODO: Maybe change to a different solution...*/
+tr.Rød{
+	border-bottom: 3px solid #690b19;
+}
+
+tr.Hvit{
+	border-bottom: 3px solid #f9d37e;
+}
+
+tr.Rose{
+	border-bottom: 3px solid #ea9aa7;
+}
+
+tr.Annet{
+	border-bottom: 3px solid #cbf6b7;
+}
+
+tr.Champagne{
+	border-bottom: 3px solid #f9e4d1;
+}
+
+tr.Dessertvin{
+	border-bottom: 3px solid #ffb19a;
+}
+
+tr.Søtvin{
+	border-bottom: 3px solid #ba2e40;
+}
+
+tr.Sherry{
+	border-bottom: 3px solid #cc1164;
+}
+
+tr.Musserende{
+	border-bottom: 3px solid #ffb19a;
+}
+
+tr.Akevitt{
+	border-bottom: 3px solid #f3e9dd;
+}
+
+tr.Portvin{
+	border-bottom: 3px solid #640d15;
+}
+
+tr.Tokaji{
+	border-bottom: 3px solid #c96f00;
+}
+
+tr.Hetvin{
+	border-bottom: 3px solid #531e24;
+}
+
+tr.Cognac{
+	border-bottom: 3px solid #983a0c;
+}
+
+tr.Oransje{
+	border-bottom: 3px solid #983a0c;
+}
+
+tr.Madeira{
+	border-bottom: 3px solid #982900;
+}
+
+tr.Rom{
+	border-bottom: 3px solid #5c0027;
+}
+
+td.name{
+	width: 55%;
+}
+
+td.year{
+	width: 10%;
+}
+
+td.country{
+	width: 20%;
+}
+
+td.price{
+	width: 10%;
+}
+
+td.stars{
+	width: 5%;
+}

@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="javascript/databaseHandler.js"></script>
 		<link href="css/Flat-UI-master/css/flat-ui.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/data-display.css">
 
 	</head>
 
@@ -54,13 +55,17 @@
 						Alfabetisk
 					</li>
 					<li class="filter">
-						<input type="checkbox" checked="checked" value="" id="checkbox2" data-toggle="checkbox" checked="">
+						<input type="checkbox" value="" id="checkbox2" data-toggle="checkbox">
 						Type
 					</li>
 					<li class="filter">
-						<input type="checkbox" checked="checked" value="" id="checkbox2" data-toggle="checkbox" checked="">
-						Pris
+						<input type="checkbox" value="" checked="checked" id="checkbox2" data-toggle="checkbox">
+						Pris lav-høy
 					</li>
+					<!--<li class="filter">
+						<input type="checkbox" id="checkbox2" data-toggle="checkbox">
+						Pris høy-lav
+					</li>-->
 				</ul>
 			</div><!--End of filter-->
 
@@ -73,7 +78,7 @@
                    <script id="winelist-template" type="text/x-handlebars-template">
                    		<table class="result-list bordered">
 							{{#each this}}
-			                    <tr>
+			                    <tr class="{{type}}">
 			                        <td class="name">
 			                            {{name}}
 			                        </td>

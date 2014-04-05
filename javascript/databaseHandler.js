@@ -15,6 +15,13 @@ DatabaseHandler.prototype.init = function(config){
     this.template = config.template;
     this.container = config.container;
 
+    this.wineTypes = ['Rød', 'rød', 'Rose', 'rose', 'Rosé', 'rosé', 'Hvit', 'hvit',
+                      'Champagne', 'champagne', 'Dessertvin', 'dessertvin', 'Søtvin',
+                      'søtvin', 'Sherry', 'sherry', 'Musserende', 'musserende', 'Akevitt',
+                      'akevitt', 'Tokaji', 'tokaji', 'Portvin', 'portvin', 'Hetvin', 'hetvin',
+                      'Cognac', 'cognac', 'Oransje', 'oransje', 'Madeira', 'madeira', 'Rom',
+                      'rom'];
+
     //Defaults to searching all wines sort by asc with a limit (see ../php/api.php)
     this.getWines();
 
@@ -36,9 +43,12 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
 DatabaseHandler.prototype.clearResults = function(){
     this.container.empty();
 };
-
+//TODO: Add params
 DatabaseHandler.prototype.handleSearch = function(value){
-    this.getWineByPrice(value);
+    //Checks the value against the predefined types
+    if(this.wineTypes.indexOf(value) != -1){
+        this.getWineByType(value);
+    }
 };
 
 //optional param contains the current "sort by" checkbox-input
@@ -81,12 +91,14 @@ DatabaseHandler.prototype.fetch = function(param){
 
             self.result = $.map(data.result, function(res){
                 return {
+                    type: res.type,
                     name: res.name,
                     year: res.year,
                     country: res.country,
                     stars: res.stars,
                     price: res.price
                 };
+
             });
 
             self.attachTemplate();
