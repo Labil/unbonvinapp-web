@@ -7,7 +7,7 @@ var DatabaseHandler = function(){
 
 /*
  * Initializes the dbHandler with values of templating script and where to display results
- * config is an object wich should contains template and container
+ * config is an object wich should contains template and container, and an array of the page id's
  */
 DatabaseHandler.prototype.init = function(config){
     this.api_url = 'http://plainbrain.net/unbonvinapp/php/api.php?';
@@ -30,6 +30,14 @@ DatabaseHandler.prototype.init = function(config){
 
     this.setupSearchSubmit();
     this.setupCheckboxClick();
+
+    this.pages = [];
+    for(var i = 0; i < config.pages.length; i++){
+        this.pages[i] = config.pages[i];
+        console.log(this.pages[i]);
+    }
+
+    this.setupChangePageListener();
 
 };
 
@@ -57,6 +65,55 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
         self.handleSearch(val);
 
     });
+};
+
+DatabaseHandler.prototype.setupInsertSubmit = function(){
+    var self = this;
+    $('#insert-form').submit(function(evt){
+        evt.preventDefault();
+        var val = $('#search_box').val();
+        var data = {
+            name: $('#name').val(),
+            type: $('#type').val(),
+            grape: $('#grape').val(),
+            country: $('#country').val(),
+            region: $('#region').val(),
+            score: $('#region').val(),
+            prodnum: $('#prodnum').val(),
+            price: $('#price').val(),
+            stars: $('#stars').val(),
+            aroma: $('#aroma').val(),
+            taste: $('#taste').val(),
+            conclusion: $('#conclusion').val(),
+            source: $('#source').val()
+
+        }
+        self.clearResults();
+        self.handleSearch(val);
+
+    });
+
+};
+
+DatabaseHandler.prototype.handleInsert = function(data){
+
+};
+
+DatabaseHandler.prototype.setupChangePageListener = function(){
+    var self = this;
+
+    $('#header').find('a').on('click', function(e) {
+        e.preventDefault();
+        self.changePage($(this).data('page'), $(this).data('pagename'));
+    }); 
+};
+
+DatabaseHandler.prototype.changePage = function(page, pagename){
+    var currPage = parseInt(page);
+    this.pages[currPage].show();
+    this.pages[currPage].siblings().hide();
+    document.title = pagename;
+    window.history.pushState({"html":"/" + pagename, "pageTitle": pagename}, "", "http://plainbrain.net/unbonvinapp/index.html/" + pagename);
 };
 
 DatabaseHandler.prototype.setupResultClick = function(){
@@ -111,6 +168,10 @@ DatabaseHandler.prototype.handleSearch = function(value){
         //Else just queries for all wines
         this.getWines();
     }
+};
+
+DatabaseHandler.prototype.insertNewWine = function(){
+    this.req = 'req=insert';
 };
 
 //optional param contains the current "sort by" checkbox-input
@@ -171,7 +232,6 @@ DatabaseHandler.prototype.fetch = function(){
                     conclusion: res.conclusion + ". ",
                     taste: res.taste + ". ",
                     aroma: res.aroma + ". "
-
                 };
 
             });

@@ -203,6 +203,9 @@
             $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
             echo getWineByYear($year, $param);
         } 
+        else if($req == "insert"){
+            
+        }
 
         /* 
             Returns error response if invalid request
