@@ -2,6 +2,7 @@ body{
     margin:0;
     padding:0;
     width: 100%;
+    min-height: 800px;
 
 	background: #91152f; /*fallback*/
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#91152f), color-stop(100%,#3a0e1d)); /* Chrome,Safari4+ */
@@ -16,6 +17,14 @@ body{
 a{
     text-decoration: none;
     color: black;
+}
+
+.logo:hover{
+	color: #222222;
+}
+
+a.white:hover{
+	color: #D7D7D7;
 }
 
 h1{
@@ -68,6 +77,69 @@ li.nomargin{
 	margin: 0;
 }
 
+/*Style for list elems of ul with class of form parent */
+ul.form li{
+	display: block;
+	float: none;
+	margin: 0 auto;
+}
+
+/*Overrides the flatUI form-control class values which I thought were too large */
+input.add{
+	display: block;
+	width: 300px;
+	height: auto;
+	margin: 0 auto;
+	margin-bottom: 5px;
+	border: 3px solid #bdc3c7;
+	
+}
+textarea.add{
+	display: block;
+	width: 400px;
+	height: 70px;
+	margin: 0 auto;
+	margin-bottom: 5px;
+	border: 3px solid #bdc3c7;
+}
+
+input.add:focus{
+	border: 3px solid #e85874;
+}
+textarea.add:focus{
+	border: 3px solid #e85874;
+}
+
+.centered{
+	text-align: center;
+}
+
+input.add::-webkit-input-placeholder { /* WebKit browsers */
+    color: #818185;
+}
+input.add:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #818185;
+}
+input.add::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #818185;
+}
+input.add:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #818185;
+}
+
+textarea.add::-webkit-input-placeholder { /* WebKit browsers */
+    color: #818185;
+}
+textarea.add:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #818185;
+}
+textarea.add::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #818185;
+}
+textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #818185;
+}
+
 #logo{
 	display: block;
 	padding-top: 10px;
@@ -105,7 +177,7 @@ li.nomargin{
 }
 
 #search{
-	width: 33%;
+	width: 40%;
 	margin: 0 auto;
 	margin-top: 120px;
 	height: 70px;
@@ -128,6 +200,12 @@ li.nomargin{
 #filter{
 	width: 70%;
 	margin: 0 auto;
+}
+
+#form{
+	margin:0 auto;
+	width: 85%;
+	/*display: none;*/
 }
 
 #footer{
@@ -163,7 +241,16 @@ a.sunshake{
 	background-color: #060606;
 	padding: 0;
 	margin: 0;
+}
 
+.no-result-list{
+	min-width: 50%;
+	max-width: 99%;
+	height: 30px;
+	background-color: #060606;
+	padding: 0;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .result-color{

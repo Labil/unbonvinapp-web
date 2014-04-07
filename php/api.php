@@ -29,7 +29,7 @@
     define("NOTE_S", "note");
     define("UPDATEVERSION_S", "updateVersion");
     define("TABLE_WINES", "wines");
-    define("RESULT_LIMIT", 25);
+    define("RESULT_LIMIT", 50); //This might be changed or input dynamically by user in js
 
 ?>
 
@@ -86,39 +86,46 @@
         }
         //gets all wines limited by LIMIT
         function getWines($param) {
+            
             $sql = "SELECT * FROM " . TABLE_WINES . " LIMIT 0," . RESULT_LIMIT;
             return queryWines($sql);
         }
+
+        //Returns the correct ORDER BY based on params
+        function getSortQry($param){
+            if($param != null){
+                if($param == "alpha") return " ORDER BY " . NAME_S . " ASC "; //ASC is default
+                else if($param == "type") return " ORDER BY " . TYPE_S . " ASC ";
+                else if($param == "price") return " ORDER BY " . PRICE_S . " ASC ";
+                else return "";
+            }
+            else return "";
+        }
         // Get wine by name LIKE 'name%' -> in list. Might return only one item in list if only one is found
         function getWineByName($name, $param) {
-            $sql = "SELECT * FROM " . TABLE_WINES . " WHERE " . NAME_S . " LIKE \"" . $name . "%\"";
+            $sql = "SELECT * FROM " . TABLE_WINES . " WHERE " . NAME_S . " LIKE \"" . $name . "%\"" . getSortQry($param);
             return queryWines($sql);
         }
         
-        function getWineByPriceAsc($price, $param){
-            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . PRICE_S . " <= " . $price . " ORDER BY " . PRICE_S . " ASC LIMIT 0," . RESULT_LIMIT;
-            return queryWines($qry);
-        }
-        function getWineByPriceDesc($price, $param){
-            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . PRICE_S . "<= " . $price .            " ORDER BY " . PRICE_S . " DESC LIMIT 0, " . RESULT_LIMIT;
+        //Maybe people wanna find out wines that are HIGHER than the given price? Hmm
+        function getWineByPrice($price, $param){
+            $sort_qry = getSortQry($param);
+            //For price, it seems to be auto-sorted by price and trying to sort again fucks up smth?
+            if($param == "price")
+                $sort_qry = "";
+            
+            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . PRICE_S . " < " . $price . $sort_qry;
             return queryWines($qry);
         }
         
         function getWineByType($type, $param){
             $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . TYPE_S . "=\"" . $type .
-                    "\" ORDER BY " . PRICE_S . " ASC";
-            return queryWines($qry);
-        }
-        
-        function getWineAlphabetically($param){
-            $qry = "SELECT * FROM " . TABLE_WINES . " ORDER BY " . NAME_S . " ASC LIMIT 0, "
-                    . RESULT_LIMIT;
+                    "\"" . getSortQry($param);
             return queryWines($qry);
         }
         
         function getWineByYear($year, $param){
-            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . YEAR_S . "=" . $year . " LIMIT 0, "
-                    . RESULT_LIMIT;
+            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . YEAR_S . "=" . $year . getSortQry($param);
             return queryWines($qry);
         }
         
@@ -184,7 +191,7 @@
         else if($req == "price"){
             $price = (isset($_GET['price']) && $_GET['price']) ? $_GET['price'] : 'ERROR';
             $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
-            echo getWineByPriceAsc($price, $param);
+            echo getWineByPrice($price, $param);
         }
         else if($req == "type"){
             $type = (isset($_GET['type']) && $_GET['type']) ? $_GET['type'] : 'ERROR';

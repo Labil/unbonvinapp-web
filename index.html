@@ -19,7 +19,7 @@
 
 	<div id="header">
 			<ul>
-				<li><h1>Un bon vin app</h1></li>
+				<li><h1><a class="logo" href="index.html">Un bon vin app</a></h1></li>
 				<li><h4><a class="white" href="index.html">Søk 
 					<span class="fui-search marginleft"></span></a></h4></li>
 				<li><h4><a class="white" href="index.html">Legg til 
@@ -30,89 +30,127 @@
 	</div>
 		<div id="content">
 
-			<div id="search">
-				<form id="search_form" action="">
-					<div class="form-group">
-						
-			        		<input id="search_box" type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control" />
+			<div id="index">
+				<div id="search">
+					<form id="search_form" action="">
+		        		<input id="search_box" type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control add" />
 
-			        		<h4 class="white"><button id="search_button" type="submit" class="fui-search"></button></h4>
-		        	</div> 
-				</form>
-			</div><!--End of search-->
+		        		<h4 class="white"><button id="search_button" type="submit" class="fui-search"></button></h4>
+					</form>
+				</div><!--End of search-->
 
-			<div id="filter">
-				<ul>
-					<li class="filter">Sortér etter:</li>
-					<li class="filter">
-						<input type="checkbox" value="" id="checkbox1" data-toggle="checkbox">
-						Alfabetisk
-					</li>
-					<li class="filter">
-						<input type="checkbox" value="" id="checkbox2" data-toggle="checkbox">
-						Type
-					</li>
-					<li class="filter">
-						<input type="checkbox" value="" checked="checked" id="checkbox2" data-toggle="checkbox">
-						Pris lav-høy
-					</li>
-					<li class="filter">
-						<input type="checkbox" id="checkbox2" data-toggle="checkbox">
-						Pris høy-lav
-					</li>
-				</ul>
-			</div><!--End of filter-->
+				<div id="filter">
+					<ul>
+						<li class="filter">Sortér etter:</li>
+						<li class="filter">
+							<input class="checkbox" type="checkbox" value="alpha" id="checkbox1" data-toggle="checkbox">
+							Alfabetisk
+						</li>
+						<li class="filter">
+							<input class="checkbox" value="type" type="checkbox" id="checkbox2" data-toggle="checkbox">
+							Type
+						</li>
+						<li class="filter">
+							<input class="checkbox" type="checkbox" value="asc" checked="checked" id="checkbox2" data-toggle="checkbox">
+							Pris (lav-høy)
+						</li>
+						<!-- Cut out while trying to sort out ORDER BY problems when it comes to price
+						<li class="filter">
+							<input class="checkbox" value="desc" type="checkbox" id="checkbox2" data-toggle="checkbox">
+							Pris høy-lav
+						</li>-->
+					</ul>
+				</div><!--End of filter-->
 
-			<br />  
-			<br /> 
+				<br />  
+				<br /> 
 
-			<div id="results" >
+				<div id="results" >
 
-                   <script id="winelist-template" type="text/x-handlebars-template">
-                   		<table class="result-list bordered">
-							{{#each this}}
-			                    <tr id="{{id}}" class="main_result" data-toggle="tooltip" data-placement="bottom" title="{{type}}">
-			                        <td class="name">
-			                            {{name}}
-			                        </td>
-			                        <td class="country">
-			                            {{country}}
-			                        </td>
-			                        <td class="year">
-			                            {{year}}
-			                        </td>
-			                        <td class="price">
-			                            {{price}}
-			                        </td>
-			                        <td class="stars">
-			                            {{stars}}
-			                        </td>
-			                    </tr>
-			                    <tr class="hidden" style="display:none;">
-			                    	<td colspan="6">
-			                    		<p class="title">Region: </p>{{region}}
-			                    	</td>
-			                    </tr>
-			                    <tr class="hidden" style="display:none;">
-			                    	<td colspan="6">
-			                    		<p class="title">Beskrivelse: </p>{{aroma}} {{taste}} {{conclusion}}
-			                    	</td>
-			                    </tr>
-			                    <tr class="{{type}}">
-			                    	<td colspan="6"></td>
-			                    </tr>
+	                   <script id="winelist-template" type="text/x-handlebars-template">
+	                   		<table class="result-list bordered">
+								{{#each this}}
+				                    <tr id="{{id}}" class="main_result" data-toggle="tooltip" data-placement="bottom" title="{{type}}">
+				                        <td class="name">
+				                            {{name}}
+				                        </td>
+				                        <td class="country">
+				                            {{country}}
+				                        </td>
+				                        <td class="year">
+				                            {{year}}
+				                        </td>
+				                        <td class="price">
+				                            {{price}}
+				                        </td>
+				                        <td class="stars">
+				                            {{stars}}
+				                        </td>
+				                    </tr>
+				                    <tr style="display:none;">
+				                    	<td colspan="6">
+				                    		<p class="title">Region: </p>{{region}}
+				                    	</td>
+				                    </tr>
+				                    <tr style="display:none;">
+				                    	<td colspan="6">
+				                    		<p class="title">Beskrivelse: </p>{{aroma}} {{taste}} {{conclusion}}
+				                    	</td>
+				                    </tr>
+				                    <tr class="{{type}}">
+				                    	<td colspan="6"></td>
+				                    </tr>
 
-	                    	{{/each}}
-                    	</table>
-                    </script>
-                
-            </div><!--End of results-->
+		                    	{{/each}}
+	                    	</table>
+	                    </script>
+
+	            </div><!--End of results-->
+
+            </div><!--End of index-->
+
+            <div id="add-form">
+            	<div class="centered">
+            		<h4 class="white">Legg til en ny vin:</h4>
+            	</div>
+            	<form action="#">
+    	 			<input class="form-control add" name="name" id="name" placeholder="Navn på vin">
+
+    		 		<input class="form-control add" name="type" id="type" placeholder="Type (Rød, hvit, rose...)">
+
+    		 		<input class="form-control add" name="grape" id="grape" placeholder="Druetype">
+
+    		 		<input class="form-control add" name="country" id="country" placeholder="Land">
+
+    		 		<input class="form-control add" name="region" id="region" placeholder="Region">
+
+    		 		<input class="form-control add" name="score" id="score" placeholder="Score (1-100)">
+
+    		 		<input class="form-control add" name="prodnum" id="prodnum" placeholder="Produktnummer">
+
+    		 		<input class="form-control add" name="price" id="price" placeholder="Pris (Hele tall, eventuelt med to desimaler)">
+
+    		 		<input class="form-control add" name="stars" id="stars" placeholder="Antall stjerner">
+
+    		 		<textarea class="form-control add" name="aroma" id="aroma" cols="30" rows="20" placeholder="Aroma"></textarea>
+
+    		 		<textarea class="form-control add" name="taste" id="taste" placeholder="Smak"></textarea>
+
+    				<textarea class="form-control add" name="conclusion" id="conclusion" placeholder="Konklusjon"></textarea>
+
+    		 		<input class="form-control add" name="source" id="source" placeholder="Kilde">
+
+    		 		<div class="centered">
+    					<input type="submit" class="btn btn-block btn-lg btn-info" value="Legg til">
+    				</div>
+            	</form>
+            </div>
 
 		</div><!--End of content-->
 
-			<br />  
-			<br /> 
-			<br />  
+		<br />  
+		<br /> 
+		<br />  
 
 		<div id="footer">
 			<p class="footer"><a class="sunshake" href="http://sunshake.io">sunshake.io </a> / Solveig Hansen 2014</p>

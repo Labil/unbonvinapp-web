@@ -11,7 +11,7 @@ table:last-child {
 }
 
 table:only-child{
-    border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 8px 8px;
 }
 
 p.title{
@@ -28,6 +28,7 @@ td
 	padding: 5px;
 	padding-left:15px;
 	color: white;
+	padding-right: 15px;
 }
 
 /*Default color for border in case type fails */
