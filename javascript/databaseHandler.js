@@ -31,14 +31,6 @@ DatabaseHandler.prototype.init = function(config){
     this.setupSearchSubmit();
     this.setupCheckboxClick();
 
-    this.pages = [];
-    for(var i = 0; i < config.pages.length; i++){
-        this.pages[i] = config.pages[i];
-        console.log(this.pages[i]);
-    }
-
-    this.setupChangePageListener();
-
 };
 
 DatabaseHandler.prototype.setupCheckboxClick = function(){
@@ -99,22 +91,6 @@ DatabaseHandler.prototype.handleInsert = function(data){
 
 };
 
-DatabaseHandler.prototype.setupChangePageListener = function(){
-    var self = this;
-
-    $('#header').find('a').on('click', function(e) {
-        e.preventDefault();
-        self.changePage($(this).data('page'), $(this).data('pagename'));
-    }); 
-};
-
-DatabaseHandler.prototype.changePage = function(page, pagename){
-    var currPage = parseInt(page);
-    this.pages[currPage].show();
-    this.pages[currPage].siblings().hide();
-    document.title = pagename;
-    window.history.pushState({"html":"/" + pagename, "pageTitle": pagename}, "", "http://plainbrain.net/unbonvinapp/index.html/" + pagename);
-};
 
 DatabaseHandler.prototype.setupResultClick = function(){
     var clickOpen = function(){
@@ -136,7 +112,7 @@ DatabaseHandler.prototype.setupResultClick = function(){
 DatabaseHandler.prototype.clearResults = function(){
     this.container.empty();
 };
-//TODO: Add params
+
 DatabaseHandler.prototype.handleSearch = function(value){
     //Search for year
     if(value.search(/^\d{4}$/) != -1){
@@ -245,6 +221,7 @@ DatabaseHandler.prototype.fetch = function(){
 };
 
 DatabaseHandler.prototype.attachTemplate = function(){
+    console.log("Running attach template");
     var template = Handlebars.compile(this.template);
     this.container.append(template(this.result));
 

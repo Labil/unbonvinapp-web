@@ -14,103 +14,7 @@
 	</head>
 
 	<body>
-
-		<img src="assets/glass_and_wine.png" width="250" class="background" />
-
-		<div id="header">
-			<ul>
-				<li><h1><a class="logo" href="add.html">Un bon vin app</a></h1></li>
-				<li><h4><a data-page="0" data-pagename="search" class="white" href="">Søk 
-					<span class="fui-search marginleft"></span></a></h4></li>
-				<li><h4><a data-page="1" data-pagename="add" class="white" href="">Legg til 
-					<span class="fui-new marginleft"></span></a></h4></li>
-				<li class="nomargin"><h4><a data-page="2" data-pagename="visualisation" class="white" href="">Datavisualisering 
-					<span class="fui-list marginleft"></span></a></h4></li>
-			</ul>
-		</div>
-		<div id="content">
-
-			<div id="index">
-
-				<div id="search">
-					<form id="search_form" action="">
-		        		<input id="search_box" type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control add" />
-
-		        		<h4 class="white"><button id="search_button" type="submit" class="fui-search"></button></h4>
-					</form>
-				</div><!--End of search-->
-
-				<div id="filter">
-					<ul>
-						<li class="filter">Sortér etter:</li>
-						<li class="filter">
-							<input class="checkbox" type="checkbox" value="alpha" id="checkbox1" data-toggle="checkbox">
-							Alfabetisk
-						</li>
-						<li class="filter">
-							<input class="checkbox" value="type" type="checkbox" id="checkbox2" data-toggle="checkbox">
-							Type
-						</li>
-						<li class="filter">
-							<input class="checkbox" type="checkbox" value="asc" checked="checked" id="checkbox2" data-toggle="checkbox">
-							Pris (lav-høy)
-						</li>
-						<!-- Cut out while trying to sort out ORDER BY problems when it comes to price
-						<li class="filter">
-							<input class="checkbox" value="desc" type="checkbox" id="checkbox2" data-toggle="checkbox">
-							Pris høy-lav
-						</li>-->
-					</ul>
-				</div><!--End of filter-->
-
-				<br />  
-				<br /> 
-
-				<div id="results">
-
-                   <script id="winelist-template" type="text/x-handlebars-template">
-                   		<table class="result-list bordered">
-							{{#each this}}
-			                    <tr id="{{id}}" class="main_result" data-toggle="tooltip" data-placement="bottom" title="{{type}}">
-			                        <td class="name">
-			                            {{name}}
-			                        </td>
-			                        <td class="country">
-			                            {{country}}
-			                        </td>
-			                        <td class="year">
-			                            {{year}}
-			                        </td>
-			                        <td class="price">
-			                            {{price}}
-			                        </td>
-			                        <td class="stars">
-			                            {{stars}}
-			                        </td>
-			                    </tr>
-			                    <tr style="display:none;">
-			                    	<td colspan="6">
-			                    		<p class="title">Region: </p>{{region}}
-			                    	</td>
-			                    </tr>
-			                    <tr style="display:none;">
-			                    	<td colspan="6">
-			                    		<p class="title">Beskrivelse: </p>{{aroma}} {{taste}} {{conclusion}}
-			                    	</td>
-			                    </tr>
-			                    <tr class="{{type}}">
-			                    	<td colspan="6"></td>
-			                    </tr>
-
-	                    	{{/each}}
-                    	</table>
-                    </script>
-
-		        </div><!--End of results-->
-
-	        </div><!--End of index-->
-
-	        <div id="add-form">
+	        <div class="content">
 	        	<div class="centered">
 	        		<h4 class="white">Legg til en ny vin:</h4>
 	        	</div>
@@ -147,39 +51,7 @@
 	        	</form>
 	        </div>
 
-	        <div id="datavisualisation">
-	        	<!--TODO-->
-	        </div>
 
-		</div><!--End of content-->
-
-		<br />  
-		<br /> 
-		<br />  
-
-		<div id="footer">
-			<p class="footer"><a class="sunshake" href="http://sunshake.io">sunshake.io </a> / Solveig Hansen 2014</p>
-		</div>
-
-	<script>
-		(function(){
-
-		    $('#search').css('margin-top', $('#header').height() + 'px');
-		    $('#add-form').css('margin-top', $('#header').height() + 'px');
-
-			$(window).resize(function() {
-			    $('#content').css('margin-top', $('#header').height() + 'px'); 
-			    $('#add-form').css('margin-top', $('#header').height() + 'px');       
-			});  
-
-		    var dbHandler = new DatabaseHandler();
-		    dbHandler.init({
-		        template: $('#winelist-template').html(),
-		        container: $('#results'),
-		        pages: [$('#index'), $('#add-form'), $('#datavisualisation')]
-		    });
-		})();
-	</script>
 	</body>
 
 </html>

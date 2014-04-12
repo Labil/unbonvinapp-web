@@ -188,6 +188,10 @@ textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
 	height: 70px;
 }
 
+#search_form{
+	width: 100%;
+}
+
 #search_button{
 	cursor: pointer;
 	display: inline;
@@ -205,6 +209,12 @@ textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
 #filter{
 	width: 70%;
 	margin: 0 auto;
+}
+
+.content{
+	margin:0 auto;
+	margin-top:120px;
+	width: 85%;
 }
 
 #add-form{

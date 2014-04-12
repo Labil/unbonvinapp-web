@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+
+<div class="content">
+
+	<div id="search">
+		<form id="search_form" action="">
+    		<input id="search_box" type="text" value="" placeholder="Navn, pris, år, eller type" class="form-control add" />
+
+    		<button class="fui-search" id="search_button" type="submit" ></button>
+		</form>
+	</div><!--End of search-->
+
+	<div id="filter">
+		<ul>
+			<li class="filter">Sortér etter:</li>
+			<li class="filter">
+				<input class="checkbox" type="checkbox" value="alpha" id="checkbox1" data-toggle="checkbox">
+				Alfabetisk
+			</li>
+			<li class="filter">
+				<input class="checkbox" value="type" type="checkbox" id="checkbox2" data-toggle="checkbox">
+				Type
+			</li>
+			<li class="filter">
+				<input class="checkbox" type="checkbox" value="asc" checked="checked" id="checkbox2" data-toggle="checkbox">
+				Pris (lav-høy)
+			</li>
+			<!-- Cut out while trying to sort out ORDER BY problems when it comes to price
+			<li class="filter">
+				<input class="checkbox" value="desc" type="checkbox" id="checkbox2" data-toggle="checkbox">
+				Pris høy-lav
+			</li>-->
+		</ul>
+	</div><!--End of filter-->
+
+	<br />  
+	<br /> 
+
+	<div id="results">
+
+       <script id="winelist-template" type="text/x-handlebars-template">
+       		<table class="result-list bordered">
+				{{#each this}}
+                    <tr id="{{id}}" class="main_result" data-toggle="tooltip" data-placement="bottom" title="{{type}}">
+                        <td class="name">
+                            {{name}}
+                        </td>
+                        <td class="country">
+                            {{country}}
+                        </td>
+                        <td class="year">
+                            {{year}}
+                        </td>
+                        <td class="price">
+                            {{price}}
+                        </td>
+                        <td class="stars">
+                            {{stars}}
+                        </td>
+                    </tr>
+                    <tr style="display:none;">
+                    	<td colspan="6">
+                    		<p class="title">Region: </p>{{region}}
+                    	</td>
+                    </tr>
+                    <tr style="display:none;">
+                    	<td colspan="6">
+                    		<p class="title">Beskrivelse: </p>{{aroma}} {{taste}} {{conclusion}}
+                    	</td>
+                    </tr>
+                    <tr class="{{type}}">
+                    	<td colspan="6"></td>
+                    </tr>
+
+            	{{/each}}
+        	</table>
+        </script>
+
+    </div><!--End of results-->
+
+    
+
+</div><!--End of index-->
+
