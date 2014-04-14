@@ -9,10 +9,15 @@ var SiteManager = function(){
 SiteManager.prototype.init = function(){
 
 	this.setupChangePageListener();
+	//Default page is search
+	//this.loadPage("search.html");
 };
 
 SiteManager.prototype.setupChangePageListener = function(){
     var self = this;
+
+    //Default subpage
+    this.loadPage("search.html");
 
     $('#header').find('a').on('click', function(e) {
         e.preventDefault();
@@ -33,15 +38,19 @@ SiteManager.prototype.loadPage = function(href){
 };
 
 SiteManager.prototype.runScript = function(href){
+	if(this.dbHandler == undefined){
+		console.log("dbHandler not yet defined... initializing");
+		this.dbHandler = new DatabaseHandler();
+	}
 
 	if(href == "search.html"){
-		if(this.dbHandler == undefined){
-			console.log("dbHandler not yet defined... initializing");
-			this.dbHandler = new DatabaseHandler();
-		}
+		
 		this.dbHandler.init({
 		    template: $('#winelist-template').html(),
 		    container: $('#results')
 		});	
+	}
+	else if(href =="add.html"){
+		this.dbHandler.setupHandleInsert();
 	}
 }

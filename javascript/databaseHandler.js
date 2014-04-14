@@ -7,7 +7,7 @@ var DatabaseHandler = function(){
 
 /*
  * Initializes the dbHandler with values of templating script and where to display results
- * config is an object wich should contains template and container, and an array of the page id's
+ * config is an object wich should contains template and container
  */
 DatabaseHandler.prototype.init = function(config){
     this.api_url = 'http://plainbrain.net/unbonvinapp/php/api.php?';
@@ -15,7 +15,6 @@ DatabaseHandler.prototype.init = function(config){
     this.template = config.template;
     this.container = config.container;
     //hardcoded default param --> which is the same as the checkbox that is checked by default.
-
     this.param = "asc";
 
     this.wineTypes = ['Rød', 'rød', 'Rose', 'rose', 'Rosé', 'rosé', 'Hvit', 'hvit',
@@ -59,38 +58,25 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
     });
 };
 
-DatabaseHandler.prototype.setupInsertSubmit = function(){
+DatabaseHandler.prototype.setupHandleInsert = function(){
+    var form = $('#insert-form');
+    console.log(form);
     var self = this;
-    $('#insert-form').submit(function(evt){
+
+    form.submit(function(evt){
         evt.preventDefault();
-        var val = $('#search_box').val();
-        var data = {
-            name: $('#name').val(),
-            type: $('#type').val(),
-            grape: $('#grape').val(),
-            country: $('#country').val(),
-            region: $('#region').val(),
-            score: $('#region').val(),
-            prodnum: $('#prodnum').val(),
-            price: $('#price').val(),
-            stars: $('#stars').val(),
-            aroma: $('#aroma').val(),
-            taste: $('#taste').val(),
-            conclusion: $('#conclusion').val(),
-            source: $('#source').val()
 
-        }
-        self.clearResults();
-        self.handleSearch(val);
-
+        $.ajax({
+            type:'post',
+            url: self.api_url + "req=insert",
+            data: form.serialize(),
+            success: function(response){
+                console.log(response);
+            }
+        });
+        
     });
-
 };
-
-DatabaseHandler.prototype.handleInsert = function(data){
-
-};
-
 
 DatabaseHandler.prototype.setupResultClick = function(){
     var clickOpen = function(){
@@ -182,7 +168,6 @@ DatabaseHandler.prototype.outputWineNotFound = function(){
 
 DatabaseHandler.prototype.fetch = function(){
     var self = this;
-    console.log("this is param at time of fetch: " + this.param);
     if(this.param != undefined) this.req += '&param=' + this.param;
     this.url = this.api_url + this.req;
     console.log(this.url);
@@ -221,7 +206,6 @@ DatabaseHandler.prototype.fetch = function(){
 };
 
 DatabaseHandler.prototype.attachTemplate = function(){
-    console.log("Running attach template");
     var template = Handlebars.compile(this.template);
     this.container.append(template(this.result));
 
