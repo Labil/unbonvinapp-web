@@ -65,13 +65,16 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
 
     form.submit(function(evt){
         evt.preventDefault();
+        var formdata = form.serialize(); //Makes data into a string to be passed with ajax
+        var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
 
         $.ajax({
             type:'post',
             url: self.api_url + "req=insert",
-            data: form.serialize(),
+            data: formdata,
             success: function(response){
                 console.log(response);
+                console.log(dataObj);
             }
         });
         

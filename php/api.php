@@ -43,9 +43,9 @@
 
            /*$sql = "INSERT INTO wines (name, type, year, grape, country, region, score, productnum, price, stars, aroma, taste, conclusion, source) VALUES ('Mikael', 'Hvit', '1985', 'Drue', 'Norge', 'Porsgrunn', '100', '123', '300', '6', 'bitter', 'Søt', 'Not available', 'Meg')";*/
 
-            mysql_query($sql) or die(mysql_error());
+            $result = mysql_query($sql) or die(mysql_error());
 
-            $returnArray = array('result' => $sql, 'status' => "OK");
+            $returnArray = array('result' => $result, 'status' => "OK");
 
             return json_encode($returnArray);
         }
