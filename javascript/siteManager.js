@@ -28,26 +28,33 @@ SiteManager.prototype.setupChangePageListener = function(){
     //window.history.pushState({"html":"/" + pagename, "pageTitle": pagename}, "", "http://plainbrain.net/unbonvinapp/index.html/" + pagename);
 };
 
-SiteManager.prototype.loadPage = function(href){
+SiteManager.prototype.loadPage = function(href, optionalQry){
+	//If a search query is not sent in, it will be an empty string and the default search will be for all wines
+	if(optionalQry == undefined){
+		optionalQry = '';
+	}
 	var self = this;
     $('#content').load(href + ' .content', function(){
     	console.log("Page finished loading");
-    	self.runScript(href);
+    	self.runScript(href, optionalQry);
 
     });
 };
 
-SiteManager.prototype.runScript = function(href){
+
+SiteManager.prototype.runScript = function(href, qry){
+
 	if(this.dbHandler == undefined){
 		console.log("dbHandler not yet defined... initializing");
-		this.dbHandler = new DatabaseHandler();
+		this.dbHandler = new DatabaseHandler(this);
 	}
 
 	if(href == "search.html"){
 		
 		this.dbHandler.init({
 		    template: $('#winelist-template').html(),
-		    container: $('#results')
+		    container: $('#results'),
+		    searchQry: qry
 		});	
 	}
 	else if(href =="add.html"){

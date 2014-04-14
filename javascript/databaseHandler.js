@@ -2,7 +2,8 @@
 *   Author: Solveig Hansen 2014
 */
 
-var DatabaseHandler = function(){
+var DatabaseHandler = function(siteMgr){
+    this.siteMgr = siteMgr;
 };
 
 /*
@@ -24,8 +25,8 @@ DatabaseHandler.prototype.init = function(config){
                       'Cognac', 'cognac', 'Oransje', 'oransje', 'Madeira', 'madeira', 'Rom',
                       'rom'];
 
-    //Defaults to searching all wines sort by asc with a limit (see ../php/api.php)
-    this.getWines();
+    //If searchQuery is empty, it will query all wines by default
+    this.handleSearch(config.searchQry);
 
     this.setupSearchSubmit();
     this.setupCheckboxClick();
@@ -60,7 +61,6 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
 
 DatabaseHandler.prototype.setupHandleInsert = function(){
     var form = $('#insert-form');
-    console.log(form);
     var self = this;
 
     form.submit(function(evt){
@@ -74,7 +74,8 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
             data: formdata,
             success: function(response){
                 console.log(response);
-                console.log(dataObj);
+                //Automatically loads the search page with a search for the newly inserted wine by name
+                self.siteMgr.loadPage("search.html", dataObj.name);
             }
         });
         
