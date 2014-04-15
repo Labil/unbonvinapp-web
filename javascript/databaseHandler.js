@@ -4,6 +4,7 @@
 
 var DatabaseHandler = function(siteMgr){
     this.siteMgr = siteMgr;
+    this.currPage = "";
 
     this.wineTypes = ['Rød', 'rød', 'Rose', 'rose', 'Rosé', 'rosé', 'Hvit', 'hvit',
                       'Champagne', 'champagne', 'Dessertvin', 'dessertvin', 'Søtvin',
@@ -33,6 +34,8 @@ DatabaseHandler.prototype.init = function(config){
         //If searchQuery is empty, it will query all wines by default
         this.handleSearch(config.searchQry);
     }
+
+    this.currPage = config.page;
 
     this.setupSearchSubmit();
     this.setupCheckboxClick();
@@ -82,23 +85,47 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
 
         })
         .fail(function() {
-            self.clearMessages();
+            self.clearMessages(d, textStatus, error);
             self.outputMessage('Oops, noe gikk galt. Vinen ble ikke lagt til. Prøv igjen :)');
+            console.error("The request failed, status: " + textStatus + ", error: "+error);
         });
         
     });
 };
+/* These two should maybe be  refactored and joined but for now I'm just getting stuff to work */
+DatabaseHandler.prototype.setupHandleEdit = function(){
+    console.log("Setting up hadnling edig");
+    var form = $('#insert-form');
+    console.log(form);
+    var self = this;
 
+    form.submit(function(evt){
+        evt.preventDefault();
+        var formdata = form.serialize(); //Makes data into a string to be passed with ajax
+        var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
+        
+        $.post(self.api_url + "req=edit", formdata, function(response) {
+            console.log(response);
+            self.clearMessages();
+            //form.find('input').val(''); //clears the form of previous entries
+            self.outputMessage('Endringene ble lagret.');
+
+        })
+        .fail(function(d, textStatus, error) {
+            self.clearMessages();
+            self.outputMessage('Oops, noe gikk galt. Endringene ble ikke lagret. Prøv igjen :)');
+            console.error("The request failed, status: " + textStatus + ", error: "+error);
+        });
+    });
+};
+
+/* When user clicks on "edit wine" in wine result list */
 DatabaseHandler.prototype.handleEditRequest = function(wineId){
     if(wineId == "" || wineId == null){
-        this.outputMessage("Vinen du prøver å endre har ikke noen gyldig id... Legg til vinen på nytt i stedet.");
+        this.outputMessage("Vinen du prøver å endre har ikke noen gyldig id... Legg inn vinen på nytt i stedet.");
         return;
     }
     this.siteMgr.loadPage("edit.html", wineId);
-};
-
-DatabaseHandler.prototype.editWine = function(wineId){
-
 };
 
 DatabaseHandler.prototype.handleDeleteRequest = function(wineId){
@@ -150,6 +177,7 @@ DatabaseHandler.prototype.reloadSearchAfterDelete = function(){
 
 //TODO: clean up this method
 DatabaseHandler.prototype.setupResultClick = function(){
+
     var self = this;
 
     var clickOpen = function(){
@@ -306,19 +334,24 @@ DatabaseHandler.prototype.fetch = function(){
                 };
 
             });
-
             self.attachTemplate();
+
+            if(self.currPage == "search"){
+                self.setupResultClick();
+            }
+            else if(self.currPage == "edit"){
+                self.setupHandleEdit();
+            }
         }
     })
     .fail(function(d, textStatus, error){
+        self.clearMessages();
         self.outputMessage('Beklager, noe gikk galt med forespørselen din. Prøv igjen, og eventuelt kontakt systemadministrator hvis feilen vedvarer!');
-        console.error("getJSON failed, status: " + textStatus + ", error: "+error)
+        console.error("getJSON failed, status: " + textStatus + ", error: "+error);
     });
 };
 
 DatabaseHandler.prototype.attachTemplate = function(){
     var template = Handlebars.compile(this.template);
     this.container.append(template(this.result));
-
-    this.setupResultClick();
 };

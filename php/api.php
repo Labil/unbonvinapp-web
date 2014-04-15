@@ -49,11 +49,33 @@
 
            $sql = "INSERT INTO wines (name, type, year, grape, country, region, score, productnum, price, stars, aroma, taste, conclusion, source) VALUES ('$name', '$type', '$year', '$grape', '$country', '$region', '$score', '$prodnum', '$price', '$stars', '$aroma', '$taste', '$conclusion', '$source')";
 
-
-           /*$sql = "INSERT INTO wines (name, type, year, grape, country, region, score, productnum, price, stars, aroma, taste, conclusion, source) VALUES ('Mikael', 'Hvit', '1985', 'Drue', 'Norge', 'Porsgrunn', '100', '123', '300', '6', 'bitter', 'Søt', 'Not available', 'Meg')";*/
-
             $result = mysql_query($sql) or die(mysql_error());
 
+            $returnArray = array('result' => $result, 'status' => "OK");
+
+            return json_encode($returnArray);
+        }
+
+        function editWine($id, $name, $type, $year, $grape, $country, $region, $score, $prodnum, $price,
+            $stars, $aroma, $taste, $conclusion, $source){
+
+            $sql = "UPDATE " . TABLE_WINES . " SET " 
+                             . NAME_S . "='$name', "
+                             . TYPE_S . "='$type', "
+                             . YEAR_S . "='$year', "
+                             . GRAPE_S . "='$grape', "
+                             . COUNTRY_S . "='$country', "
+                             . REGION_S . "='$region', "
+                             . SCORE_S . "='$score', "
+                             . PRODNUM_S . "='$prodnum', "
+                             . PRICE_S . "='$price', "
+                             . STARS_S . "='$stars', "
+                             . AROMA_S . "='$aroma', "
+                             . TASTE_S . "='$taste', "
+                             . CONCLUSION_S . "='$conclusion', "
+                             . SOURCE_S . "='$source' WHERE " . ID . "=" . $id;
+
+            $result = mysql_query($sql) or die(mysql_error());
             $returnArray = array('result' => $result, 'status' => "OK");
 
             return json_encode($returnArray);
@@ -256,6 +278,28 @@
                 $so = (isset($_POST['source']) && $_POST['source']) ? $_POST['source'] : '';
 
                 echo insertWine($n, $t, $y, $g, $c, $r, $s, $p, $pr, $st, $ar, $ta, $co, $so);
+            }
+        }
+        else if($req == "edit"){
+            
+            if(isset($_POST["id"])) {
+                $id = (isset($_POST['id']) && $_POST['id']) ? $_POST['id'] : '';
+                $n = (isset($_POST['name']) && $_POST['name']) ? $_POST['name'] : '';
+                $t = (isset($_POST['type']) && $_POST['type']) ? $_POST['type'] : '';
+                $y = (isset($_POST['year']) && $_POST['year']) ? $_POST['year'] : '';
+                $g = (isset($_POST['grape']) && $_POST['grape']) ? $_POST['grape'] : '';
+                $c = (isset($_POST['country']) && $_POST['country']) ? $_POST['country'] : '';
+                $r = (isset($_POST['region']) && $_POST['region']) ? $_POST['region'] : '';
+                $s = (isset($_POST['score']) && $_POST['score']) ? $_POST['score'] : '';
+                $p = (isset($_POST['prodnum']) && $_POST['prodnum']) ? $_POST['prodnum'] : '';
+                $pr = (isset($_POST['price']) && $_POST['price']) ? $_POST['price'] : '';
+                $st = (isset($_POST['stars']) && $_POST['stars']) ? $_POST['stars'] : '';
+                $ar = (isset($_POST['aroma']) && $_POST['aroma']) ? $_POST['aroma'] : '';
+                $ta = (isset($_POST['taste']) && $_POST['taste']) ? $_POST['taste'] : '';
+                $co = (isset($_POST['conclusion']) && $_POST['conclusion']) ? $_POST['conclusion'] : '';
+                $so = (isset($_POST['source']) && $_POST['source']) ? $_POST['source'] : '';
+
+                echo editWine($id, $n, $t, $y, $g, $c, $r, $s, $p, $pr, $st, $ar, $ta, $co, $so);
                 //echo getWineByName($_POST['name'], "asc");
             }
         }

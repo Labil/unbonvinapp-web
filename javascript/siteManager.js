@@ -56,16 +56,17 @@ SiteManager.prototype.runScript = function(href, qry){
 		    template: $('#winelist-template').html(),
 		    container: $('#results'),
 		    qryType: "",
-		    searchQry: qry
+		    searchQry: qry,
+		    page: "search"
 		});	
 	}
 	else if(href == "edit.html"){
-		console.log("Qry in runScript:" + qry);
 		this.dbHandler.init({
 			template: $('#edit-template').html(),
 			container: $('#edit'),
 			qryType: "id",
-			searchQry: qry
+			searchQry: qry,
+			page: "edit"
 		});
 	}
 	else if(href =="add.html"){
