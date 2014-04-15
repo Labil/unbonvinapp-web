@@ -99,18 +99,17 @@ DatabaseHandler.prototype.setupResultClick = function(){
             }
             else if(type == "delete"){
 
-                $.confirm({
-                    'title'     : 'Delete Confirmation',
-                    'message'   : 'You are about to delete this item. <br />It cannot be restored at a later time! Continue?',
+                $.dialogbox({
+                    'message'   : 'Er du sikker på at du ønsker å slette denne vinen?',
                     'buttons'   : {
-                        'Yes'   : {
-                            'class' : 'blue',
+                        'Slett'   : {
+                            'class' : 'btn btn-block btn-lg btn-danger',
                             'action': function(){
                                 console.log("Yes");
                             }
                         },
-                        'No'    : {
-                            'class' : 'gray',
+                        'Avbryt'    : {
+                            'class' : 'btn btn-block btn-lg btn-default',
                             'action': function(){}  // Nothing to do in this case. You can as well omit the action property.
                         }
                     }
