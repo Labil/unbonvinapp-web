@@ -85,6 +85,28 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
     });
 };
 
+DatabaseHandler.prototype.handleDeleteRequest = function(wineId){
+    var self = this;
+
+    $.dialogbox({
+        'message'   : 'Er du sikker på at du ønsker å slette denne vinen?',
+        'buttons'   : {
+            'Slett'   : {
+                //Now this is dependent on flatUI for the button styling, 
+                //should be specified in the dialogbox.css instead, but I'm lazy for the moment
+                'class' : 'btn btn-block btn-lg btn-danger',
+                'action': function(){
+                    self.deleteWine(wineId);
+                }
+            },
+            'Avbryt'    : {
+                'class' : 'btn btn-block btn-lg btn-default',
+                'action': function(){}  // Nothing to do in this case. Might delete this action
+            }
+        }
+    });
+};
+
 DatabaseHandler.prototype.deleteWine = function(wineId){
     var self = this;
 
@@ -129,25 +151,8 @@ DatabaseHandler.prototype.setupResultClick = function(){
                 console.log("edit");
             }
             else if(type == "delete"){
-
-                $.dialogbox({
-                    'message'   : 'Er du sikker på at du ønsker å slette denne vinen?',
-                    'buttons'   : {
-                        'Slett'   : {
-                            //Now this is dependent on flatUI for the button styling, 
-                            //should be specified in the dialogbox.css instead, but I'm lazy for the moment
-                            'class' : 'btn btn-block btn-lg btn-danger',
-                            'action': function(){
-                                self.deleteWine(wineId);
-                                
-                            }
-                        },
-                        'Avbryt'    : {
-                            'class' : 'btn btn-block btn-lg btn-default',
-                            'action': function(){}  // Nothing to do in this case. You can as well omit the action property.
-                        }
-                    }
-                });
+                self.handleDeleteRequest(wineId);
+                
 
             }
         });
@@ -167,6 +172,7 @@ DatabaseHandler.prototype.clearResults = function(){
 };
 
 DatabaseHandler.prototype.handleSearch = function(value){
+    this.clearMessages();
 
     this.lastQuery = value;
     //Search for year
@@ -240,8 +246,6 @@ DatabaseHandler.prototype.outputMessage = function(message){
         $( '.message' ).slideDown(400).delay(2000).slideUp(200).fadeOut(200);
 
     }
-
-
 };
 
 DatabaseHandler.prototype.fetch = function(){
@@ -256,8 +260,6 @@ DatabaseHandler.prototype.fetch = function(){
                 self.outputMessage('Beklager, ingen viner funnet. Prøv igjen med et annet søkeord!');
                 return;
             }
-            //console.log("Data length: " + data.returned_rows);
-
             self.result = $.map(data.result, function(res){
                 //Makes sure we have a type for it is used to display the colored border beneath each wine
                 if(res.type == "" || res.type == null){
@@ -283,6 +285,7 @@ DatabaseHandler.prototype.fetch = function(){
         }
     })
     .fail(function(d, textStatus, error){
+        self.outputMessage('Beklager, noe gikk galt med forespørselen din. Prøv igjen, og eventuelt kontakt systemadministrator hvis feilen vedvarer!');
         console.error("getJSON failed, status: " + textStatus + ", error: "+error)
     });
 };
