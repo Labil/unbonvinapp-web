@@ -35,6 +35,15 @@
 
     <?php 
 
+        function deleteWine($id){
+            $sql = "DELETE FROM " . TABLE_WINES . " WHERE " . ID . "=" . $id;
+
+            $result = mysql_query($sql);
+            $returnArray = array('result' => $result, 'status' => "OK");
+
+            return json_encode($returnArray);
+        }
+
         function insertWine($name, $type, $year, $grape, $country, $region, $score, $prodnum, $price,
             $stars, $aroma, $taste, $conclusion, $source){
 
@@ -239,6 +248,11 @@
 
                 echo insertWine($n, $t, $y, $g, $c, $r, $s, $p, $pr, $st, $ar, $ta, $co, $so);
                 //echo getWineByName($_POST['name'], "asc");
+            }
+        }
+        else if($req == "delete"){
+            if(isset($_POST['id'])){
+                echo deleteWine($_POST['id']);
             }
         }
 

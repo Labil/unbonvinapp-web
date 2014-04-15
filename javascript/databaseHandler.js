@@ -4,19 +4,6 @@
 
 var DatabaseHandler = function(siteMgr){
     this.siteMgr = siteMgr;
-};
-
-/*
- * Initializes the dbHandler with values of templating script and where to display results
- * config is an object wich should contains template and container
- */
-DatabaseHandler.prototype.init = function(config){
-    this.api_url = 'http://plainbrain.net/unbonvinapp/php/api.php?';
-    
-    this.template = config.template;
-    this.container = config.container;
-    //hardcoded default param --> which is the same as the checkbox that is checked by default.
-    this.param = "asc";
 
     this.wineTypes = ['Rød', 'rød', 'Rose', 'rose', 'Rosé', 'rosé', 'Hvit', 'hvit',
                       'Champagne', 'champagne', 'Dessertvin', 'dessertvin', 'Søtvin',
@@ -24,6 +11,20 @@ DatabaseHandler.prototype.init = function(config){
                       'akevitt', 'Tokaji', 'tokaji', 'Portvin', 'portvin', 'Hetvin', 'hetvin',
                       'Cognac', 'cognac', 'Oransje', 'oransje', 'Madeira', 'madeira', 'Rom',
                       'rom'];
+    this.api_url = 'http://plainbrain.net/unbonvinapp/php/api.php?';
+};
+
+/*
+ * Initializes the dbHandler with values of templating script and where to display results
+ * config is an object wich should contains template and container
+ */
+DatabaseHandler.prototype.init = function(config){
+    
+    this.template = config.template;
+    this.container = config.container;
+    //hardcoded default param --> which is the same as the checkbox that is checked by default.
+    this.param = "asc";
+    this.lastQuery = "";
 
     //If searchQuery is empty, it will query all wines by default
     this.handleSearch(config.searchQry);
@@ -82,7 +83,28 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
     });
 };
 
+DatabaseHandler.prototype.deleteWine = function(wineId){
+    var self = this;
+    $.ajax({
+        type:'post',
+        url: self.api_url + "req=delete",
+        data: { id : wineId},
+        success: function(response){
+            console.log(response);
+            console.log("Wine deleted");
+            //Automatically loads the search page with a search for the newly inserted wine by name
+            //self.siteMgr.loadPage("search.html", dataObj.name);
+        }
+    });
+};
+
+DatabaseHandler.prototype.reloadSearchAfterDelete = function(){
+    
+};
+
 DatabaseHandler.prototype.setupResultClick = function(){
+    var self = this;
+
     var clickOpen = function(){
         var first_row = $(this);
         first_row.nextAll(':lt(3)').slideDown(500);
@@ -103,9 +125,11 @@ DatabaseHandler.prototype.setupResultClick = function(){
                     'message'   : 'Er du sikker på at du ønsker å slette denne vinen?',
                     'buttons'   : {
                         'Slett'   : {
+                            //Now this is dependent on flatUI for the button styling, 
+                            //should be specified in the dialogbox.css instead, but I'm lazy for the moment
                             'class' : 'btn btn-block btn-lg btn-danger',
                             'action': function(){
-                                console.log("Yes");
+                                self.deleteWine(wineId);
                             }
                         },
                         'Avbryt'    : {
@@ -133,6 +157,8 @@ DatabaseHandler.prototype.clearResults = function(){
 };
 
 DatabaseHandler.prototype.handleSearch = function(value){
+
+    this.lastQuery = value;
     //Search for year
     if(value.search(/^\d{4}$/) != -1){
         //No wines from before 1900s in this DB -> assuming it is searhing for expensive wine
