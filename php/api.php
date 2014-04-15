@@ -103,7 +103,7 @@
         //gets all wines limited by LIMIT
         function getWines($param) {
             
-            $sql = "SELECT * FROM " . TABLE_WINES . " LIMIT 0," . RESULT_LIMIT;
+            $sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param) . "LIMIT 0," . RESULT_LIMIT;
             return queryWines($sql);
         }
 
@@ -113,9 +113,9 @@
                 if($param == "alpha") return " ORDER BY " . NAME_S . " ASC "; //ASC is default
                 else if($param == "type") return " ORDER BY " . TYPE_S . " ASC ";
                 else if($param == "price") return " ORDER BY " . PRICE_S . " ASC ";
-                else return "";
+                else return " ";
             }
-            else return "";
+            else return " ";
         }
         // Get wine by name LIKE 'name%' -> in list. Might return only one item in list if only one is found
         function getWineByName($name, $param) {

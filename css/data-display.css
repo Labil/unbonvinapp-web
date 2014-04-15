@@ -15,7 +15,11 @@ table:only-child{
 }
 
 p.title{
-	font-weight: bold;
+	/*font-weight: bold;*/
+	/*text-decoration: underline;*/
+	font-style: oblique;
+	color: white;
+	font-size: 16px;
 }
 
 /*.bordered tr:hover {
@@ -23,12 +27,33 @@ p.title{
   transition: all 0.1s ease-in-out;     
 }*/
 
+p.result_choice{
+	margin-right: 10px;
+	color: #00A3DE;
+	text-align: right;
+	display: inline;
+	float: left;
+}
+
+span.fui-new{
+	color:white;
+}
+
+span.fui-cross{
+	color:white;
+}
+
 td
 {
 	padding: 5px;
 	padding-left:15px;
 	color: white;
 	padding-right: 15px;
+}
+
+td.desc{
+	color: #D7D7D7;
+	font-size: 14px;
 }
 
 /*Default color for border in case type fails */
@@ -112,7 +137,7 @@ tr.Rom{
 }
 
 td.name{
-	width: 55%;
+	width: 60%;
 }
 
 td.year{
@@ -120,7 +145,7 @@ td.year{
 }
 
 td.country{
-	width: 20%;
+	width: 15%;
 }
 
 td.price{

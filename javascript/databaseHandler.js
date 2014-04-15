@@ -85,13 +85,43 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
 DatabaseHandler.prototype.setupResultClick = function(){
     var clickOpen = function(){
         var first_row = $(this);
-        first_row.nextAll(':lt(2)').slideDown(500);
+        first_row.nextAll(':lt(3)').slideDown(500);
         first_row.off('click');
         first_row.on('click', clickClose);
+
+        var wineId = first_row[0].id;
+        $('.result-list').find('a.'+wineId).on('click', function(e){
+            e.preventDefault();
+            var type = $(this).data('func');
+
+            if(type == "edit"){
+                console.log("edit");
+            }
+            else if(type == "delete"){
+
+                $.confirm({
+                    'title'     : 'Delete Confirmation',
+                    'message'   : 'You are about to delete this item. <br />It cannot be restored at a later time! Continue?',
+                    'buttons'   : {
+                        'Yes'   : {
+                            'class' : 'blue',
+                            'action': function(){
+                                console.log("Yes");
+                            }
+                        },
+                        'No'    : {
+                            'class' : 'gray',
+                            'action': function(){}  // Nothing to do in this case. You can as well omit the action property.
+                        }
+                    }
+                });
+
+            }
+        });
     };
     var clickClose = function(){
         var first_row = $(this);
-        first_row.nextAll(':lt(2)').slideUp(200);
+        first_row.nextAll(':lt(3)').slideUp(200);
         first_row.off('click');
         first_row.on('click', clickOpen);
     };

@@ -42,7 +42,7 @@
        <script id="winelist-template" type="text/x-handlebars-template">
        		<table class="result-list bordered">
 				{{#each this}}
-                    <tr id="{{id}}" class="main_result" data-toggle="tooltip" data-placement="bottom" title="{{type}}">
+                    <tr id={{id}} class="main_result" data-toggle="tooltip" data-placement="bottom" title="{{type}}">
                         <td class="name">
                             {{name}}
                         </td>
@@ -53,25 +53,31 @@
                             {{year}}
                         </td>
                         <td class="price">
-                            {{price}}
+                            {{price}} kr
                         </td>
                         <td class="stars">
                             {{stars}}
                         </td>
                     </tr>
                     <tr style="display:none;">
-                    	<td colspan="6">
+                    	<td class="desc" colspan="6">
                     		<p class="title">Region: </p>{{region}}
                     	</td>
                     </tr>
                     <tr style="display:none;">
-                    	<td colspan="6">
+                    	<td class="desc" colspan="6">
                     		<p class="title">Beskrivelse: </p>{{aroma}} {{taste}} {{conclusion}}
                     	</td>
                     </tr>
-                    <tr class="{{type}}">
-                    	<td colspan="6"></td>
+                    <tr style="display:none">
+                    	<td></td>
+                    	<td colspan="2"><a class={{id}} "result_change" href="#" data-func="edit"><p class="result_choice">Endre vin?</p><span class="fui-new"></span></a></td>
+                    	<td colspan="3"><a class={{id}} "result_change" href="#" data-func="delete"><p class="result_choice">Slett vin?</p><span class="fui-cross"></span></a></td>
                     </tr>
+                    <tr class="{{type}}">
+                    	<td colspan="5"></td>
+                    </tr>
+                    
 
             	{{/each}}
         	</table>
