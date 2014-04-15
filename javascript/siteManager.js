@@ -31,6 +31,7 @@ SiteManager.prototype.setupChangePageListener = function(){
 SiteManager.prototype.loadPage = function(href, optionalQry){
 	//If a search query is not sent in, it will be an empty string and the default search will be for all wines
 	if(optionalQry == undefined){
+		console.log("optionalQry is undefined...");
 		optionalQry = '';
 	}
 	var self = this;
@@ -54,8 +55,18 @@ SiteManager.prototype.runScript = function(href, qry){
 		this.dbHandler.init({
 		    template: $('#winelist-template').html(),
 		    container: $('#results'),
+		    qryType: "",
 		    searchQry: qry
 		});	
+	}
+	else if(href == "edit.html"){
+		console.log("Qry in runScript:" + qry);
+		this.dbHandler.init({
+			template: $('#edit-template').html(),
+			container: $('#edit'),
+			qryType: "id",
+			searchQry: qry
+		});
 	}
 	else if(href =="add.html"){
 		this.dbHandler.setupHandleInsert();

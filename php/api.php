@@ -91,7 +91,8 @@
             }*/
             while($row = mysql_fetch_array($result, MYSQL_ASSOC)){
                 $resultArray[] = array('id' => intval($row[ID]), 'name' => $row[NAME_S], 
-                    'type' => $row[TYPE_S], 'year' => $row[YEAR_S],
+                    'type' => $row[TYPE_S], 'year' => $row[YEAR_S], 'grape' => $row[GRAPE_S],
+                    'score' => $row[SCORE_S], 'prodnum' => $row[PRODNUM_S], 'source' => $row[SOURCE_S],
                     'country' => $row[COUNTRY_S], 'region' => $row[REGION_S],
                      'price' => $row[PRICE_S], 'stars'=>$row[stars], 
                      'aroma' => $row[AROMA_S], 'taste' => $row[taste], 
@@ -151,6 +152,10 @@
         
         function getWineByYear($year, $param){
             $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . YEAR_S . "=" . $year . getSortQry($param);
+            return queryWines($qry);
+        }
+        function getWineById($id){
+            $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . ID . "=" . $id;
             return queryWines($qry);
         }
         
@@ -228,6 +233,10 @@
             $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
             echo getWineByYear($year, $param);
         } 
+        else if($req == "id"){
+            $id = (isset($_GET['id']) && $_GET['id']) ? $_GET['id'] : 'ERROR';
+            echo getWineById($id);
+        }
         else if($req == "insert"){
             
             if(isset($_POST["name"])) {

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+
+<div class="content">
+
+	<div class="centered">
+        <h4 class="white">Endre vinen:</h4>
+    </div>
+
+	<div class="message">
+	</div>
+
+	<div id="edit">
+
+        <script id="edit-template" type="text/x-handlebars-template">
+            <form id="insert-form" action="">
+                {{#each this}}
+                    <input class="form-control add" name="name" id="name" placeholder="Navn på vin" value="{{name}}">
+
+                    <input class="form-control add" name="type" id="type" placeholder="Type (Rød, hvit, rose...)" value="{{type}}">
+
+                    <input class="form-control add" name="year" id="year" placeholder="Årgang" value="{{year}}">
+
+                    <input class="form-control add" name="grape" id="grape" placeholder="Druetype" value="{{grape}}">
+
+                    <input class="form-control add" name="country" id="country" placeholder="Land" value="{{country}}">
+
+                    <input class="form-control add" name="region" id="region" placeholder="Region" value="{{region}}">
+
+                    <input class="form-control add" name="score" id="score" placeholder="Score (1-100)" value="{{score}}">
+
+                    <input class="form-control add" name="prodnum" id="prodnum" placeholder="Produktnummer" value="{{prodnum}}">
+
+                    <input class="form-control add" name="price" id="price" placeholder="Pris (Hele tall, eventuelt med to desimaler)" value="{{price}}">
+
+                    <input class="form-control add" name="stars" id="stars" placeholder="Antall stjerner" value="{{stars}}">
+
+                    <textarea class="form-control add" name="aroma" id="aroma" cols="30" rows="20" placeholder="Aroma">{{aroma}}</textarea>
+
+                    <textarea class="form-control add" name="taste" id="taste" placeholder="Smak">{{taste}}</textarea>
+
+                    <textarea class="form-control add" name="conclusion" id="conclusion" placeholder="Konklusjon">{{conclusion}}</textarea>
+
+                    <input class="form-control add" name="source" id="source" placeholder="Kilde" value="{{source}}">
+
+                {{/each}}
+                <div class="centered">
+                    <button id="insert-button" type="submit" class="btn btn-block btn-lg btn-info cursorPointer">Lagre endringer</button>
+                </div>
+            </form>
+        </script>
+
+    </div><!--End of results-->
+
+</div><!--End of index-->
+

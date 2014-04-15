@@ -26,9 +26,13 @@ DatabaseHandler.prototype.init = function(config){
     //hardcoded default param --> which is the same as the checkbox that is checked by default.
     this.param = "asc";
     this.lastQuery = "";
-
-    //If searchQuery is empty, it will query all wines by default
-    this.handleSearch(config.searchQry);
+    if(config.qryType == "id"){
+        this.getWineById(config.searchQry);
+    }
+    else{
+        //If searchQuery is empty, it will query all wines by default
+        this.handleSearch(config.searchQry);
+    }
 
     this.setupSearchSubmit();
     this.setupCheckboxClick();
@@ -83,6 +87,18 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
         });
         
     });
+};
+
+DatabaseHandler.prototype.handleEditRequest = function(wineId){
+    if(wineId == "" || wineId == null){
+        this.outputMessage("Vinen du prøver å endre har ikke noen gyldig id... Legg til vinen på nytt i stedet.");
+        return;
+    }
+    this.siteMgr.loadPage("edit.html", wineId);
+};
+
+DatabaseHandler.prototype.editWine = function(wineId){
+
 };
 
 DatabaseHandler.prototype.handleDeleteRequest = function(wineId){
@@ -143,12 +159,13 @@ DatabaseHandler.prototype.setupResultClick = function(){
         first_row.on('click', clickClose);
 
         var wineId = first_row[0].id;
+        //var wineName = first_row.data('name');
         $('.result-list').find('a.'+wineId).on('click', function(e){
             e.preventDefault();
             var type = $(this).data('func');
 
             if(type == "edit"){
-                console.log("edit");
+                self.handleEditRequest(wineId);
             }
             else if(type == "delete"){
                 self.handleDeleteRequest(wineId);
@@ -236,6 +253,11 @@ DatabaseHandler.prototype.getWineByYear = function(year){
     this.fetch();
 };
 
+DatabaseHandler.prototype.getWineById = function(id){
+    this.req = 'req=id&id=' + id;
+    this.fetch();
+};
+
 DatabaseHandler.prototype.outputMessage = function(message){
     if($('.no-result-list').length){
         // There is already a message on display, so we should just add our message to that table
@@ -270,13 +292,17 @@ DatabaseHandler.prototype.fetch = function(){
                     type: res.type,
                     name: res.name,
                     year: res.year,
+                    grape: res.grape,
                     country: res.country,
                     stars: res.stars,
                     price: res.price,
                     region: res.region,
-                    conclusion: res.conclusion + ". ",
-                    taste: res.taste + ". ",
-                    aroma: res.aroma + ". "
+                    score: res.score,
+                    prodnum: res.prodnum,
+                    conclusion: res.conclusion,
+                    taste: res.taste,
+                    aroma: res.aroma,
+                    source: res.source
                 };
 
             });
