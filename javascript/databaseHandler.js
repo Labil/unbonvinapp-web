@@ -12,6 +12,7 @@ var DatabaseHandler = function(siteMgr){
                       'Cognac', 'cognac', 'Oransje', 'oransje', 'Madeira', 'madeira', 'Rom',
                       'rom'];
     this.api_url = 'http://plainbrain.net/unbonvinapp/php/api.php?';
+
 };
 
 /*
@@ -68,16 +69,17 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
         evt.preventDefault();
         var formdata = form.serialize(); //Makes data into a string to be passed with ajax
         var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
+        
+        $.post(self.api_url + "req=insert", formdata, function(response) {
+            console.log(response);
+            self.clearMessages();
+            form.find('input').val(''); //clears the form of previous entries
+            self.outputMessage('Vinen ble lagt til');
 
-        $.ajax({
-            type:'post',
-            url: self.api_url + "req=insert",
-            data: formdata,
-            success: function(response){
-                console.log(response);
-                //Automatically loads the search page with a search for the newly inserted wine by name
-                self.siteMgr.loadPage("search.html", dataObj.name);
-            }
+        })
+        .fail(function() {
+            self.clearMessages();
+            self.outputMessage('Oops, noe gikk galt. Vinen ble ikke lagt til. Prøv igjen :)');
         });
         
     });
@@ -85,23 +87,30 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
 
 DatabaseHandler.prototype.deleteWine = function(wineId){
     var self = this;
-    $.ajax({
-        type:'post',
-        url: self.api_url + "req=delete",
-        data: { id : wineId},
-        success: function(response){
-            console.log(response);
-            console.log("Wine deleted");
-            //Automatically loads the search page with a search for the newly inserted wine by name
-            //self.siteMgr.loadPage("search.html", dataObj.name);
-        }
+
+    $.post(self.api_url + "req=delete", { id : wineId}, function(response) {
+        self.clearMessages();
+        self.clearResults();
+        self.outputMessage("Vinen ble slettet.");
+        self.reloadSearchAfterDelete();
+
+    })
+    .fail(function() {
+        self.clearMessages();
+        self.outputMessage('Oops, noe gikk galt. Vinen ble ikke slettet. Prøv igjen :)');
     });
 };
 
-DatabaseHandler.prototype.reloadSearchAfterDelete = function(){
-    
+DatabaseHandler.prototype.clearMessages = function(){
+    $('.message').empty();
 };
 
+DatabaseHandler.prototype.reloadSearchAfterDelete = function(){
+    $('#search_box').val(this.lastQuery);
+    this.handleSearch(this.lastQuery);
+};
+
+//TODO: clean up this method
 DatabaseHandler.prototype.setupResultClick = function(){
     var self = this;
 
@@ -130,6 +139,7 @@ DatabaseHandler.prototype.setupResultClick = function(){
                             'class' : 'btn btn-block btn-lg btn-danger',
                             'action': function(){
                                 self.deleteWine(wineId);
+                                
                             }
                         },
                         'Avbryt'    : {
@@ -182,8 +192,7 @@ DatabaseHandler.prototype.handleSearch = function(value){
         this.getWineByName(value);
     }
     else if(value.length > 0){
-        console.log("Fant ingen viner");
-        this.outputWineNotFound();
+        this.outputMessage("Beklager, søkeordet er ugyldig. Prøv igjen med et annet søkeord!");
     }
     else{
         //Else just queries for all wines
@@ -221,8 +230,18 @@ DatabaseHandler.prototype.getWineByYear = function(year){
     this.fetch();
 };
 
-DatabaseHandler.prototype.outputWineNotFound = function(){
-    this.container.append('<table class="no-result-list"><tr><td>Beklager, ingen viner funnet. Prøv igjen med et annet søkeord!</td></tr></table>');
+DatabaseHandler.prototype.outputMessage = function(message){
+    if($('.no-result-list').length){
+        // There is already a message on display, so we should just add our message to that table
+        $('.no-result-list').append('<td>' + message + '</td>');
+    }
+    else{
+        $('.message').append('<table class="no-result-list"><tr><td>' + message +'</td></tr></table>');
+        $( '.message' ).slideDown(400).delay(2000).slideUp(200).fadeOut(200);
+
+    }
+
+
 };
 
 DatabaseHandler.prototype.fetch = function(){
@@ -234,12 +253,16 @@ DatabaseHandler.prototype.fetch = function(){
     $.getJSON(this.url, function(data){
         if(data.status == "OK"){
             if(data.returned_rows <= 0){
-                self.outputWineNotFound();
+                self.outputMessage('Beklager, ingen viner funnet. Prøv igjen med et annet søkeord!');
                 return;
             }
-            console.log("Data length: " + data.returned_rows);
+            //console.log("Data length: " + data.returned_rows);
 
             self.result = $.map(data.result, function(res){
+                //Makes sure we have a type for it is used to display the colored border beneath each wine
+                if(res.type == "" || res.type == null){
+                    res.type = "Annet";  
+                } 
                 return {
                     id: res.id,
                     type: res.type,
