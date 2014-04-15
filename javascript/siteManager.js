@@ -7,15 +7,11 @@ var SiteManager = function(){
 };
 
 SiteManager.prototype.init = function(){
-
 	this.setupChangePageListener();
-	//Default page is search
-	//this.loadPage("search.html");
 };
 
 SiteManager.prototype.setupChangePageListener = function(){
     var self = this;
-
     //Default subpage
     this.loadPage("search.html");
 
@@ -31,14 +27,12 @@ SiteManager.prototype.setupChangePageListener = function(){
 SiteManager.prototype.loadPage = function(href, optionalQry){
 	//If a search query is not sent in, it will be an empty string and the default search will be for all wines
 	if(optionalQry == undefined){
-		console.log("optionalQry is undefined...");
 		optionalQry = '';
 	}
 	var self = this;
     $('#content').load(href + ' .content', function(){
     	console.log("Page finished loading");
     	self.runScript(href, optionalQry);
-
     });
 };
 

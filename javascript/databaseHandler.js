@@ -1,10 +1,15 @@
 /*
 *   Author: Solveig Hansen 2014
 */
-
+/* Creates the handler and initializes some values that should be available from the beginning and not be reloaded 
+ * @currPage is for deciding what listeners that should be added
+ * @siteMgr is the manager that is in charge of changing subpages when user clicks on naviagtion menu
+ * @wineTypes defines all the different types of wines, to be used when user inputs search query
+ * @api_url is the url to the server api
+ */
 var DatabaseHandler = function(siteMgr){
     this.siteMgr = siteMgr;
-    this.currPage = "";
+    this.currPage = ""; //Init to empty to make sure we don't get undefined later
 
     this.wineTypes = ['Rød', 'rød', 'Rose', 'rose', 'Rosé', 'rosé', 'Hvit', 'hvit',
                       'Champagne', 'champagne', 'Dessertvin', 'dessertvin', 'Søtvin',
@@ -13,7 +18,6 @@ var DatabaseHandler = function(siteMgr){
                       'Cognac', 'cognac', 'Oransje', 'oransje', 'Madeira', 'madeira', 'Rom',
                       'rom'];
     this.api_url = 'http://plainbrain.net/unbonvinapp/php/api.php?';
-
 };
 
 /*
@@ -36,10 +40,8 @@ DatabaseHandler.prototype.init = function(config){
     }
 
     this.currPage = config.page;
-
     this.setupSearchSubmit();
     this.setupCheckboxClick();
-
 };
 
 DatabaseHandler.prototype.setupCheckboxClick = function(){
@@ -64,7 +66,6 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
         var val = $('#search_box').val();
         self.clearResults();
         self.handleSearch(val);
-
     });
 };
 
@@ -89,7 +90,6 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
             self.outputMessage('Oops, noe gikk galt. Vinen ble ikke lagt til. Prøv igjen :)');
             console.error("The request failed, status: " + textStatus + ", error: "+error);
         });
-        
     });
 };
 /* These two should maybe be  refactored and joined but for now I'm just getting stuff to work */
@@ -197,8 +197,6 @@ DatabaseHandler.prototype.setupResultClick = function(){
             }
             else if(type == "delete"){
                 self.handleDeleteRequest(wineId);
-                
-
             }
         });
     };
@@ -210,7 +208,6 @@ DatabaseHandler.prototype.setupResultClick = function(){
     };
     $('.main_result').on('click', clickOpen);
 };
-
 
 DatabaseHandler.prototype.clearResults = function(){
     this.container.empty();
