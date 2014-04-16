@@ -1,12 +1,10 @@
 (function($){
 
     $.dialogbox = function(config){
-
         if($('#dialogOverlay').length){
             // A confirm is already shown on the page:
             return false;
         }
-
         var buttonHTML = '';
         $.each(config.buttons,function(name,obj){
 
@@ -29,11 +27,12 @@
         ].join('');
 
         $(markup).hide().appendTo('body').fadeIn();
+        $('#dialogBox').center();
 
         var buttons = $('#dialogBox .button'),
             i = 0;
 
-        buttons[1].focus();
+        buttons[buttons.length-1].focus();
 
         $.each(config.buttons,function(name,obj){
             buttons.eq(i++).click(function(){
@@ -50,6 +49,33 @@
 
     $.dialogbox.hide = function(){
         $('#dialogOverlay').fadeOut(function(){
+            $(this).remove();
+        });
+    }
+
+
+    /*************************** Popup ************************************/
+
+    $.popupbox = function(config){
+        if($('#popupBox').length){
+            // A confirm is already shown on the page:
+            return false;
+        }
+
+        var markup = [
+            '<div id="popupBox"><p>' + config.message +'</p></div>'
+        ].join('');
+
+        $(markup).hide().center().appendTo('body').fadeIn();
+        $('#popupBox').center();
+
+        setTimeout(function(){
+            $.popupbox.hide();
+        }, 3000);
+    }
+
+    $.popupbox.hide = function(){
+        $('#popupBox').fadeOut(function(){
             $(this).remove();
         });
     }

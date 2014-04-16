@@ -31,8 +31,9 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 	}
 	var self = this;
     $('#content').load(href + ' .content', function(){
-    	console.log("Page finished loading");
     	self.runScript(href, optionalQry);
+    	//Reset the page scrolling so that top of content shows when changing page
+    	window.scrollTo(0, 0);
     });
 };
 
@@ -40,7 +41,7 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 SiteManager.prototype.runScript = function(href, qry){
 
 	if(this.dbHandler == undefined){
-		console.log("dbHandler not yet defined... initializing");
+		//console.log("dbHandler not yet defined... initializing");
 		this.dbHandler = new DatabaseHandler(this);
 	}
 

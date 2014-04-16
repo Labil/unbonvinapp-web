@@ -53,7 +53,6 @@ DatabaseHandler.prototype.setupCheckboxClick = function(){
             self.param = this.value;
         }
         else{
-            console.log("Checkbox unchecked");
             self.param = "";
         }
     });
@@ -79,24 +78,22 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
         var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
         
         $.post(self.api_url + "req=insert", formdata, function(response) {
-            console.log(response);
+            //console.log(response);
             self.clearMessages();
             form.find('input').val(''); //clears the form of previous entries
-            self.outputMessage('Vinen ble lagt til');
+            self.popupMessage('Vinen ble lagt til');
 
         })
-        .fail(function() {
-            self.clearMessages(d, textStatus, error);
-            self.outputMessage('Oops, noe gikk galt. Vinen ble ikke lagt til. Prøv igjen :)');
+        .fail(function(d, textStatus, error) {
+            self.clearMessages();
+            self.popupMessage('Oops, noe gikk galt. Vinen ble ikke lagt til. Prøv igjen :)');
             console.error("The request failed, status: " + textStatus + ", error: "+error);
         });
     });
 };
 /* These two should maybe be  refactored and joined but for now I'm just getting stuff to work */
 DatabaseHandler.prototype.setupHandleEdit = function(){
-    console.log("Setting up hadnling edig");
     var form = $('#insert-form');
-    console.log(form);
     var self = this;
 
     form.submit(function(evt){
@@ -108,12 +105,13 @@ DatabaseHandler.prototype.setupHandleEdit = function(){
             console.log(response);
             self.clearMessages();
             //form.find('input').val(''); //clears the form of previous entries
-            self.outputMessage('Endringene ble lagret.');
+            //TODO here it can be a dialog box with a quetion about returning to the search results or staying on the page
+            self.popupMessage('Endringene ble lagret.');
 
         })
         .fail(function(d, textStatus, error) {
             self.clearMessages();
-            self.outputMessage('Oops, noe gikk galt. Endringene ble ikke lagret. Prøv igjen :)');
+            self.popupMessage('Oops, noe gikk galt. Endringene ble ikke lagret. Prøv igjen :)');
             console.error("The request failed, status: " + textStatus + ", error: "+error);
         });
     });
@@ -122,7 +120,7 @@ DatabaseHandler.prototype.setupHandleEdit = function(){
 /* When user clicks on "edit wine" in wine result list */
 DatabaseHandler.prototype.handleEditRequest = function(wineId){
     if(wineId == "" || wineId == null){
-        this.outputMessage("Vinen du prøver å endre har ikke noen gyldig id... Legg inn vinen på nytt i stedet.");
+        this.popupMessage("Vinen du prøver å endre har ikke noen gyldig id... Legg inn vinen på nytt i stedet.");
         return;
     }
     this.siteMgr.loadPage("edit.html", wineId);
@@ -156,13 +154,13 @@ DatabaseHandler.prototype.deleteWine = function(wineId){
     $.post(self.api_url + "req=delete", { id : wineId}, function(response) {
         self.clearMessages();
         self.clearResults();
-        self.outputMessage("Vinen ble slettet.");
+        self.popupMessage("Vinen ble slettet.");
         self.reloadSearchAfterDelete();
 
     })
     .fail(function() {
         self.clearMessages();
-        self.outputMessage('Oops, noe gikk galt. Vinen ble ikke slettet. Prøv igjen :)');
+        self.popupMessage('Oops, noe gikk galt. Vinen ble ikke slettet. Prøv igjen :)');
     });
 };
 
@@ -241,6 +239,7 @@ DatabaseHandler.prototype.handleSearch = function(value){
     }
     else if(value.length > 0){
         this.outputMessage("Beklager, søkeordet er ugyldig. Prøv igjen med et annet søkeord!");
+
     }
     else{
         //Else just queries for all wines
@@ -283,15 +282,22 @@ DatabaseHandler.prototype.getWineById = function(id){
     this.fetch();
 };
 
+DatabaseHandler.prototype.popupMessage = function(message){
+    $.popupbox({
+        'message'   : message
+    });
+};
+
 DatabaseHandler.prototype.outputMessage = function(message){
+
     if($('.no-result-list').length){
         // There is already a message on display, so we should just add our message to that table
         $('.no-result-list').append('<td>' + message + '</td>');
     }
     else{
         $('.message').append('<table class="no-result-list"><tr><td>' + message +'</td></tr></table>');
-        $( '.message' ).slideDown(400).delay(2000).slideUp(200).fadeOut(200);
-
+        //$( '.message' ).slideDown(400).delay(2000).slideUp(200).fadeOut(200);
+        $( '.message' ).slideDown();
     }
 };
 
@@ -299,7 +305,7 @@ DatabaseHandler.prototype.fetch = function(){
     var self = this;
     if(this.param != undefined) this.req += '&param=' + this.param;
     this.url = this.api_url + this.req;
-    console.log(this.url);
+    //console.log(this.url);
 
     $.getJSON(this.url, function(data){
         if(data.status == "OK"){

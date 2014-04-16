@@ -15,7 +15,7 @@
     position:fixed;
     left:50%;
     top:50%;
-    margin:-200px 0 0 -200px;
+    /*margin:-200px 0 0 -200px;*/
     border-radius: 8px 8px 8px 8px;
 }
 
@@ -44,3 +44,24 @@
 }
 
 #dialogBox .button:last-child{	margin-right:0;}
+
+
+/******************** Popup ******************************/
+
+#popupBox{
+    background-color:#3498DB;
+    width:auto;
+    position:fixed;
+    left:50%;
+    top:50%;
+    /*margin:-150px 0 0 -200px;*/
+    border-radius: 8px 8px 8px 8px;
+}
+
+#popupBox p{
+    font-size:20px;
+    line-height:1.4;
+    font-family:; 'Cuprum','Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    padding: 10px 25px 9px 25px;
+    color:white;
+}
