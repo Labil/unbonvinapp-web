@@ -33,6 +33,6 @@ x
 
 Currently live at http://plainbrain.net/unbonvinapp/
 
-![unbonwineapp](http://www.plainbrain.net/github_img/unbonvinapp.png)
+![unbonwineapp](http://www.plainbrain.net/github_img/unbonvinapp.jpg)
 
 
