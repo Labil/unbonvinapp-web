@@ -3,13 +3,14 @@
 <div class="content">
 	<div class="centered">
 		<h4 class="white">Legg til en ny vin:</h4>
+		<h7 class="white">(Felter med orange bord må fylles inn)</h7>
 	</div>
 	<div class="message">
 	</div>
 	<form id="insert-form" action="">
-		<input class="form-control add" name="name" id="name" placeholder="Navn på vin">
+		<input class="form-control required" name="name" id="name" placeholder="Navn på vin">
 
- 		<input class="form-control add" name="type" id="type" placeholder="Type (Rød, hvit, rose...)">
+ 		<input class="form-control required" name="type" id="type" placeholder="Type (Rød, hvit, rose...)">
 
  		<input class="form-control add" name="year" id="year" placeholder="Årgang">
 
@@ -25,7 +26,7 @@
 
  		<input class="form-control add" name="price" id="price" placeholder="Pris (Hele tall, eventuelt med to desimaler)">
 
- 		<input class="form-control add" name="stars" id="stars" placeholder="Antall stjerner">
+ 		<input class="form-control required" name="stars" id="stars" placeholder="Antall stjerner">
 
  		<textarea class="form-control add" name="aroma" id="aroma" cols="30" rows="20" placeholder="Aroma"></textarea>
 

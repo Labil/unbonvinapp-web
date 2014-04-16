@@ -86,13 +86,6 @@ li.nomargin{
 	margin: 0;
 }
 
-/*Style for list elems of ul with class of form parent */
-ul.form li{
-	display: block;
-	float: none;
-	margin: 0 auto;
-}
-
 /*Overrides the flatUI form-control class values which I thought were too large */
 input.add{
 	display: block;
@@ -103,6 +96,7 @@ input.add{
 	border: 3px solid #bdc3c7;
 	
 }
+
 textarea.add{
 	display: block;
 	width: 400px;
@@ -115,24 +109,36 @@ textarea.add{
 input.add:focus{
 	border: 3px solid #e85874;
 }
+input.required:focus{
+	border: 3px solid #e85874;
+}
 textarea.add:focus{
 	border: 3px solid #e85874;
+}
+
+.required{
+	display: block;
+	width: 300px;
+	height: auto;
+	margin: 0 auto;
+	margin-bottom: 5px;
+	border: 3px solid #FF5A00;
 }
 
 .centered{
 	text-align: center;
 }
 
-input.add::-webkit-input-placeholder { /* WebKit browsers */
+input.add::-webkit-input-placeholder, input.required::-webkit-input-placeholder { /* WebKit browsers */
     color: #818185;
 }
-input.add:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+input.add:-moz-placeholder, input.required:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color: #818185;
 }
-input.add::-moz-placeholder { /* Mozilla Firefox 19+ */
+input.add::-moz-placeholder, input.required::-moz-placeholder { /* Mozilla Firefox 19+ */
     color: #818185;
 }
-input.add:-ms-input-placeholder { /* Internet Explorer 10+ */
+input.add:-ms-input-placeholder, input.required:-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #818185;
 }
 

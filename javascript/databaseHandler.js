@@ -74,6 +74,12 @@ DatabaseHandler.prototype.setupHandleInsert = function(){
 
     form.submit(function(evt){
         evt.preventDefault();
+        //Some simple check that the minimum required fields are filled in:
+        if($('#id').val() == "" || $('#type').val() == "" || $('#stars').val() == ""){
+            self.popupMessage("Vennligst fyll inn alle obligatoriske felter først :)");
+            return;
+        }
+
         var formdata = form.serialize(); //Makes data into a string to be passed with ajax
         var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
         
@@ -96,8 +102,15 @@ DatabaseHandler.prototype.setupHandleEdit = function(){
     var form = $('#insert-form');
     var self = this;
 
+    $(".required").after("Må fylles inn");
+
     form.submit(function(evt){
         evt.preventDefault();
+        //Some simple check that the minimum required fields are filled in:
+        if($('#id').val() == "" || $('#type').val() == "" || $('#stars').val() == ""){
+            self.popupMessage("Vennligst fyll inn alle obligatoriske felter først :)");
+            return;
+        }
         var formdata = form.serialize(); //Makes data into a string to be passed with ajax
         var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
         
