@@ -29,3 +29,10 @@ $.fn.center = function () {
                                                 $(window).scrollLeft()) + "px");
     return this;
 }
+
+$.fn.placement = function (top, left) {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (top + $(window).scrollTop())) + "px");
+    this.css("left", Math.max(0, (left + $(window).scrollLeft())) + "px");
+    return this;
+}

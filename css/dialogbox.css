@@ -15,7 +15,6 @@
     position:fixed;
     left:50%;
     top:50%;
-    /*margin:-200px 0 0 -200px;*/
     border-radius: 8px 8px 8px 8px;
 }
 
@@ -54,7 +53,6 @@
     position:fixed;
     left:50%;
     top:50%;
-    /*margin:-150px 0 0 -200px;*/
     border-radius: 8px 8px 8px 8px;
 }
 
@@ -65,3 +63,45 @@
     padding: 10px 25px 9px 25px;
     color:white;
 }
+
+/******************** Tipbox ******************************/
+
+#tipBox{
+    background-color:#060606;
+    width:300px;
+    border-radius: 8px 8px 8px 8px; /* Looks weird with rounded corners combined with the arrow, but think i prefer w/o arrow */
+    padding: 8px 25px 13px 25px;
+}
+
+#tipBox p{
+    font-size:20px;
+    line-height:1.4;
+    font-family:; 'Cuprum','Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    color:white;
+}
+
+#tipBox h2{
+    font-size:25px;
+    line-height:1.4;
+    font-family:; 'Cuprum','Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    color:white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+
+/*#tipBox:before {
+    content: "";
+    display: block;
+    width: 0; 
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid white; 
+    /*border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-right: 12px solid white; */
+  /*  position: absolute;
+    top: 16px;
+    left: 300px;
+}*/

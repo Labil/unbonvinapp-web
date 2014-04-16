@@ -1,3 +1,8 @@
+/*
+ *  Some popup, dialog and tip boxes
+ *  Author: Solveig Hansen 2014
+ */
+
 (function($){
 
     $.dialogbox = function(config){
@@ -66,16 +71,42 @@
             '<div id="popupBox"><p>' + config.message +'</p></div>'
         ].join('');
 
-        $(markup).hide().center().appendTo('body').fadeIn();
+        $(markup).hide().appendTo('body').fadeIn();
         $('#popupBox').center();
 
         setTimeout(function(){
             $.popupbox.hide();
-        }, 3000);
+        }, config.time || 3000);
     }
 
     $.popupbox.hide = function(){
         $('#popupBox').fadeOut(function(){
+            $(this).remove();
+        });
+    }
+
+    /************************* Popup tip with arrow ****************************/
+
+    /* User sends in config.message, and optionally config.title, config.top and config.left displacement values 
+        and config.time (how longit should show on screen) */
+    $.tipbox = function(config){
+        if($('#tipBox').length){
+            return false;
+        }
+
+        var markup = [
+            '<div id="tipBox"><h2>' + config.title + '</h2><p>' + config.message + '</p></div>'
+        ].join('');
+
+        $(markup).hide().appendTo('body').fadeIn();
+        $('#tipBox').placement(config.top || 500, config.left || 100);
+
+        setTimeout(function(){
+            $.tipbox.hide();
+        }, config.time || 10000);
+    }
+    $.tipbox.hide = function(){
+        $('#tipBox').fadeOut(function(){
             $(this).remove();
         });
     }

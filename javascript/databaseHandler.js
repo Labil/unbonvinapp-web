@@ -102,8 +102,6 @@ DatabaseHandler.prototype.setupHandleEdit = function(){
     var form = $('#insert-form');
     var self = this;
 
-    $(".required").after("Må fylles inn");
-
     form.submit(function(evt){
         evt.preventDefault();
         //Some simple check that the minimum required fields are filled in:

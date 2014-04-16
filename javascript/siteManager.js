@@ -8,6 +8,7 @@ var SiteManager = function(){
 
 SiteManager.prototype.init = function(){
 	this.setupChangePageListener();
+	//this.currPage = "search.html";
 };
 
 SiteManager.prototype.setupChangePageListener = function(){
@@ -29,6 +30,7 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 	if(optionalQry == undefined){
 		optionalQry = '';
 	}
+	//this.currPage = href;
 	var self = this;
     $('#content').load(href + ' .content', function(){
     	self.runScript(href, optionalQry);
@@ -37,6 +39,15 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
     });
 };
 
+SiteManager.prototype.showTip = function(title, message){
+	$.tipbox({
+	    'message'   : message,
+	    'title' : title,
+	    'top' : 307,
+	    'left' : 50,
+	    'time' : 15000
+	});
+};
 
 SiteManager.prototype.runScript = function(href, qry){
 
@@ -54,6 +65,8 @@ SiteManager.prototype.runScript = function(href, qry){
 		    searchQry: qry,
 		    page: "search"
 		});	
+
+		this.showTip("Søketips", "Søk etter vin ved å skrive inn enten navn på vinen, årstall, eller pris. Sistnevnte gir deg alle viner under gitte pris.");
 	}
 	else if(href == "edit.html"){
 		this.dbHandler.init({
