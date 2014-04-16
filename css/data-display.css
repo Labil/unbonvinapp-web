@@ -142,7 +142,7 @@ td.name{
 }
 
 td.year{
-	width: 10%;
+	width: 6%;
 }
 
 td.country{
@@ -150,7 +150,7 @@ td.country{
 }
 
 td.price{
-	width: 10%;
+	width: 14%;
 }
 
 td.stars{
