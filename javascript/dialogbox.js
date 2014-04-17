@@ -146,4 +146,27 @@
         });
     }
 
+    /*************************** Loadingbar ************************************/
+
+    $.loadingbar = function(config){
+        if($('#loadingbar').length){
+            // A confirm is already shown on the page:
+            return false;
+        }
+
+        var markup = [
+            '<div id="loadingbar"><p>' + config.message + '</div>'
+        ].join('');
+
+        $(markup).hide().appendTo('body').show();
+        $('#loadingbar').center();
+
+    }
+
+    $.loadingbar.hide = function(){
+        $('#loadingbar').fadeOut(function(){
+            $(this).remove();
+        });
+    }
+
 })(jQuery);

@@ -135,7 +135,8 @@
         //gets all wines limited by LIMIT
         function getWines($param) {
             
-            $sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param) . "LIMIT 0," . RESULT_LIMIT;
+            $sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param);
+            //$sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param) . "LIMIT 0," . RESULT_LIMIT;
             return queryWines($sql);
         }
 

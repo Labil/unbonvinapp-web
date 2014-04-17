@@ -68,6 +68,13 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
     });
 };
 
+DatabaseHandler.prototype.toggleLoadingBar = function(){
+    if($.loadingbar({
+        'message' : 'Laster inn viner...'
+    }) != false){}
+    else $.loadingbar.hide();
+};
+
 DatabaseHandler.prototype.setupHandleInsert = function(){
     var form = $('#insert-form');
     var self = this;
@@ -223,7 +230,7 @@ DatabaseHandler.prototype.clearResults = function(){
 
 DatabaseHandler.prototype.handleSearch = function(value){
     this.clearMessages();
-
+    this.toggleLoadingBar();
     this.lastQuery = value;
     //Search for year
     if(value.search(/^\d{4}$/) != -1){
@@ -348,6 +355,9 @@ DatabaseHandler.prototype.fetch = function(){
 
             });
             self.attachTemplate();
+
+            //Search is too fast for a loading bar?..
+            self.toggleLoadingBar();
 
             if(self.currPage == "search"){
                 self.setupResultClick();
