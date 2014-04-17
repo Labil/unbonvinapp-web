@@ -59,23 +59,26 @@ h1{
 	cursor: pointer;
 }
 
-ul{
+ul.horizontal, .filter{
 	list-style: none;
 }
 
-li{
+ul.horizontal li{
 	display: inline;
 	float: left;
 	margin-right: 11%;
 	color: #D7D7D7;	
 }
 
-li.search{
-	margin-right: 8px;
+ul.filter li{
+	display: inline;
+	float: left;
+	margin-right: 30px;
+	color: #D7D7D7;	
 }
 
-li.filter{
-	margin-right: 30px;
+li.search{
+	margin-right: 8px;
 }
 
 li.logo{
@@ -84,6 +87,16 @@ li.logo{
 
 li.nomargin{
 	margin: 0;
+}
+
+ul.search-shortcuts{
+	width: 25%;
+	position: absolute;
+	margin-left:75%;
+}
+ul.search-shortcuts li{
+	display: block;
+	background-color: blue;
 }
 
 /*Overrides the flatUI form-control class values which I thought were too large */
@@ -163,14 +176,25 @@ textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
 
 #header{
 	position: fixed;
+	/*inline block allows block elements to hade height and width */
+	display:inline-block;
 	background-color: #91152f;
 	width: 100%;
-	height: auto;
+	height: 120px;
+	/*height: auto;*/
 	margin: 0 auto;
-	padding: 1%;
+	padding: 20px;
 	margin-top: 0px;
 	z-index: 1000;
 	/*border-bottom: 5px solid #3a0e1d;*/
+}
+
+/*Because header is fixed it doesn't take up space of the page. Need an (empty)
+element the size of the header to push the rest of the content down */ 
+#contentPush {
+	/*header height + padding*/
+	height: 160px;
+	width: 100%;
 }
 
 #menu{
@@ -195,7 +219,7 @@ textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
 #search{
 	width: auto;
 	margin: 0 auto;
-	margin-top: 120px;
+	/*margin-top: 120px;*/
 	height: 70px;
 }
 
@@ -231,7 +255,7 @@ textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
 
 .content{
 	margin:0 auto;
-	margin-top:120px;
+	/*margin-top:120px;*/
 	width: 85%;
 }
 

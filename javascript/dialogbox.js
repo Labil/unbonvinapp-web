@@ -93,13 +93,12 @@
         if($('#tipBox').length){
             return false;
         }
-
         var markup = [
             '<div id="tipBox"><h2>' + config.title + '</h2><p>' + config.message + '</p></div>'
         ].join('');
 
         $(markup).hide().appendTo('body').fadeIn();
-        $('#tipBox').placement(config.top || 500, config.left || 100);
+        $('#tipBox').placement(config.top || 500, config.left || 100, null, null, false);
 
         setTimeout(function(){
             $.tipbox.hide();
@@ -107,6 +106,32 @@
     }
     $.tipbox.hide = function(){
         $('#tipBox').fadeOut(function(){
+            $(this).remove();
+        });
+    }
+
+    /************************* back to top button ****************************/
+
+    /* User sends in config.message, and optionally config.top and config.left displacement values */
+    $.backToTopButton = function(config){
+        if($('#scrollTop').length){
+            return false;
+        }
+
+        var markup = [
+            '<div id="scrollTop">' + config.message + '</div>'
+        ].join('');
+
+        $(markup).hide().appendTo('body').fadeIn();
+        //default position is bottom right corner, with position:fixed (last param true)
+        $('#scrollTop').placementPercent(config.top || null, config.left || null, config.bottom || 10, config.right || 10, config.fixed || true);
+
+        /*setTimeout(function(){
+            $.tipbox.hide();
+        }, config.time || 10000);*/
+    }
+    $.backToTopButton.hide = function(){
+        $('#scrollTop').fadeOut(function(){
             $(this).remove();
         });
     }

@@ -30,9 +30,61 @@ $.fn.center = function () {
     return this;
 }
 
-$.fn.placement = function (top, left) {
+/* User can specify displacement either from top and left, or from bottom and right, default to
+    top/left, only if first two params is null (no value sent in), then bottom and right will be used. */
+/*$.fn.placement = function (top, left) {
     this.css("position","absolute");
     this.css("top", Math.max(0, (top + $(window).scrollTop())) + "px");
     this.css("left", Math.max(0, (left + $(window).scrollLeft())) + "px");
+    return this;
+}*/
+
+/* User can specify displacement either from (default)top/left, top/right, bottom/left, bottom/right
+   Only if first two params is null (or no value sent in), then bottom and right will be used. 
+   @fixed decides position type fixed instead of default absolute */
+$.fn.placement = function (top, left, bottom, right, fixed) {
+    if(fixed != null && fixed === true){
+        this.css("position","fixed");
+    }
+    else this.css("position","absolute");
+
+    if(top != null){
+        console.log("top is not null");
+        this.css("top", Math.max(0, (top + $(window).scrollTop())) + "px");
+    }
+    else if(bottom != null){
+        this.css("bottom", bottom + "px");
+    }
+    if(left != null){
+        this.css("left", Math.max(0, (left + $(window).scrollLeft())) + "px");
+    }
+    else if(right != null){
+        this.css("right", right + "px");   
+    }
+    return this;
+}
+
+/* User can specify displacement either from (default)top/left, top/right, bottom/left, bottom/right
+   Only if first two params is null (or no value sent in), then bottom and right will be used. 
+   @fixed decides position type fixed instead of default absolute */
+$.fn.placementPercent = function (top, left, bottom, right, fixed) {
+    if(fixed != null && fixed === true){
+        this.css("position","fixed");
+    }
+    else this.css("position","absolute");
+
+    if(top != null){
+        console.log("top is not null");
+        this.css("top", Math.max(0, (top + $(window).scrollTop())) + "%");
+    }
+    else if(bottom != null){
+        this.css("bottom", bottom + "%");
+    }
+    if(left != null){
+        this.css("left", Math.max(0, (left + $(window).scrollLeft())) + "%");
+    }
+    else if(right != null){
+        this.css("right", right + "%");   
+    }
     return this;
 }

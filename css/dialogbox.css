@@ -105,3 +105,15 @@
     top: 16px;
     left: 300px;
 }*/
+
+/****************************** Scroll to top button *********************************/
+#scrollTop{
+    position: fixed;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    z-index:100000;
+    font-family: Arial;
+    color: white;
+    font-size: 20px;
+}

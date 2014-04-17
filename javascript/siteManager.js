@@ -33,9 +33,10 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 	//this.currPage = href;
 	var self = this;
     $('#content').load(href + ' .content', function(){
-    	self.runScript(href, optionalQry);
     	//Reset the page scrolling so that top of content shows when changing page
     	window.scrollTo(0, 0);
+    	self.runScript(href, optionalQry);
+    	
     });
 };
 
@@ -43,10 +44,42 @@ SiteManager.prototype.showTip = function(title, message){
 	$.tipbox({
 	    'message'   : message,
 	    'title' : title,
-	    'top' : 307,
+	    'top' : 345,
 	    'left' : 50,
 	    'time' : 15000
 	});
+};
+
+SiteManager.prototype.setupScrollHandler = function(){
+	var self = this;
+	var toTopVisible = false;
+
+	$(window).scroll(function(event){
+		var scrollTop = $(window).scrollTop();
+		
+		if(scrollTop > 300 && toTopVisible == false){
+			console.log("Scrolltop is over 300");
+			self.toggleScrollToTop();
+			toTopVisible = true;
+		}
+		else if(scrollTop < 100 && toTopVisible == true){
+			console.log("Scrolltop is under 100");
+			self.toggleScrollToTop();
+			toTopVisible = false;
+		}
+	   
+	});
+};
+
+SiteManager.prototype.toggleScrollToTop = function(){
+	if($.backToTopButton({
+		'message' : 'Tilbake til toppen',
+		'bottom' : 10,
+		'left' : 5 
+	}) == false){
+		$.backToTopButton.hide();
+	}
+	
 };
 
 SiteManager.prototype.runScript = function(href, qry){
@@ -65,6 +98,8 @@ SiteManager.prototype.runScript = function(href, qry){
 		    searchQry: qry,
 		    page: "search"
 		});	
+
+		this.setupScrollHandler();
 
 		this.showTip("Søketips", "Søk etter vin ved å skrive inn enten navn på vinen, årstall, eller pris. Sistnevnte gir deg alle viner under gitte pris.");
 	}
