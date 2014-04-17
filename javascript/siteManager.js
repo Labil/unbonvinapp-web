@@ -10,7 +10,51 @@ SiteManager.prototype.init = function(){
 
 	this.setupChangePageListener();
 	this.setupScrollHandler();
+	this.setupWindowResizeHandler();
+	this.handleWindowStartWidth();
 	//this.currPage = "search.html";
+};
+
+SiteManager.prototype.setupWindowResizeHandler = function(){
+	$(window).on('resize', function(){
+	      var win = $(this); //this = window
+	      var logo = $('#logo');
+	      var menu = $('.horizontal');
+
+	      if(win.width() < 900){
+	      	
+	      		$('h4').css('font-size', '20px');
+	      }
+	      else if(win.width() > 900){
+	      		//$('#header').show();
+	      		$('h4').css('font-size', '29px');
+	      }
+	      if(win.width() <= 800){
+	      		logo.hide();
+	      		menu.css('margin-left', '0');
+	        	$('.horizontal li').css('margin-right', '50px');
+	      }
+	      else if(win.width() <= 1200){
+	        	logo.hide();
+	        	menu.css('margin-left', '0');
+	        	$('.horizontal li').css('margin-right', '120px');
+	      }
+	      else if(win.width() <= 1550){
+	      		logo.show();
+	      		menu.css('margin-left', logo.outerWidth()/3 + "px");
+	      		$('.horizontal li').css('margin-right', '30px');
+	      		//logo.css('font-size', '0.3em');
+	      }
+	      else if(win.width() > 1500){
+	      		logo.show();
+	      		menu.css('margin-left', '0');
+	      		$('.horizontal li').css('margin-right', '120px');
+	      }
+	});
+};
+
+SiteManager.prototype.handleWindowStartWidth = function(){
+	$(window).trigger('resize');
 };
 
 SiteManager.prototype.setupChangePageListener = function(){
@@ -49,11 +93,16 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
     });
 };
 
-SiteManager.prototype.showTip = function(title, message){
+SiteManager.prototype.showSearchTip = function(title, message){
+	if($(window).width() < 1300){
+		return;
+	}
+	var contentAboveH = parseInt($('#content').css('padding')) + $('#header').outerHeight() + $('#search').outerHeight() + $('#filter').outerHeight();
+	console.log(contentAboveH);
 	$.tipbox({
 	    'message'   : message,
 	    'title' : title,
-	    'top' : 306,
+	    'top' : contentAboveH,
 	    'left' : 50,
 	    'time' : 15000
 	});
@@ -66,18 +115,14 @@ SiteManager.prototype.setupScrollHandler = function(){
 
 	$(window).scroll(function(event){
 		var scrollTop = $(window).scrollTop();
-		console.log(scrollTop);
 		if(scrollTop > 300 && toTopVisible == false){
-			console.log("scrollTop is over 300");
 			self.toggleScrollToTop();
 			toTopVisible = true;
 		}
 		else if(scrollTop < 100 && toTopVisible == true){
-			console.log("scrollTop is under 100");
 			self.toggleScrollToTop();
 			toTopVisible = false;
 		}
-	   
 	});
 };
 
@@ -107,7 +152,9 @@ SiteManager.prototype.runScript = function(href, qry){
 		    searchQry: qry,
 		    page: "search"
 		});	
-		this.showTip("Søketips", "Søk etter vin ved å skrive inn enten navn på vinen, årstall, eller pris. Sistnevnte gir deg alle viner under gitte pris.");
+
+		this.showSearchTip("Søketips", "Søk etter vin ved å skrive inn enten navn på vinen, årstall, eller pris. Sistnevnte gir deg alle viner under gitte pris.");
+
 	}
 	else if(href == "edit.html"){
 		this.dbHandler.init({

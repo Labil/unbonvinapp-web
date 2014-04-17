@@ -24,7 +24,7 @@ a{
     color: black;
 }
 
-.logo:hover{
+a.logo:hover{
 	color: #222222;
 }
 
@@ -40,6 +40,7 @@ h1{
 	padding:0;
 }
 
+/* For the background illustration */
 .background{
 	bottom: 50px;
 	right: 0;
@@ -47,7 +48,7 @@ h1{
 	z-index: -3;
 }
 
-.marginleft{
+li span{
 	margin-left: 5px;
 }
 
@@ -61,12 +62,13 @@ h1{
 
 ul.horizontal, .filter{
 	list-style: none;
+	display:inline;
 }
 
 ul.horizontal li{
 	display: inline;
 	float: left;
-	margin-right: 11%;
+	margin-right: 120px;
 	color: #D7D7D7;	
 }
 
@@ -81,9 +83,9 @@ li.search{
 	margin-right: 8px;
 }
 
-li.logo{
+/*li.logo{
 	margin-right: 5%;
-}
+}*/
 
 li.nomargin{
 	margin: 0;
@@ -169,20 +171,21 @@ textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
 }
 
 #logo{
-	display: block;
+	display:inline-block;
+	float:left;
 	padding-top: 10px;
 	padding-left: 30px;
+	margin-right: 50px;
 }
 
 #header{
 	position: fixed;
 	/*inline block allows block elements to hade height and width */
-	display:inline-block;
+	/*display:block;*/
 	background-color: #91152f;
 	width: 100%;
 	height: 80px;
 	/*height: auto;*/
-	margin: 0 auto;
 	padding: 20px;
 	margin-top: 0px;
 	z-index: 1000;
@@ -219,13 +222,10 @@ element the size of the header to push the rest of the content down */
 #search{
 	width: auto;
 	margin: 0 auto;
-	/*margin-top: 120px;*/
-	height: 70px;
+	height: auto;
 }
 
 #search_form{
-	width: 400px;
-	margin: 0 auto;
 }
 
 #search_button{
@@ -244,18 +244,35 @@ element the size of the header to push the rest of the content down */
 
 #search_box{
 	display: inline;
-	float: left;
+	/*float: left;*/
 	margin-right: 5px;
 }
 
 #filter{
-	width: 550px;
+	width: auto;
 	margin: 0 auto;
+	overflow:hidden;
 }
+
+/*Trick to center elements without a set width */
+.outer-center {
+    float: right;
+    right: 50%;
+    position: relative;
+}
+.inner-center {
+    float: right;
+    right: -50%;
+    position: relative;
+}
+.clear {
+    clear: both;
+}
+/***************************************************/
+
 
 .content{
 	margin:0 auto;
-	/*margin-top:120px;*/
 	width: 85%;
 }
 
@@ -347,26 +364,13 @@ a.sunshake{
 }
 
 @font-face {
-  	font-family: "ClearLine";
-  	src: url("../assets/fonts/ClearLine.ttf");
+  font-family: 'Kyboshed';
+  src: url('../assets/fonts/Kyboshed.woff') format('woff'),
+       url('../assets/fonts/Kyboshed.ttf') format('truetype');
 }
 
 @font-face {
-  	font-family: "ASwirlVelvet";
-  	src: url("../assets/fonts/ASwirlVelvet.ttf");
-}
-
-@font-face {
-  	font-family: "Kyboshed";
-  	src: url("../assets/fonts/Kyboshed.ttf");
-}
-
-@font-face {
-  	font-family: "StartlingFont";
-  	src: url("../assets/fonts/StartlingFont.ttf");
-}
-
-@font-face {
-  	font-family: "startlng";
-  	src: url("../assets/fonts/startlng.ttf");
+  font-family: 'ClearLine';
+  src: url('../assets/fonts/ClearLine.woff') format('woff'),
+       url('../assets/fonts/ClearLine.ttf') format('truetype');
 }

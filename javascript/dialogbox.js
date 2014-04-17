@@ -141,7 +141,6 @@
     }
     $.backToTopButton.hide = function(){
         $('#scrollTop').fadeOut(function(){
-            console.log("hiding back to top");
             $('#scrollTop').off();
             $(this).remove();
         });
