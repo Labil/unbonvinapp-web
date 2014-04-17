@@ -123,15 +123,26 @@
         ].join('');
 
         $(markup).hide().appendTo('body').fadeIn();
+        var elem = $('#scrollTop');
         //default position is bottom right corner, with position:fixed (last param true)
-        $('#scrollTop').placementPercent(config.top || null, config.left || null, config.bottom || 10, config.right || 10, config.fixed || true);
+        elem.placementPercent(config.top || null, config.left || null, config.bottom || 10, config.right || 10, config.fixed || true);
 
-        /*setTimeout(function(){
-            $.tipbox.hide();
-        }, config.time || 10000);*/
+        // scroll body back to top on click
+        elem.on('click', function(e){
+            $('body,html').animate({
+                scrollTop: 0,
+                complete: function(){
+                    $.backToTopButton.hide();
+                }
+            }, 800);
+            e.preventDefault();
+
+        });
     }
     $.backToTopButton.hide = function(){
         $('#scrollTop').fadeOut(function(){
+            console.log("hiding back to top");
+            $('#scrollTop').off();
             $(this).remove();
         });
     }

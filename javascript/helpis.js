@@ -22,22 +22,11 @@ $.fn.serializeObject = function()
 };
 
 $.fn.center = function () {
-    this.css("position","absolute");
-    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
-                                                $(window).scrollTop()) + "px");
-    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
-                                                $(window).scrollLeft()) + "px");
+    this.css("position","fixed");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2)) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2)) + "px");
     return this;
 }
-
-/* User can specify displacement either from top and left, or from bottom and right, default to
-    top/left, only if first two params is null (no value sent in), then bottom and right will be used. */
-/*$.fn.placement = function (top, left) {
-    this.css("position","absolute");
-    this.css("top", Math.max(0, (top + $(window).scrollTop())) + "px");
-    this.css("left", Math.max(0, (left + $(window).scrollLeft())) + "px");
-    return this;
-}*/
 
 /* User can specify displacement either from (default)top/left, top/right, bottom/left, bottom/right
    Only if first two params is null (or no value sent in), then bottom and right will be used. 

@@ -113,7 +113,6 @@ DatabaseHandler.prototype.setupHandleEdit = function(){
         var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
         
         $.post(self.api_url + "req=edit", formdata, function(response) {
-            console.log(response);
             self.clearMessages();
             //form.find('input').val(''); //clears the form of previous entries
             //TODO here it can be a dialog box with a quetion about returning to the search results or staying on the page
