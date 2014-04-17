@@ -49,7 +49,6 @@ $.fn.placement = function (top, left, bottom, right, fixed) {
     else this.css("position","absolute");
 
     if(top != null){
-        console.log("top is not null");
         this.css("top", Math.max(0, (top + $(window).scrollTop())) + "px");
     }
     else if(bottom != null){

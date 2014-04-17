@@ -35,7 +35,7 @@
 
 		<div id="contentPush">
 		</div>
-		
+
 		<div id="content">
 
 		</div><!--End of content-->
@@ -57,9 +57,13 @@
 		<script>
 			(function(){
 				if(siteMgr == undefined){
-					//console.log("Initialising siteManager");
+					//To make chrome not auto-scroll down if user had scrolled down and then refresh of page
+					$(window).on('beforeunload', function() {
+					    $(window).scrollTop(0);
+					});
 					var siteMgr = new SiteManager();
 					siteMgr.init();
+
 				}
 
 			})();

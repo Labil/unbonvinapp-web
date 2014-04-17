@@ -7,6 +7,7 @@ var SiteManager = function(){
 };
 
 SiteManager.prototype.init = function(){
+	
 	this.setupChangePageListener();
 	//this.currPage = "search.html";
 };
@@ -15,6 +16,7 @@ SiteManager.prototype.setupChangePageListener = function(){
     var self = this;
     //Default subpage
     this.loadPage("search.html");
+
 
     $('#header').find('a').on('click', function(e) {
         e.preventDefault();
@@ -30,6 +32,8 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 	if(optionalQry == undefined){
 		optionalQry = '';
 	}
+	//hides the tip box if there is one on display before changing page
+	$.tipbox.hide();
 	//this.currPage = href;
 	var self = this;
     $('#content').load(href + ' .content', function(){
@@ -58,12 +62,10 @@ SiteManager.prototype.setupScrollHandler = function(){
 		var scrollTop = $(window).scrollTop();
 		
 		if(scrollTop > 300 && toTopVisible == false){
-			console.log("Scrolltop is over 300");
 			self.toggleScrollToTop();
 			toTopVisible = true;
 		}
 		else if(scrollTop < 100 && toTopVisible == true){
-			console.log("Scrolltop is under 100");
 			self.toggleScrollToTop();
 			toTopVisible = false;
 		}
@@ -115,4 +117,5 @@ SiteManager.prototype.runScript = function(href, qry){
 	else if(href =="add.html"){
 		this.dbHandler.setupHandleInsert();
 	}
+
 }
