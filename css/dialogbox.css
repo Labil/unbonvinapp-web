@@ -68,7 +68,7 @@
 
 #tipBox{
     background-color:#060606;
-    width:300px;
+    width:220px;
     border-radius: 8px 8px 8px 8px; /* Looks weird with rounded corners combined with the arrow, but think i prefer w/o arrow */
     padding: 8px 25px 13px 25px;
 }
@@ -115,5 +115,6 @@
     z-index:100000;
     font-family: Arial;
     color: white;
+    background-color: #060606;
     font-size: 20px;
 }

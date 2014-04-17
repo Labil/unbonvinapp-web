@@ -24,12 +24,36 @@ a{
     color: black;
 }
 
+a.white:link{
+	color:white;
+}
+
+a.logo:link{
+	color:black;
+}
+
+/*a.white:visited{
+	color:black;
+}
+
+a.logo:visited{
+	color:black;
+}*/
+
 a.logo:hover{
 	color: #222222;
 }
 
 a.white:hover{
 	color: #D7D7D7;
+}
+
+a.white:active{
+	color: #D7D7D7;
+}
+
+a.logo:active{
+	color:black;
 }
 
 h1{
@@ -82,10 +106,6 @@ ul.filter li{
 li.search{
 	margin-right: 8px;
 }
-
-/*li.logo{
-	margin-right: 5%;
-}*/
 
 li.nomargin{
 	margin: 0;
@@ -171,7 +191,7 @@ textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
 }
 
 #logo{
-	display:inline-block;
+	display:inline;
 	float:left;
 	padding-top: 10px;
 	padding-left: 30px;
@@ -216,7 +236,7 @@ element the size of the header to push the rest of the content down */
 #content{
 	margin: 0 auto;
 	width: 75%;
-	padding:2%;
+	padding:40px;
 }
 
 #search{
@@ -359,7 +379,7 @@ a.sunshake{
 }
 
 #results{
-	width: 85%;
+	width: 100%;
 	margin: 0 auto;
 }
 

@@ -16,10 +16,12 @@ SiteManager.prototype.init = function(){
 };
 
 SiteManager.prototype.setupWindowResizeHandler = function(){
+	var self = this;
 	$(window).on('resize', function(){
 	      var win = $(this); //this = window
 	      var logo = $('#logo');
 	      var menu = $('.horizontal');
+	      var contentContainer = $('#content');
 
 	      if(win.width() < 900){
 	      	
@@ -33,22 +35,27 @@ SiteManager.prototype.setupWindowResizeHandler = function(){
 	      		logo.hide();
 	      		menu.css('margin-left', '0');
 	        	$('.horizontal li').css('margin-right', '50px');
+
 	      }
 	      else if(win.width() <= 1200){
 	        	logo.hide();
+	        	self.hideSearchTip();
 	        	menu.css('margin-left', '0');
-	        	$('.horizontal li').css('margin-right', '120px');
+	        	$('.horizontal li').css('margin-right', '120px');	
+	        	contentContainer.css('width', '95%');
 	      }
 	      else if(win.width() <= 1550){
 	      		logo.show();
 	      		menu.css('margin-left', logo.outerWidth()/3 + "px");
 	      		$('.horizontal li').css('margin-right', '30px');
-	      		//logo.css('font-size', '0.3em');
-	      }
+	      		contentContainer.css('width', '95%');
+		  }
 	      else if(win.width() > 1500){
 	      		logo.show();
 	      		menu.css('margin-left', '0');
 	      		$('.horizontal li').css('margin-right', '120px');
+	      		contentContainer.css('width', '75%');
+
 	      }
 	});
 };
@@ -97,8 +104,8 @@ SiteManager.prototype.showSearchTip = function(title, message){
 	if($(window).width() < 1300){
 		return;
 	}
-	var contentAboveH = parseInt($('#content').css('padding')) + $('#header').outerHeight() + $('#search').outerHeight() + $('#filter').outerHeight();
-	console.log(contentAboveH);
+	//hardcoding in the equivalent of padding for the #content div cause firefox don't wanna read that value
+	var contentAboveH = 40 + $('#header').outerHeight() + $('#search').outerHeight() + $('#filter').outerHeight();
 	$.tipbox({
 	    'message'   : message,
 	    'title' : title,
@@ -106,6 +113,10 @@ SiteManager.prototype.showSearchTip = function(title, message){
 	    'left' : 50,
 	    'time' : 15000
 	});
+};
+
+SiteManager.prototype.hideSearchTip = function(){
+	$.tipbox.hide();
 };
 
 SiteManager.prototype.setupScrollHandler = function(){
