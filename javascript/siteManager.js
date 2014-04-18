@@ -18,10 +18,13 @@ SiteManager.prototype.init = function(){
 SiteManager.prototype.setupWindowResizeHandler = function(){
 	var self = this;
 	$(window).on('resize', function(){
+		console.log("win widht: " + $(this).width());
 	      var win = $(this); //this = window
 	      var logo = $('#logo');
 	      var menu = $('.horizontal');
 	      var contentContainer = $('#content');
+	      var filterLi = $('ul.filter li.marginright');
+	      var menuLi = $('ul.horizontal li.marginright');
 
 	      if(win.width() < 900){
 	      	
@@ -33,28 +36,41 @@ SiteManager.prototype.setupWindowResizeHandler = function(){
 	      }
 	      if(win.width() <= 800){
 	      		logo.hide();
+	      		self.hideSearchTip();
 	      		menu.css('margin-left', '0');
-	        	$('.horizontal li').css('margin-right', '50px');
+	        	menuLi.css('margin-right', '50px');
+	        	filterLi.css('margin-right', '7px');
+	        	contentContainer.css('width', '95%');
 
 	      }
 	      else if(win.width() <= 1200){
 	        	logo.hide();
 	        	self.hideSearchTip();
 	        	menu.css('margin-left', '0');
-	        	$('.horizontal li').css('margin-right', '120px');	
+	        	menuLi.css('margin-right', '120px');	
 	        	contentContainer.css('width', '95%');
+	        	filterLi.css('margin-right', '25px');
+	      }
+	      else if(win.width() <= 1300){
+	      		logo.show();
+	      		menu.css('margin-left', logo.outerWidth()/3 + "px");
+	      		menuLi.css('margin-right', '30px');
+	      		contentContainer.css('width', '95%');
+	      		filterLi.css('margin-right', '30px');
 	      }
 	      else if(win.width() <= 1550){
 	      		logo.show();
 	      		menu.css('margin-left', logo.outerWidth()/3 + "px");
-	      		$('.horizontal li').css('margin-right', '30px');
-	      		contentContainer.css('width', '95%');
+	      		menuLi.css('margin-right', '65px');
+	      		contentContainer.css('width', '85%');
+	      		filterLi.css('margin-right', '30px');
 		  }
 	      else if(win.width() > 1500){
 	      		logo.show();
 	      		menu.css('margin-left', '0');
-	      		$('.horizontal li').css('margin-right', '120px');
+	      		menuLi.css('margin-right', '120px');
 	      		contentContainer.css('width', '75%');
+	      		filterLi.css('margin-right', '30px');
 
 	      }
 	});

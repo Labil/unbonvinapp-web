@@ -164,7 +164,7 @@
     }
 
     $.loadingbar.hide = function(){
-        $('#loadingbar').fadeOut(function(){
+        $('#loadingbar').hide(function(){
             $(this).remove();
         });
     }

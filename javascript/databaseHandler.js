@@ -230,7 +230,6 @@ DatabaseHandler.prototype.clearResults = function(){
 
 DatabaseHandler.prototype.handleSearch = function(value){
     this.clearMessages();
-    this.toggleLoadingBar();
     this.lastQuery = value;
     //Search for year
     if(value.search(/^\d{4}$/) != -1){
@@ -320,6 +319,8 @@ DatabaseHandler.prototype.outputMessage = function(message){
 
 DatabaseHandler.prototype.fetch = function(){
     var self = this;
+    this.toggleLoadingBar();
+
     if(this.param != undefined) this.req += '&param=' + this.param;
     this.url = this.api_url + this.req;
     //console.log(this.url);
@@ -327,6 +328,7 @@ DatabaseHandler.prototype.fetch = function(){
     $.getJSON(this.url, function(data){
         if(data.status == "OK"){
             if(data.returned_rows <= 0){
+                self.toggleLoadingBar();
                 self.outputMessage('Beklager, ingen viner funnet. Prøv igjen med et annet søkeord!');
                 return;
             }
@@ -355,8 +357,7 @@ DatabaseHandler.prototype.fetch = function(){
 
             });
             self.attachTemplate();
-
-            //Search is too fast for a loading bar?..
+            //Turns the loading bar off after search is done
             self.toggleLoadingBar();
 
             if(self.currPage == "search"){
@@ -369,8 +370,9 @@ DatabaseHandler.prototype.fetch = function(){
     })
     .fail(function(d, textStatus, error){
         self.clearMessages();
+        self.toggleLoadingBar();
         self.outputMessage('Beklager, noe gikk galt med forespørselen din. Prøv igjen, og eventuelt kontakt systemadministrator hvis feilen vedvarer!');
-        console.error("getJSON failed, status: " + textStatus + ", error: "+error);
+        //console.error("getJSON failed, status: " + textStatus + ", error: "+error);
     });
 };
 
