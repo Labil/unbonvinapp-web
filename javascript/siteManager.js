@@ -117,31 +117,18 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 
 SiteManager.prototype.showSearchTip = function(title, message){
 	var winW = $(window).width();
+	//No tip on too small screens, it doesn't fit anywhere
 	if(winW < 1300){
 		return;
 	}
-	else if(winW < 1500){
-		var space = $('#search').outerHeight() + $('#filter').outerHeight();
-		var headerH =  $('#header').outerHeight() + 10;
-		$.tipbox({
-		    'message'   : message,
-		    'title' : title,
-		    'top' : headerH,
-		    'left' : 50,
-		    'time' : 15000
-		});
-	}
-	else{
-		//hardcoding in the equivalent of padding for the #content div cause firefox don't wanna read that value
-		var contentAboveH = 40 + $('#header').outerHeight() + $('#search').outerHeight() + $('#filter').outerHeight();
-		$.tipbox({
-		    'message'   : message,
-		    'title' : title,
-		    'top' : contentAboveH,
-		    'left' : 50,
-		    'time' : 15000
-		});
-	}
+	var headerH =  $('#header').outerHeight() + 10;
+	$.tipbox({
+	    'message'   : message,
+	    'title' : title,
+	    'top' : headerH,
+	    'left' : 50,
+	    'time' : 15000
+	});
 	
 };
 
