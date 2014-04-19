@@ -56,6 +56,12 @@ a.logo:active{
 	color:black;
 }
 
+a.shortcut{
+	background-color: #d1294b;
+	border-radius: 6px;
+	padding:8px 10px;
+}
+
 /* For the background illustration */
 .background{
 	bottom: 50px;
@@ -69,6 +75,7 @@ li span{
 	margin-left: 5px;
 }
 
+/*h4 */
 .white{
 	color: white;
 }
@@ -77,115 +84,82 @@ li span{
 	cursor: pointer;
 }
 
-ul.horizontal, .filter{
+ul.horizontal, .filter, .shortcuts{
 	list-style: none;
 	display:inline;
 }
 
-ul.horizontal li{
+ul.horizontal li, ul.filter li{
 	display: inline;
 	float: left;
 	margin-right: 120px;
 	color: #D7D7D7;	
 }
 
-ul.horizontal li.nomargin{
-	margin-right: 0;
-}
-
 ul.filter li{
-	display: inline;
-	float: left;
 	margin-right: 30px;
-	color: #D7D7D7;	
-}
-ul.filter li.nomargin{
-	margin-right: 0;
-}
-li.search{
-	margin-right: 8px;
 }
 
-li.nomargin{
+ul.horizontal li.nomargin, ul.filter li.nomargin{
 	margin-right: 0;
 }
 
-ul.search-shortcuts{
-	width: 25%;
-	position: absolute;
-	margin-left:75%;
-}
-ul.search-shortcuts li{
+ul.shortcuts li{
 	display: block;
-	background-color: blue;
+	margin-bottom: 20px;
 }
 
 /*Overrides the flatUI form-control class values which I thought were too large */
-input.add{
+input.add, textarea.add, input.required{
 	display: block;
 	width: 300px;
 	height: auto;
 	margin: 0 auto;
 	margin-bottom: 5px;
-	border: 3px solid #bdc3c7;
-	
+	border: 3px solid #bdc3c7;	
+}
+
+input.required{
+	border: 3px solid #FF5A00;
 }
 
 textarea.add{
-	display: block;
 	width: 400px;
 	height: 70px;
-	margin: 0 auto;
-	margin-bottom: 5px;
-	border: 3px solid #bdc3c7;
 }
 
-input.add:focus{
-	border: 3px solid #e85874;
-}
-input.required:focus{
-	border: 3px solid #e85874;
-}
-textarea.add:focus{
+input.add:focus, input.required:focus, textarea.add:focus{
 	border: 3px solid #e85874;
 }
 
-.required{
-	display: block;
-	width: 300px;
-	height: auto;
-	margin: 0 auto;
-	margin-bottom: 5px;
-	border: 3px solid #FF5A00;
-}
 
 .centered{
 	text-align: center;
 }
 
-input.add::-webkit-input-placeholder, input.required::-webkit-input-placeholder { /* WebKit browsers */
+input.add::-webkit-input-placeholder, input.required::-webkit-input-placeholder {
     color: #818185;
 }
-input.add:-moz-placeholder, input.required:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+input.add:-moz-placeholder, input.required:-moz-placeholder {
     color: #818185;
 }
-input.add::-moz-placeholder, input.required::-moz-placeholder { /* Mozilla Firefox 19+ */
+input.add::-moz-placeholder, input.required::-moz-placeholder {
     color: #818185;
 }
-input.add:-ms-input-placeholder, input.required:-ms-input-placeholder { /* Internet Explorer 10+ */
+input.add:-ms-input-placeholder, input.required:-ms-input-placeholder { 
     color: #818185;
 }
 
-textarea.add::-webkit-input-placeholder { /* WebKit browsers */
+textarea.add::-webkit-input-placeholder { 
     color: #818185;
 }
-textarea.add:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+textarea.add:-moz-placeholder { 
     color: #818185;
 }
-textarea.add::-moz-placeholder { /* Mozilla Firefox 19+ */
+textarea.add::-moz-placeholder { 
     color: #818185;
 }
-textarea.add:-ms-input-placeholder { /* Internet Explorer 10+ */
+textarea.add:-ms-input-placeholder {
     color: #818185;
 }
 
@@ -269,6 +243,15 @@ element the size of the header to push the rest of the content down */
 	width: auto;
 	margin: 0 auto;
 	overflow:hidden;
+}
+
+#shortcuts{
+	width: auto;
+	height: auto;
+	position: absolute;
+	top: 130px;
+ 	left: 75%;
+ 	text-align: right;
 }
 
 /*Trick to center elements without a set width */
