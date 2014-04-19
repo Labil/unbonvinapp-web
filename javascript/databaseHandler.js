@@ -197,7 +197,7 @@ DatabaseHandler.prototype.setupResultClick = function(){
 
     var clickOpen = function(){
         var first_row = $(this);
-        first_row.nextAll(':lt(3)').slideDown(500);
+        first_row.nextAll(':lt(2)').slideDown(500);
         first_row.off('click');
         first_row.on('click', clickClose);
 
@@ -217,7 +217,7 @@ DatabaseHandler.prototype.setupResultClick = function(){
     };
     var clickClose = function(){
         var first_row = $(this);
-        first_row.nextAll(':lt(3)').slideUp(200);
+        first_row.nextAll(':lt(2)').slideUp(200);
         first_row.off('click');
         first_row.on('click', clickOpen);
     };
