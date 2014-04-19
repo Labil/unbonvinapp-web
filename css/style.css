@@ -36,7 +36,7 @@ a.logo{
 	margin: 0;
 	padding:0;
 }
-a.logo:link{
+a.logo:link, a.logo:active{
 	color:black;
 }
 
@@ -44,22 +44,8 @@ a.logo:hover{
 	color: #222222;
 }
 
-a.white:hover{
+a.white:hover, a.white:active{
 	color: #D7D7D7;
-}
-
-a.white:active{
-	color: #D7D7D7;
-}
-
-a.logo:active{
-	color:black;
-}
-
-a.shortcut{
-	background-color: #d1294b;
-	border-radius: 6px;
-	padding:8px 10px;
 }
 
 /* For the background illustration */
@@ -84,7 +70,7 @@ li span{
 	cursor: pointer;
 }
 
-ul.horizontal, .filter, .shortcuts{
+ul.horizontal, .filter{
 	list-style: none;
 	display:inline;
 }
@@ -104,10 +90,6 @@ ul.horizontal li.nomargin, ul.filter li.nomargin{
 	margin-right: 0;
 }
 
-ul.shortcuts li{
-	display: block;
-	margin-bottom: 20px;
-}
 
 /*Overrides the flatUI form-control class values which I thought were too large */
 input.add, textarea.add, input.required{
@@ -173,15 +155,12 @@ textarea.add:-ms-input-placeholder {
 
 #header{
 	position: fixed;
-	/*inline block allows block elements to hade height and width */
-	/*display:block;*/
 	background-color: #91152f;
 	width: 100%;
 	height: 80px;
 	padding: 20px;
 	margin-top: 0px;
 	z-index: 1;
-	/*border-bottom: 5px solid #3a0e1d;*/
 }
 
 /*Because header is fixed it doesn't take up space of the page. Need an (empty)
@@ -190,19 +169,6 @@ element the size of the header to push the rest of the content down */
 	/*header height + padding*/
 	height: 120px;
 	width: 100%;
-}
-
-#menu{
-	width: 100%;
-	margin: 0 auto;
-}
-
-#container{
-	min-width: 650px;
-	max-width: 100%;
-	margin: 0 auto;
-	margin-left: 100px;
-	margin-top: 30px;
 }
 
 #content{
@@ -215,9 +181,6 @@ element the size of the header to push the rest of the content down */
 	width: auto;
 	margin: 0 auto;
 	height: auto;
-}
-
-#search_form{
 }
 
 #search_button{
@@ -245,15 +208,6 @@ element the size of the header to push the rest of the content down */
 	overflow:hidden;
 }
 
-#shortcuts{
-	width: auto;
-	height: auto;
-	position: absolute;
-	top: 130px;
- 	left: 75%;
- 	text-align: right;
-}
-
 /*Trick to center elements without a set width */
 /*pointer-events:none makes it so that it doesn't cover i.e. links underneath */
 .outer-center {
@@ -278,14 +232,32 @@ element the size of the header to push the rest of the content down */
 	width: 85%;
 }
 
-#add-form{
-	margin:0 auto;
-	width: 85%;
+.result-list{
+	width: 100%;
+	/*height: 30px;*/
+	background-color: #060606;
+	padding: 0;
+	margin: 0;
+}
+
+.no-result-list{
+	min-width: 50%;
+	max-width: 99%;
+	height: 30px;
+	background-color: #060606;
+	padding: 0;
+	margin: 0 auto;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.message{
 	display: none;
 }
 
-#datavisualisation{
-	display: none;
+#results{
+	width: 100%;
+	/*margin: 0 auto;*/
 }
 
 #footer{
@@ -301,14 +273,6 @@ element the size of the header to push the rest of the content down */
     font-size: 1.5em;
 }
 
-.alertbox{
-	width:300px;
-	height: 250px;
-	background-color: orange;
-	border-radius: 8px 8px 8px 8px;
-	z-index: 1000;
-}
-
 p.footer{
 	font-size: 0.4em;
 	margin: 0;
@@ -321,48 +285,6 @@ a.sunshake{
 	font-size: 3em; /*this affects the link text, even tho another font-size is defined for the p elem*/
 	margin: 0;
 	padding: 0;
-}
-
-.result-list{
-	width: 100%;
-	height: 30px;
-	background-color: #060606;
-	padding: 0;
-	margin: 0;
-}
-
-.no-result-list{
-	min-width: 50%;
-	max-width: 99%;
-	height: 30px;
-	background-color: #060606;
-	/*background-color: #060606;*/
-	padding: 0;
-	margin: 0 auto;
-	text-align: center;
-	margin-bottom: 20px;
-}
-.message{
-	display: none;
-}
-
-.result-color{
-	background-color: purple;
-	width: 20px;
-	height: 30px;
-	display: inline;
-	float: right;
-}
-
-.result-data{
-	display: inline;
-	float: left;
-
-}
-
-#results{
-	width: 100%;
-	margin: 0 auto;
 }
 
 @font-face {
