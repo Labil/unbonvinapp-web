@@ -18,7 +18,6 @@ SiteManager.prototype.init = function(){
 SiteManager.prototype.setupWindowResizeHandler = function(){
 	var self = this;
 	$(window).on('resize', function(){
-		console.log("win widht: " + $(this).width());
 	      var win = $(this); //this = window
 	      var logo = $('#logo');
 	      var menu = $('.horizontal');
@@ -117,18 +116,33 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 };
 
 SiteManager.prototype.showSearchTip = function(title, message){
-	if($(window).width() < 1300){
+	var winW = $(window).width();
+	if(winW < 1300){
 		return;
 	}
-	//hardcoding in the equivalent of padding for the #content div cause firefox don't wanna read that value
-	var contentAboveH = 40 + $('#header').outerHeight() + $('#search').outerHeight() + $('#filter').outerHeight();
-	$.tipbox({
-	    'message'   : message,
-	    'title' : title,
-	    'top' : contentAboveH,
-	    'left' : 50,
-	    'time' : 15000
-	});
+	else if(winW < 1500){
+		var space = $('#search').outerHeight() + $('#filter').outerHeight();
+		var headerH =  $('#header').outerHeight() + 10;
+		$.tipbox({
+		    'message'   : message,
+		    'title' : title,
+		    'top' : headerH,
+		    'left' : 50,
+		    'time' : 15000
+		});
+	}
+	else{
+		//hardcoding in the equivalent of padding for the #content div cause firefox don't wanna read that value
+		var contentAboveH = 40 + $('#header').outerHeight() + $('#search').outerHeight() + $('#filter').outerHeight();
+		$.tipbox({
+		    'message'   : message,
+		    'title' : title,
+		    'top' : contentAboveH,
+		    'left' : 50,
+		    'time' : 15000
+		});
+	}
+	
 };
 
 SiteManager.prototype.hideSearchTip = function(){

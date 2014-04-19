@@ -98,8 +98,8 @@
         ].join('');
 
         $(markup).hide().appendTo('body').fadeIn();
-        $('#tipBox').placement(config.top || 500, config.left || 100, null, null, false);
-
+        var elem = $('#tipBox').placement(config.top || 500, config.left || 100, null, null, false);
+       
         setTimeout(function(){
             $.tipbox.hide();
         }, config.time || 10000);
@@ -124,6 +124,7 @@
 
         $(markup).hide().appendTo('body').fadeIn();
         var elem = $('#scrollTop');
+
         //default position is bottom right corner, with position:fixed (last param true)
         elem.placementPercent(config.top || null, config.left || null, config.bottom || 10, config.right || 10, config.fixed || true);
 

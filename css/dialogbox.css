@@ -68,20 +68,21 @@
 
 #tipBox{
     background-color:#060606;
-    width:220px;
+    /*width:220px;*/
+    width:330px;
     border-radius: 8px 8px 8px 8px; /* Looks weird with rounded corners combined with the arrow, but think i prefer w/o arrow */
-    padding: 8px 25px 13px 25px;
+    padding: 7px 22px 11px 22px;
 }
 
 #tipBox p{
-    font-size:20px;
+    font-size:18px;
     line-height:1.4;
     font-family:; 'Cuprum','Lucida Sans Unicode', 'Lucida Grande', sans-serif;
     color:white;
 }
 
 #tipBox h2{
-    font-size:25px;
+    font-size:20px;
     line-height:1.4;
     font-family:; 'Cuprum','Lucida Sans Unicode', 'Lucida Grande', sans-serif;
     color:white;
