@@ -2,14 +2,12 @@
 *   Author: Solveig Hansen 2014
 */
 /* Creates the handler and initializes some values that should be available from the beginning and not be reloaded 
- * @currPage is for deciding what listeners that should be added
  * @siteMgr is the manager that is in charge of changing subpages when user clicks on naviagtion menu
  * @wineTypes defines all the different types of wines, to be used when user inputs search query
  * @api_url is the url to the server api
  */
 var DatabaseHandler = function(siteMgr){
     this.siteMgr = siteMgr;
-    this.currPage = ""; //Init to empty to make sure we don't get undefined later
 
     this.wineTypes = ['Rød', 'rød', 'Rose', 'rose', 'Rosé', 'rosé', 'Hvit', 'hvit',
                       'Champagne', 'champagne', 'Dessertvin', 'dessertvin', 'Søtvin',
@@ -28,20 +26,19 @@ DatabaseHandler.prototype.init = function(config){
     
     this.template = config.template;
     this.container = config.container;
-    //hardcoded default param --> which is the same as the checkbox that is checked by default.
-    this.param = "asc";
-    this.lastQuery = "";
+    this.param = $('#filter input:checked').val(); //default filter
+    this.lastQuery = "";//last search value for reload after delete
+    //Loading edit page
     if(config.qryType == "id"){
         this.getWineById(config.searchQry);
     }
+    //Loading search page
     else{
         //If searchQuery is empty, it will query all wines by default
         this.handleSearch(config.searchQry);
+        this.setupSearchSubmit();
+        this.setupCheckboxClick();
     }
-
-    this.currPage = config.page;
-    this.setupSearchSubmit();
-    this.setupCheckboxClick();
 };
 
 DatabaseHandler.prototype.setupCheckboxClick = function(){
@@ -52,9 +49,7 @@ DatabaseHandler.prototype.setupCheckboxClick = function(){
             this.checked = true; //Adds check to this
             self.param = this.value;
         }
-        else{
-            self.param = "";
-        }
+        else self.param = "";
     });
 };
 
@@ -360,10 +355,10 @@ DatabaseHandler.prototype.fetch = function(){
             //Turns the loading bar off after search is done
             self.toggleLoadingBar();
 
-            if(self.currPage == "search"){
+            if(self.siteMgr.currentPage == "search.html"){
                 self.setupResultClick();
             }
-            else if(self.currPage == "edit"){
+            else if(self.siteMgr.currentPage == "edit.html"){
                 self.setupHandleEdit();
             }
         }

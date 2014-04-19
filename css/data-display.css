@@ -15,17 +15,11 @@ table:only-child{
 }
 
 p.title{
-	/*font-weight: bold;*/
-	/*text-decoration: underline;*/
 	font-style: oblique;
 	color: white;
 	font-size: 16px;
+	padding: 0;
 }
-
-/*.bordered tr:hover {
-  background-color: #111111;
-  transition: all 0.1s ease-in-out;     
-}*/
 
 p.result_choice{
 	margin-right: 10px;
@@ -50,6 +44,7 @@ td
 	padding-left:15px;
 	color: white;
 	padding-right: 15px;
+	vertical-align: top;
 }
 
 td.desc{

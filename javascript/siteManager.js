@@ -4,17 +4,21 @@
 
 var SiteManager = function(){
 	this.dbHandler;
+	this.currentPage;
 };
 
 SiteManager.prototype.init = function(){
+
+	//Default subpage
+	this.loadPage("search.html");
 
 	this.setupChangePageListener();
 	this.setupScrollHandler();
 	this.setupWindowResizeHandler();
 	this.handleWindowStartWidth();
-	//this.currPage = "search.html";
 };
 
+/* This bloated function handles a lot of different screen/window sizes */
 SiteManager.prototype.setupWindowResizeHandler = function(){
 	var self = this;
 	$(window).on('resize', function(){
@@ -30,7 +34,6 @@ SiteManager.prototype.setupWindowResizeHandler = function(){
 	      		$('h4').css('font-size', '20px');
 	      }
 	      else if(win.width() > 900){
-	      		//$('#header').show();
 	      		$('h4').css('font-size', '29px');
 	      }
 	      if(win.width() <= 800){
@@ -70,21 +73,18 @@ SiteManager.prototype.setupWindowResizeHandler = function(){
 	      		menuLi.css('margin-right', '120px');
 	      		contentContainer.css('width', '75%');
 	      		filterLi.css('margin-right', '30px');
-
 	      }
 	});
 };
 
+/* Forces the resize event to trigger on page load */
 SiteManager.prototype.handleWindowStartWidth = function(){
 	$(window).trigger('resize');
 };
 
 SiteManager.prototype.setupChangePageListener = function(){
     var self = this;
-    //Default subpage
-    this.loadPage("search.html");
-
-
+   
     $('#header').find('a').on('click', function(e) {
         e.preventDefault();
         self.loadPage($(this).attr('href'));
@@ -95,18 +95,18 @@ SiteManager.prototype.setupChangePageListener = function(){
 };
 
 SiteManager.prototype.loadPage = function(href, optionalQry){
+	this.currentPage = href;
 	//If a search query is not sent in, it will be an empty string and the default search will be for all wines
 	if(optionalQry == undefined){
 		optionalQry = '';
 	}
 	//hides the tip box if there is one on display before changing page
 	$.tipbox.hide();
-	//this.currPage = href;
 	var self = this;
     $('#content').load(href + ' .content', function(){
     	//Reset the page scrolling so that top of content shows when changing page
-    	//Use this over window.scrollTo(0, 0) because else the scroll event handler won't trigger and 
-    	//the back to top-button will bug out
+    	//Use this over window.scrollTo(0, 0) because else the scroll event handler 
+    	//won't trigger and the back to top-button will bug out
     	$('body,html').animate({
     	    scrollTop: 0,
     	}, 100);
@@ -129,7 +129,6 @@ SiteManager.prototype.showSearchTip = function(title, message){
 	    'left' : 50,
 	    'time' : 15000
 	});
-	
 };
 
 SiteManager.prototype.hideSearchTip = function(){
