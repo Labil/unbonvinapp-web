@@ -34,7 +34,6 @@
     define("CHEAP_PRICE", 100);
 ?>
     <?php 
-
         function connectToDB(){
             $db = mysqli_connect(getHost(), getUser(), getPass(), getName()); 
             if (!$db) { 
@@ -50,7 +49,7 @@
             $sql = "DELETE FROM " . TABLE_WINES . " WHERE " . ID . "=" . $id;
             return changeWines($sql);
         }
-        
+
         function insertWine($name, $type, $year, $grape, $country, $region, $score, $prodnum, $price,
             $stars, $aroma, $taste, $conclusion, $source){
 
@@ -79,13 +78,14 @@
 
             return changeWines($sql);
         }
+        /*
+            Main function for insert, delete or edit 
+        */
         function changeWines($sql){
             $db = connectToDB();
             $result = $db->query($sql) or die('There was an error running the query [' . $db->error . ']');
-            
             $db->close();
             $returnArray = array('result' => $result, 'status' => "OK");
-
             return json_encode($returnArray);
         }
         /*
@@ -98,7 +98,6 @@
             if(!$result = $db->query($sql)){
                 die('There was an error running the query [' . $db->error . ']');
             }
-            
             while($row = $result->fetch_assoc()){
                 $resultArray[] = array('id' => intval($row[ID]), 'name' => $row[NAME_S], 
                     'type' => $row[TYPE_S], 'year' => $row[YEAR_S], 'grape' => $row[GRAPE_S],
@@ -111,7 +110,6 @@
             $returnedRows = $result->num_rows;
             $result->free();
             $db->close();
-
             $returnArray = array('result' => $resultArray, 'returned_rows' => $returnedRows, 'status' => "OK");
 
             return json_encode($returnArray);
@@ -175,13 +173,26 @@
             $qry = "SELECT * FROM " . TABLE_WINES . " WHERE " . ID . "=" . $id;
             return queryWines($qry);
         }
-        
         /*
             Returns the error JSON object
         */
         function errorResponse($errCode) {
             $ary = array("results" => array(), "status" => $errCode);
             return json_encode($ary);
+        }
+
+        function checkForPostString($str){
+            /* Connect to db to do real_escape_string */
+            $db = connectToDB();
+            //If string is set, escape it (\' etc), so that it can be inserted in db
+            $ret = (isset($_POST[$str]) && $_POST[$str]) ? $db->escape_string($_POST[$str]) : '';
+            $db->close();
+            return $ret;
+        }
+        
+        function checkForGetString($str){
+            $ret = (isset($_GET[$str]) && $_GET[$str]) ? $_GET[$str] : 'ERROR';
+            return $ret;
         }
         
         ////////////////////////////////////////////////////////////////////////
@@ -197,84 +208,58 @@
         /*
             Check for our defined requests
         */
+        $param = checkForGetString('param');
+
         if($req == "name"){
-            $name = (isset($_GET['name']) && $_GET['name']) ? $_GET['name'] : 'ERROR';
-            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
-         
+            $name = checkForGetString('name');
             echo getWineByName($name, $param);
         }
         else if($req == "all"){
-            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
-            if($param == "bestcheap"){
+            if($param == "bestcheap")
                 echo getBestCheapWines();
-            }
-            else if($param == "new"){
+            else if($param == "new")
                 echo getNewestWines();
-            }
             else
                 echo getWines($param);
         }  
         //Price is a bit unfinished. For now it returns prices lower than the input
         else if($req == "price"){
-            $price = (isset($_GET['price']) && $_GET['price']) ? $_GET['price'] : 'ERROR';
-            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
+            $price = checkForGetString('price');
             echo getWineByPrice($price, $param);
         }
         else if($req == "type"){
-            $type = (isset($_GET['type']) && $_GET['type']) ? $_GET['type'] : 'ERROR';
-            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
+            $type = checkForGetString('type');
             echo getWineByType($type, $param);
         } 
         else if($req == "year"){
-            $year = (isset($_GET['year']) && $_GET['year']) ? $_GET['year'] : 'ERROR';
-            $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
+            $year = checkForGetString('year');
             echo getWineByYear($year, $param);
         } 
         else if($req == "id"){
-            $id = (isset($_GET['id']) && $_GET['id']) ? $_GET['id'] : 'ERROR';
+            $id = checkForGetString('id');
             echo getWineById($id);
         }
-        else if($req == "insert"){
-            
-            if(isset($_POST["name"])) {
-                $n = (isset($_POST['name']) && $_POST['name']) ? $_POST['name'] : '';
-                $t = (isset($_POST['type']) && $_POST['type']) ? $_POST['type'] : '';
-                $y = (isset($_POST['year']) && $_POST['year']) ? $_POST['year'] : '';
-                $g = (isset($_POST['grape']) && $_POST['grape']) ? $_POST['grape'] : '';
-                $c = (isset($_POST['country']) && $_POST['country']) ? $_POST['country'] : '';
-                $r = (isset($_POST['region']) && $_POST['region']) ? $_POST['region'] : '';
-                $s = (isset($_POST['score']) && $_POST['score']) ? $_POST['score'] : '';
-                $p = (isset($_POST['prodnum']) && $_POST['prodnum']) ? $_POST['prodnum'] : '';
-                $pr = (isset($_POST['price']) && $_POST['price']) ? $_POST['price'] : '';
-                $st = (isset($_POST['stars']) && $_POST['stars']) ? $_POST['stars'] : '';
-                $ar = (isset($_POST['aroma']) && $_POST['aroma']) ? $_POST['aroma'] : '';
-                $ta = (isset($_POST['taste']) && $_POST['taste']) ? $_POST['taste'] : '';
-                $co = (isset($_POST['conclusion']) && $_POST['conclusion']) ? $_POST['conclusion'] : '';
-                $so = (isset($_POST['source']) && $_POST['source']) ? $_POST['source'] : '';
-
-                echo insertWine($n, $t, $y, $g, $c, $r, $s, $p, $pr, $st, $ar, $ta, $co, $so);
-            }
-        }
-        else if($req == "edit"){
-            
+        else if($req == "edit" || $req == "insert"){
+            $n = checkForPostString('name');
+            $t = checkForPostString('type');
+            $y = checkForPostString('year');
+            $g = checkForPostString('grape');
+            $c = checkForPostString('country');
+            $r = checkForPostString('region');
+            $s = checkForPostString('score');
+            $p = checkForPostString('prodnum');
+            $pr = checkForPostString('price');
+            $st = checkForPostString('stars');
+            $ar = checkForPostString('aroma');
+            $ta = checkForPostString('taste');
+            $co = checkForPostString('conclusion');
+            $so = checkForPostString('source');
             if(isset($_POST["id"])) {
-                $id = (isset($_POST['id']) && $_POST['id']) ? $_POST['id'] : '';
-                $n = (isset($_POST['name']) && $_POST['name']) ? $_POST['name'] : '';
-                $t = (isset($_POST['type']) && $_POST['type']) ? $_POST['type'] : '';
-                $y = (isset($_POST['year']) && $_POST['year']) ? $_POST['year'] : '';
-                $g = (isset($_POST['grape']) && $_POST['grape']) ? $_POST['grape'] : '';
-                $c = (isset($_POST['country']) && $_POST['country']) ? $_POST['country'] : '';
-                $r = (isset($_POST['region']) && $_POST['region']) ? $_POST['region'] : '';
-                $s = (isset($_POST['score']) && $_POST['score']) ? $_POST['score'] : '';
-                $p = (isset($_POST['prodnum']) && $_POST['prodnum']) ? $_POST['prodnum'] : '';
-                $pr = (isset($_POST['price']) && $_POST['price']) ? $_POST['price'] : '';
-                $st = (isset($_POST['stars']) && $_POST['stars']) ? $_POST['stars'] : '';
-                $ar = (isset($_POST['aroma']) && $_POST['aroma']) ? $_POST['aroma'] : '';
-                $ta = (isset($_POST['taste']) && $_POST['taste']) ? $_POST['taste'] : '';
-                $co = (isset($_POST['conclusion']) && $_POST['conclusion']) ? $_POST['conclusion'] : '';
-                $so = (isset($_POST['source']) && $_POST['source']) ? $_POST['source'] : '';
-
+                $id = checkForPostString('id');
                 echo editWine($id, $n, $t, $y, $g, $c, $r, $s, $p, $pr, $st, $ar, $ta, $co, $so);
+            }
+            else{
+                echo insertWine($n, $t, $y, $g, $c, $r, $s, $p, $pr, $st, $ar, $ta, $co, $so);
             }
         }
         else if($req == "delete"){
@@ -282,12 +267,10 @@
                 echo deleteWine($_POST['id']);
             }
         }
-
         /* 
             Returns error response if invalid request
         */
         else {  
             echo errorResponse("INVALID_REQUEST");
         }
-
     ?>
