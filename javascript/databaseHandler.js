@@ -294,7 +294,7 @@ DatabaseHandler.prototype.fetch = function(){
 
     if(this.param != undefined) this.req += '&param=' + this.param;
     this.url = this.api_url + this.req;
-
+    console.log(this.url);
     $.getJSON(this.url, function(data){
         if(data.status == "OK"){
             if(data.returned_rows <= 0){

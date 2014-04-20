@@ -32,10 +32,19 @@
     define("RESULT_LIMIT", 50); //This might be changed or input dynamically by user in js
     define("NEW_THRESHOLD", 900); //Arbitrary, works for now
     define("CHEAP_PRICE", 100);
-
 ?>
-
     <?php 
+
+        function connectToDB(){
+            $db = mysqli_connect(getHost(), getUser(), getPass(), getName()); 
+            if (!$db) { 
+                die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+                exit(); 
+            } 
+            //To parse accented characters that are returned from the db
+            $db->set_charset("utf8");
+            return $db;
+        }
 
         function deleteWine($id){
             $sql = "DELETE FROM " . TABLE_WINES . " WHERE " . ID . "=" . $id;
@@ -82,38 +91,19 @@
 
             return json_encode($returnArray);
         }
-
     
         /*
             Main function for handling queries. Gets called by the other query-functions.
             Returns elements from the database as a JSON object based on the query specifiers.
         */
         function queryWines($sql){
-           // print("WOOP");
             $resultArray = array();
-            /* Select queries return a resultset */
-           /* if ($result = $db->query("SELECT Name FROM wines LIMIT 10")) {
-                printf("Select returned %d rows.\n", $result->num_rows);
-                $result->close();
-            }*/
-
-            /*if(!$result = $db->query($sql)){
+            $db = connectToDB();
+            if(!$result = $db->query($sql)){
                 die('There was an error running the query [' . $db->error . ']');
-            }*/
-            $result = mysql_query($sql) or die(mysql_error());
-            $returnedRows = 0;
+            }
             
-            /*while($row = $result->fetch_assoc()){
-                $resultArray[] = array('id' => intval($row[ID]), 'name' => $row[NAME_S], 
-                    'type' => $row[TYPE_S], 'year' => $row[YEAR_S], 'grape' => $row[GRAPE_S],
-                    'country' => $row[COUNTRY_S], 'region' => $row[REGION_S],
-                    'score' => $row[SCORE_S], 'prodnum' => $row[PRODNUM_S], 
-                    'selection' => $row[SELECTION_S], 'price' => $row[PRICE_S], 'stars'=>$row[stars],
-                    'sweetness'=> $row[SWEETNESS_S], 'aroma'=> $row[AROMA_S], 'taste' =>$row[taste],
-                    'conclusion' => $row[CONCLUSION_S], 'source'=> $row[SOURCE_S], 
-                    'sourcedate' => $row[SOURCEDATE_S], 'note' => $row[NOTE_S]);
-            }*/
-            while($row = mysql_fetch_array($result, MYSQL_ASSOC)){
+            while($row = $result->fetch_assoc()){
                 $resultArray[] = array('id' => intval($row[ID]), 'name' => $row[NAME_S], 
                     'type' => $row[TYPE_S], 'year' => $row[YEAR_S], 'grape' => $row[GRAPE_S],
                     'score' => $row[SCORE_S], 'prodnum' => $row[PRODNUM_S], 'source' => $row[SOURCE_S],
@@ -121,16 +111,12 @@
                      'price' => $row[PRICE_S], 'stars'=>$row[stars], 
                      'aroma' => $row[AROMA_S], 'taste' => $row[taste], 
                      'conclusion' => $row[CONCLUSION_S]);
-                $returnedRows++;
             }
-           // $returnedRows = $result->num_rows;
-          // $result->free();
+            $returnedRows = $result->num_rows;
+            $result->free();
+            $db->close();
 
-            $returnArray = array('result' => $resultArray, 'returned_rows' => $returnedRows,
-                'status' => "OK");
-
-           // $out = array_values($returnArray);
-            //print($returnArray);
+            $returnArray = array('result' => $resultArray, 'returned_rows' => $returnedRows, 'status' => "OK");
 
             return json_encode($returnArray);
         }
@@ -138,7 +124,6 @@
         function getWines($param) {
          
             $sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param);
-            //$sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param) . "LIMIT 0," . RESULT_LIMIT;
             return queryWines($sql);
         }
 
@@ -149,7 +134,6 @@
         //Returns a list of the newest wines, ordered _id descending, so newest first
         function getNewestWines(){
             $sql = "SELECT * FROM " . TABLE_WINES . " WHERE _id >= " . NEW_THRESHOLD . " ORDER BY ". ID . " DESC";
-
             return queryWines($sql);
         }
 
@@ -216,28 +200,6 @@
         */
         $req = (isset($_GET['req']) && $_GET['req']) ? $_GET['req'] : "NO_REQUEST";
         $req = preg_replace("/([^a-zA-Z0-9]+)/", "", $req);
-
-       /* $db = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-        if($db->connect_errno){
-            die('Unable to connect to database [' . $db->connect_error . ']');
-            exit();
-        }*/
-
-        /* Print current character set */
-        //$charset = $db->charset_set_name();
-        //printf("Current character set is %s\n", $charset);
-        $db = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
-        if (!$db) {
-            die('Could not connect: ' . mysql_error());
-        }
-
-        if(!mysql_select_db($dbname)) {
-            die("Could not select database");
-        }
-
-        //To parse accented characters that are returned from the db
-        mysql_query('SET CHARACTER SET utf8');
-
 
         /*
             Check for our defined requests
@@ -341,8 +303,4 @@
             echo errorResponse("INVALID_REQUEST");
         }
 
-
-        mysql_close($db);
-        //$db->close();
-        
     ?>
