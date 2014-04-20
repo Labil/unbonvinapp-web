@@ -70,37 +70,33 @@ DatabaseHandler.prototype.toggleLoadingBar = function(){
     else $.loadingbar.hide();
 };
 
-DatabaseHandler.prototype.setupHandleInsert = function(){
-    var form = $('#insert-form');
-    var self = this;
-
-    form.submit(function(evt){
-        evt.preventDefault();
-        //Some simple check that the minimum required fields are filled in:
-        if($('#id').val() == "" || $('#type').val() == "" || $('#stars').val() == ""){
-            self.popupMessage("Vennligst fyll inn alle obligatoriske felter først :)");
-            return;
-        }
-
-        var formdata = form.serialize(); //Makes data into a string to be passed with ajax
-        var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
-        
-        $.post(self.api_url + "req=insert", formdata, function(response) {
-            //console.log(response);
-            self.clearMessages();
-            form.find('input').val(''); //clears the form of previous entries
-            self.popupMessage('Vinen ble lagt til');
-
-        })
-        .fail(function(d, textStatus, error) {
-            self.clearMessages();
-            self.popupMessage('Oops, noe gikk galt. Vinen ble ikke lagt til. Prøv igjen :)');
-            console.error("The request failed, status: " + textStatus + ", error: "+error);
-        });
-    });
+DatabaseHandler.prototype.clearMessages = function(){
+    $('.message').empty();
 };
-/* These two should maybe be  refactored and joined but for now I'm just getting stuff to work */
-DatabaseHandler.prototype.setupHandleEdit = function(){
+
+DatabaseHandler.prototype.reloadSearchAfterDelete = function(){
+    $('#search_box').val(this.lastQuery);
+    this.handleSearch(this.lastQuery);
+};
+
+DatabaseHandler.prototype.clearResults = function(){
+    this.container.empty();
+};
+
+DatabaseHandler.prototype.setupSubmit = function(type){
+    if(type == "edit"){
+        var req = 'req=edit';
+        var successMsg = 'Endringene ble lagret.';
+        var failMsg = 'Oops, noe gikk galt. Endringene ble ikke lagret. Prøv igjen :)';
+    }
+    else if(type == "insert"){
+        var req = 'req=insert';
+        var successMsg = 'Vinen ble lagt til';
+        var failMsg = 'Oops, noe gikk galt. Vinen ble ikke lagt til. Prøv igjen :)';
+    }
+    else return;
+
+    var notDoneMsg = 'Vennligst fyll inn alle obligatoriske felter først :)';
     var form = $('#insert-form');
     var self = this;
 
@@ -108,22 +104,22 @@ DatabaseHandler.prototype.setupHandleEdit = function(){
         evt.preventDefault();
         //Some simple check that the minimum required fields are filled in:
         if($('#id').val() == "" || $('#type').val() == "" || $('#stars').val() == ""){
-            self.popupMessage("Vennligst fyll inn alle obligatoriske felter først :)");
+            self.popupMessage(notDoneMsg);
             return;
         }
         var formdata = form.serialize(); //Makes data into a string to be passed with ajax
-        var dataObj = form.serializeObject(); //Make form data into a js object, might send object with ajax, TODO: clean this up
         
-        $.post(self.api_url + "req=edit", formdata, function(response) {
+        $.post(self.api_url + req, formdata, function(response) {
             self.clearMessages();
-            //form.find('input').val(''); //clears the form of previous entries
+            if(type == "insert")
+                form.find('input').val(''); //clears the form of previous entries
             //TODO here it can be a dialog box with a quetion about returning to the search results or staying on the page
-            self.popupMessage('Endringene ble lagret.');
+            self.popupMessage(successMsg);
 
         })
         .fail(function(d, textStatus, error) {
             self.clearMessages();
-            self.popupMessage('Oops, noe gikk galt. Endringene ble ikke lagret. Prøv igjen :)');
+            self.popupMessage(failMsg);
             console.error("The request failed, status: " + textStatus + ", error: "+error);
         });
     });
@@ -176,51 +172,34 @@ DatabaseHandler.prototype.deleteWine = function(wineId){
     });
 };
 
-DatabaseHandler.prototype.clearMessages = function(){
-    $('.message').empty();
-};
-
-DatabaseHandler.prototype.reloadSearchAfterDelete = function(){
-    $('#search_box').val(this.lastQuery);
-    this.handleSearch(this.lastQuery);
-};
-
-//TODO: clean up this method
-DatabaseHandler.prototype.setupResultClick = function(){
-
+DatabaseHandler.prototype.setupEditDeleteListeners = function(wineId){
     var self = this;
+    $('.result-list').find('a.'+ wineId).on('click', function(e){
+        e.preventDefault();
+        var type = $(this).data('func');
 
+        if(type == "edit") self.handleEditRequest(wineId);
+        else if(type == "delete") self.handleDeleteRequest(wineId);
+    });
+};
+
+DatabaseHandler.prototype.setupResultClick = function(){
+    var self = this;
     var clickOpen = function(){
-        var first_row = $(this);
-        first_row.nextAll(':lt(2)').slideDown(500);
-        first_row.off('click');
-        first_row.on('click', clickClose);
-
-        var wineId = first_row[0].id;
-        //var wineName = first_row.data('name');
-        $('.result-list').find('a.'+wineId).on('click', function(e){
-            e.preventDefault();
-            var type = $(this).data('func');
-
-            if(type == "edit"){
-                self.handleEditRequest(wineId);
-            }
-            else if(type == "delete"){
-                self.handleDeleteRequest(wineId);
-            }
-        });
+        var clicked = $(this);
+        clicked.nextAll(':lt(2)').slideDown(500);
+        clicked.off('click');
+        clicked.on('click', clickClose);
+        var wineId = clicked[0].id;
+        self.setupEditDeleteListeners(wineId);
     };
     var clickClose = function(){
-        var first_row = $(this);
-        first_row.nextAll(':lt(2)').slideUp(200);
-        first_row.off('click');
-        first_row.on('click', clickOpen);
+        var clicked = $(this);
+        clicked.nextAll(':lt(2)').slideUp(200);
+        clicked.off('click');
+        clicked.on('click', clickOpen);
     };
     $('.main_result').on('click', clickOpen);
-};
-
-DatabaseHandler.prototype.clearResults = function(){
-    this.container.empty();
 };
 
 DatabaseHandler.prototype.handleSearch = function(value){
@@ -234,10 +213,8 @@ DatabaseHandler.prototype.handleSearch = function(value){
             this.getWineByPrice(value);
         else
             this.getWineByYear(value);
-
     }
     //Gets wines where price is less than value
-    //TODO: fix better regex... I suck at regex :p
     else if(value.search(/^\d{2}$/) != -1 || value.search(/^\d{3}$/) != -1){
         this.getWineByPrice(value);
     }
@@ -250,7 +227,6 @@ DatabaseHandler.prototype.handleSearch = function(value){
     }
     else if(value.length > 0){
         this.outputMessage("Beklager, søkeordet er ugyldig. Prøv igjen med et annet søkeord!");
-
     }
     else{
         //Else just queries for all wines
@@ -258,9 +234,9 @@ DatabaseHandler.prototype.handleSearch = function(value){
     }
 };
 
-DatabaseHandler.prototype.insertNewWine = function(){
+/*DatabaseHandler.prototype.insertNewWine = function(){
     this.req = 'req=insert';
-};
+};*/
 
 //optional param contains the current "sort by" checkbox-input
 DatabaseHandler.prototype.getWines = function(){
@@ -318,7 +294,6 @@ DatabaseHandler.prototype.fetch = function(){
 
     if(this.param != undefined) this.req += '&param=' + this.param;
     this.url = this.api_url + this.req;
-    //console.log(this.url);
 
     $.getJSON(this.url, function(data){
         if(data.status == "OK"){
@@ -349,25 +324,22 @@ DatabaseHandler.prototype.fetch = function(){
                     aroma: res.aroma,
                     source: res.source
                 };
-
             });
             self.attachTemplate();
             //Turns the loading bar off after search is done
             self.toggleLoadingBar();
 
-            if(self.siteMgr.currentPage == "search.html"){
+            if(self.siteMgr.currentPage == "search.html")
                 self.setupResultClick();
-            }
-            else if(self.siteMgr.currentPage == "edit.html"){
-                self.setupHandleEdit();
-            }
+            else if(self.siteMgr.currentPage == "edit.html")
+                self.setupSubmit('edit');
         }
     })
     .fail(function(d, textStatus, error){
         self.clearMessages();
         self.toggleLoadingBar();
         self.outputMessage('Beklager, noe gikk galt med forespørselen din. Prøv igjen, og eventuelt kontakt systemadministrator hvis feilen vedvarer!');
-        //console.error("getJSON failed, status: " + textStatus + ", error: "+error);
+        console.error("getJSON failed, status: " + textStatus + ", error: "+error);
     });
 };
 

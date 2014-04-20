@@ -193,7 +193,7 @@ SiteManager.prototype.runScript = function(href, qry){
 		});
 	}
 	else if(href =="add.html"){
-		this.dbHandler.setupHandleInsert();
+		this.dbHandler.setupSubmit("insert");
 	}
 	
 

@@ -30,6 +30,8 @@
     define("UPDATEVERSION_S", "updateVersion");
     define("TABLE_WINES", "wines");
     define("RESULT_LIMIT", 50); //This might be changed or input dynamically by user in js
+    define("NEW_THRESHOLD", 900); //Arbitrary, works for now
+    define("CHEAP_PRICE", 100);
 
 ?>
 
@@ -134,9 +136,20 @@
         }
         //gets all wines limited by LIMIT
         function getWines($param) {
-            
+         
             $sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param);
             //$sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param) . "LIMIT 0," . RESULT_LIMIT;
+            return queryWines($sql);
+        }
+
+        function getBestCheapWines(){
+            $sql = "SELECT * FROM " .TABLE_WINES . " WHERE " . PRICE_S . " <= " . CHEAP_PRICE . " AND " . STARS_S . " = 6";
+            return queryWines($sql);
+        }
+        //Returns a list of the newest wines, ordered _id descending, so newest first
+        function getNewestWines(){
+            $sql = "SELECT * FROM " . TABLE_WINES . " WHERE _id >= " . NEW_THRESHOLD . " ORDER BY ". ID . " DESC";
+
             return queryWines($sql);
         }
 
@@ -146,6 +159,8 @@
                 if($param == "alpha") return " ORDER BY " . NAME_S . " ASC "; //ASC is default
                 else if($param == "type") return " ORDER BY " . TYPE_S . " ASC ";
                 else if($param == "price") return " ORDER BY " . PRICE_S . " ASC ";
+                else if($param == "new") return " AND " . ID . " <= " . NEW_THRESHOLD;
+                else if($param == "bestcheap") return " AND " . PRICE_S . " <= " .CHEAP_PRICE . " AND " . STARS_S . " = 6";
                 else return " ";
             }
             else return " ";
@@ -238,7 +253,14 @@
         }
         else if($req == "all"){
             $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
-            echo getWines($param);
+            if($param == "bestcheap"){
+                echo getBestCheapWines();
+            }
+            else if($param == "new"){
+                echo getNewestWines();
+            }
+            else
+                echo getWines($param);
         }  
         //Price is a bit unfinished. For now it returns prices lower than the input
         else if($req == "price"){
