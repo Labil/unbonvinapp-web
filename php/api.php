@@ -48,23 +48,14 @@
 
         function deleteWine($id){
             $sql = "DELETE FROM " . TABLE_WINES . " WHERE " . ID . "=" . $id;
-
-            $result = mysql_query($sql);
-            $returnArray = array('result' => $result, 'status' => "OK");
-
-            return json_encode($returnArray);
+            return changeWines($sql);
         }
-
+        
         function insertWine($name, $type, $year, $grape, $country, $region, $score, $prodnum, $price,
             $stars, $aroma, $taste, $conclusion, $source){
 
-           $sql = "INSERT INTO wines (name, type, year, grape, country, region, score, productnum, price, stars, aroma, taste, conclusion, source) VALUES ('$name', '$type', '$year', '$grape', '$country', '$region', '$score', '$prodnum', '$price', '$stars', '$aroma', '$taste', '$conclusion', '$source')";
-
-            $result = mysql_query($sql) or die(mysql_error());
-
-            $returnArray = array('result' => $result, 'status' => "OK");
-
-            return json_encode($returnArray);
+            $sql = "INSERT INTO wines (name, type, year, grape, country, region, score, productnum, price, stars, aroma, taste, conclusion, source) VALUES ('$name', '$type', '$year', '$grape', '$country', '$region', '$score', '$prodnum', '$price', '$stars', '$aroma', '$taste', '$conclusion', '$source')";
+            return changeWines($sql);
         }
 
         function editWine($id, $name, $type, $year, $grape, $country, $region, $score, $prodnum, $price,
@@ -86,12 +77,17 @@
                              . CONCLUSION_S . "='$conclusion', "
                              . SOURCE_S . "='$source' WHERE " . ID . "=" . $id;
 
-            $result = mysql_query($sql) or die(mysql_error());
+            return changeWines($sql);
+        }
+        function changeWines($sql){
+            $db = connectToDB();
+            $result = $db->query($sql) or die('There was an error running the query [' . $db->error . ']');
+            
+            $db->close();
             $returnArray = array('result' => $result, 'status' => "OK");
 
             return json_encode($returnArray);
         }
-    
         /*
             Main function for handling queries. Gets called by the other query-functions.
             Returns elements from the database as a JSON object based on the query specifiers.
@@ -122,7 +118,6 @@
         }
         //gets all wines limited by LIMIT
         function getWines($param) {
-         
             $sql = "SELECT * FROM " . TABLE_WINES  . getSortQry($param);
             return queryWines($sql);
         }
@@ -189,11 +184,9 @@
             return json_encode($ary);
         }
         
-      
         ////////////////////////////////////////////////////////////////////////
         //////  BEGIN MAIN  ////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
-        
         
         /*
             Some simple sanitation.
@@ -207,10 +200,7 @@
         if($req == "name"){
             $name = (isset($_GET['name']) && $_GET['name']) ? $_GET['name'] : 'ERROR';
             $param = (isset($_GET['param']) && $_GET['param']) ? $_GET['param'] : 'ERROR';
-           /* if(preg_match("/^(\d+)(\.(\d+))?$/", $name) != 1) {
-                mysql_close($conn);
-                die(errorResponse("INVALID_ARGUMENT"));
-            }*/
+         
             echo getWineByName($name, $param);
         }
         else if($req == "all"){
@@ -285,7 +275,6 @@
                 $so = (isset($_POST['source']) && $_POST['source']) ? $_POST['source'] : '';
 
                 echo editWine($id, $n, $t, $y, $g, $c, $r, $s, $p, $pr, $st, $ar, $ta, $co, $so);
-                //echo getWineByName($_POST['name'], "asc");
             }
         }
         else if($req == "delete"){
@@ -293,8 +282,6 @@
                 echo deleteWine($_POST['id']);
             }
         }
-
-        //mysqli_real_escape_string($_POST['name']);
 
         /* 
             Returns error response if invalid request
