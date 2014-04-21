@@ -234,10 +234,6 @@ DatabaseHandler.prototype.handleSearch = function(value){
     }
 };
 
-/*DatabaseHandler.prototype.insertNewWine = function(){
-    this.req = 'req=insert';
-};*/
-
 //optional param contains the current "sort by" checkbox-input
 DatabaseHandler.prototype.getWines = function(){
     this.req = 'req=all';
@@ -294,7 +290,7 @@ DatabaseHandler.prototype.fetch = function(){
 
     if(this.param != undefined) this.req += '&param=' + this.param;
     this.url = this.api_url + this.req;
-    //console.log(this.url);
+    console.log(this.url);
     $.getJSON(this.url, function(data){
         if(data.status == "OK"){
             if(data.returned_rows <= 0){

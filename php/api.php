@@ -2,7 +2,7 @@
 /*
 *   Author: Solveig Hansen 2014
 */
-    include 'database_login.php';
+    include_once 'functions.php';
     header('Content-type: application/json; charset=UTF-8');
 
     /*
@@ -34,17 +34,7 @@
     define("CHEAP_PRICE", 100);
 ?>
     <?php 
-        function connectToDB(){
-            $db = mysqli_connect(getHost(), getUser(), getPass(), getName()); 
-            if (!$db) { 
-                die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
-                exit(); 
-            } 
-            //To parse accented characters that are returned from the db
-            $db->set_charset("utf8");
-            return $db;
-        }
-
+        
         function deleteWine($id){
             $sql = "DELETE FROM " . TABLE_WINES . " WHERE " . ID . "=" . $id;
             return changeWines($sql);
@@ -126,7 +116,7 @@
         }
         //Returns a list of the newest wines, ordered _id descending, so newest first
         function getNewestWines(){
-            $sql = "SELECT * FROM " . TABLE_WINES . " WHERE _id >= " . NEW_THRESHOLD . " ORDER BY ". ID . " DESC";
+            $sql = "SELECT * FROM " . TABLE_WINES . " WHERE " . ID . " >= " . NEW_THRESHOLD . " ORDER BY ". ID . " DESC";
             return queryWines($sql);
         }
 
@@ -136,7 +126,7 @@
                 if($param == "alpha") return " ORDER BY " . NAME_S . " ASC "; //ASC is default
                 else if($param == "type") return " ORDER BY " . TYPE_S . " ASC ";
                 else if($param == "price") return " ORDER BY " . PRICE_S . " ASC ";
-                else if($param == "new") return " AND " . ID . " <= " . NEW_THRESHOLD;
+                else if($param == "new") return " AND " . ID . " >= " . NEW_THRESHOLD . " ORDER BY ". ID . " DESC";
                 else if($param == "bestcheap") return " AND " . PRICE_S . " <= " .CHEAP_PRICE . " AND " . STARS_S . " = 6";
                 else return " ";
             }
@@ -181,20 +171,6 @@
             return json_encode($ary);
         }
 
-        function checkForPostString($str){
-            /* Connect to db to do real_escape_string */
-            $db = connectToDB();
-            //If string is set, escape it (\' etc), so that it can be inserted in db
-            $ret = (isset($_POST[$str]) && $_POST[$str]) ? $db->escape_string($_POST[$str]) : '';
-            $db->close();
-            return $ret;
-        }
-        
-        function checkForGetString($str){
-            $ret = (isset($_GET[$str]) && $_GET[$str]) ? $_GET[$str] : 'ERROR';
-            return $ret;
-        }
-        
         ////////////////////////////////////////////////////////////////////////
         //////  BEGIN MAIN  ////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////
