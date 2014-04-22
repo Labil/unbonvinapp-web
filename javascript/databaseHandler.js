@@ -63,6 +63,32 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
     });
 };
 
+DatabaseHandler.prototype.setupLoginButton = function(){
+    var self = this;
+    $('#login_button').on('click', function(e){
+        e.preventDefault();
+        console.log("Clicked to log in");
+        $.loginpopup({
+            'message'   : 'Fyll in brukernavn og passord.',
+            'buttons'   : {
+                'Logg inn'   : {
+                    //Now this is dependent on flatUI for the button styling, 
+                    //should be specified in the dialogbox.css instead, but I'm lazy for the moment
+                    'class' : 'btn btn-block btn-lg btn-success',
+                    'action': function(){
+                        console.log("Clicked to log in");
+                        //self.deleteWine(wineId);
+                    }
+                },
+                'Avbryt'    : {
+                    'class' : 'btn btn-block btn-lg btn-default',
+                    'action': function(){}  // Nothing to do in this case. Might delete this action
+                }
+            }
+        });
+    });
+};
+
 DatabaseHandler.prototype.toggleLoadingBar = function(){
     if($.loadingbar({
         'message' : 'Laster inn viner...'

@@ -8,7 +8,8 @@ var SiteManager = function(){
 };
 
 SiteManager.prototype.init = function(){
-
+	this.isLoggedIn = false;
+	this.checkLoggedIn();
 	//Default subpage
 	this.loadPage("search.html");
 
@@ -94,6 +95,17 @@ SiteManager.prototype.setupChangePageListener = function(){
     //window.history.pushState({"html":"/" + pagename, "pageTitle": pagename}, "", "http://plainbrain.net/unbonvinapp/index.html/" + pagename);
 };
 
+SiteManager.prototype.checkLoggedIn = function(){
+	var self = this;
+	$.getJSON('http://plainbrain.net/unbonvinapp/php/sessions.php?', function(data){
+		console.log("Is logged in: " + data.is_logged_in);
+	    self.isLoggedIn = data.is_logged_in;
+	})
+	.fail(function(d, textStatus, error){
+	    console.error("Checking if logged in failed in sessions.php, status: " + textStatus + ", error: "+error);
+	});
+};
+
 SiteManager.prototype.loadPage = function(href, optionalQry){
 	this.currentPage = href;
 	//If a search query is not sent in, it will be an empty string and the default search will be for all wines
@@ -103,6 +115,11 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 	//hides the tip box if there is one on display before changing page
 	$.tipbox.hide();
 	var self = this;
+	if(this.isLoggedIn == false){
+		if(href == 'add.html'){
+			href = 'not_logged_in.html';
+		}
+	}
     $('#content').load(href + ' .content', function(){
     	//Reset the page scrolling so that top of content shows when changing page
     	//Use this over window.scrollTo(0, 0) because else the scroll event handler 
@@ -177,7 +194,8 @@ SiteManager.prototype.runScript = function(href, qry){
 		    container: $('#results'),
 		    qryType: "",
 		    searchQry: qry,
-		    page: "search"
+		    page: "search",
+		    isLoggedIn : this.isLoggedIn
 		});	
 
 		this.showSearchTip("Søketips", "Søk etter vin ved å skrive inn enten navn på vinen, årstall, eller pris. Sistnevnte gir deg alle viner under gitte pris.");
@@ -194,6 +212,9 @@ SiteManager.prototype.runScript = function(href, qry){
 	}
 	else if(href =="add.html"){
 		this.dbHandler.setupSubmit("insert");
+	}
+	else if(href == "not_logged_in.html"){
+		this.dbHandler.setupLoginButton();
 	}
 	
 
