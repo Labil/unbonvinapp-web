@@ -120,6 +120,29 @@
             return queryWines($sql);
         }
 
+        function getDataForVisualisation(){
+            $sql = "SELECT * FROM " .TABLE_WINES;
+            return queryWines($sql);
+        }
+        function getWineCountByType(){
+            $sql = "SELECT " .TYPE_S. ", COUNT(" . TYPE. ") as 'count_type' FROM ".TABLE_WINES." GROUP BY ".TYPE_S;
+
+            $resultArray = array();
+            $db = connectToDB();
+            if(!$result = $db->query($sql)){
+                die('There was an error running the query [' . $db->error . ']');
+            }
+            while($row = $result->fetch_assoc()){
+                $resultArray[] = array('type' => $row['type'], 'count' => intval($row['count_type']));
+            }
+            $returnedRows = $result->num_rows;
+            $result->free();
+            $db->close();
+            $returnArray = array('result' => $resultArray, 'returned_rows' => $returnedRows, 'status' => "OK");
+
+            return json_encode($returnArray);
+        }
+
         //Returns the correct ORDER BY based on params
         function getSortQry($param){
             if($param != null){
@@ -242,6 +265,9 @@
             if(isset($_POST['id'])){
                 echo deleteWine($_POST['id']);
             }
+        }
+        else if($req == "visualise"){
+            echo getWineCountByType();
         }
         /* 
             Returns error response if invalid request

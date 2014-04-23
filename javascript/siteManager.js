@@ -9,7 +9,7 @@ var SiteManager = function(){
 
 SiteManager.prototype.init = function(){
 	this.isLoggedIn = false;
-	this.checkLoggedIn();
+	//this.checkLoggedIn();
 	//Default subpage
 	this.loadPage("search.html");
 
@@ -95,6 +95,9 @@ SiteManager.prototype.setupChangePageListener = function(){
     //window.history.pushState({"html":"/" + pagename, "pageTitle": pagename}, "", "http://plainbrain.net/unbonvinapp/index.html/" + pagename);
 };
 
+/* 
+ * it's a bit horribly messy atm, i will fix it 
+ */
 SiteManager.prototype.checkLoggedIn = function(){
 	var self = this;
 	$.getJSON('http://plainbrain.net/unbonvinapp/php/sessions.php?', function(data){
@@ -103,6 +106,7 @@ SiteManager.prototype.checkLoggedIn = function(){
 	})
 	.fail(function(d, textStatus, error){
 	    console.error("Checking if logged in failed in sessions.php, status: " + textStatus + ", error: "+error);
+	    return false;
 	});
 };
 
@@ -115,11 +119,11 @@ SiteManager.prototype.loadPage = function(href, optionalQry){
 	//hides the tip box if there is one on display before changing page
 	$.tipbox.hide();
 	var self = this;
-	if(this.isLoggedIn == false){
+	/*if(this.isLoggedIn == false){
 		if(href == 'add.html'){
 			href = 'not_logged_in.html';
 		}
-	}
+	}*/
     $('#content').load(href + ' .content', function(){
     	//Reset the page scrolling so that top of content shows when changing page
     	//Use this over window.scrollTo(0, 0) because else the scroll event handler 
@@ -215,6 +219,9 @@ SiteManager.prototype.runScript = function(href, qry){
 	}
 	else if(href == "not_logged_in.html"){
 		this.dbHandler.setupLoginButton();
+	}
+	else if(href == "visualisation.html"){
+		this.dbHandler.visualise();
 	}
 	
 

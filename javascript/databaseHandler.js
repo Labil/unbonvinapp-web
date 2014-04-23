@@ -16,6 +16,7 @@ var DatabaseHandler = function(siteMgr){
                       'Cognac', 'cognac', 'Oransje', 'oransje', 'Madeira', 'madeira', 'Rom',
                       'rom'];
     this.api_url = 'http://plainbrain.net/unbonvinapp/php/api.php?';
+    this.login_url = 'http://plainbrain.net/unbonvinapp/php/check_login.php?';
 };
 
 /*
@@ -65,9 +66,11 @@ DatabaseHandler.prototype.setupSearchSubmit = function(){
 
 DatabaseHandler.prototype.setupLoginButton = function(){
     var self = this;
+    //Button to open login prompt
     $('#login_button').on('click', function(e){
         e.preventDefault();
-        console.log("Clicked to log in");
+        var notDoneMsg = 'Vennligst fyll inn både brukernavn og passord :)';
+        
         $.loginpopup({
             'message'   : 'Fyll in brukernavn og passord.',
             'buttons'   : {
@@ -76,8 +79,15 @@ DatabaseHandler.prototype.setupLoginButton = function(){
                     //should be specified in the dialogbox.css instead, but I'm lazy for the moment
                     'class' : 'btn btn-block btn-lg btn-success',
                     'action': function(){
-                        console.log("Clicked to log in");
-                        //self.deleteWine(wineId);
+                        var username = $('#loginBox').find('#username').val();
+                        var password = $('#loginBox').find('#password').val();
+                        console.log(username + password);
+
+                        if(username == "" || password == ""){
+                            self.popupMessage(notDoneMsg);
+                            return;
+                        }
+                        self.checkLogin(username, password);
                     }
                 },
                 'Avbryt'    : {
@@ -86,6 +96,29 @@ DatabaseHandler.prototype.setupLoginButton = function(){
                 }
             }
         });
+    });
+};
+
+DatabaseHandler.prototype.checkLogin = function(username, password){
+    var successMsg = 'Du er nå logget inn!';
+    var notLoggedInMsg = 'Brukernavn eller passord var feil.';
+    var failMsg = 'Oops, noe gikk galt. Prøv igjen eller be Solveig om hjelp :)';
+    var self = this;
+    var data = {
+        'username' : username,
+        'p' : password
+    };
+    $.post(self.login_url, data, function(response) {
+        self.clearMessages();
+        console.log(response.logged_in);
+        if(response.logged_in == 'YES')
+            self.popupMessage(successMsg);
+        else self.popupMessage(notLoggedInMsg);
+    })
+    .fail(function(d, textStatus, error) {
+        self.clearMessages();
+        self.popupMessage(failMsg);
+        console.error("The request failed, status: " + textStatus + ", error: "+error);
     });
 };
 
@@ -310,13 +343,42 @@ DatabaseHandler.prototype.outputMessage = function(message){
     }
 };
 
+DatabaseHandler.prototype.visualise = function(){
+    var self = this;
+    this.req = 'req=visualise';
+    this.url = this.api_url + this.req;
+    console.log(this.url);
+    $.getJSON(this.url, function(data){
+        if(data.status == "OK"){
+            self.toggleLoadingBar();
+            self.result = $.map(data.result, function(res){
+                //Makes sure we have a type for it is used to display the colored border beneath each wine
+                if(res.type == "" || res.type == null) res.type = "Annet";  
+                return {
+                    type: res.type,
+                    frequency: res.count
+                };
+            });
+            //Turns the loading bar off after search is done
+            self.toggleLoadingBar();
+            BarChart(self.result, ".content");
+        }
+    })
+    .fail(function(d, textStatus, error){
+        self.clearMessages();
+        self.toggleLoadingBar();
+        self.outputMessage('Beklager, noe gikk galt med forespørselen din. Prøv igjen, og eventuelt kontakt systemadministrator hvis feilen vedvarer!');
+        console.error("getJSON failed, status: " + textStatus + ", error: "+error);
+    });
+}
+
 DatabaseHandler.prototype.fetch = function(){
     var self = this;
     this.toggleLoadingBar();
 
     if(this.param != undefined) this.req += '&param=' + this.param;
     this.url = this.api_url + this.req;
-    console.log(this.url);
+    //console.log(this.url);
     $.getJSON(this.url, function(data){
         if(data.status == "OK"){
             if(data.returned_rows <= 0){

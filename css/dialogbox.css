@@ -35,14 +35,16 @@
     text-align:center;
 }
 
-#dialogBox .button{
+#dialogBox .button, #loginBox .button{
     margin-right: 15px;
     padding: 10px 25px 9px 25px;
     text-decoration:none;
     border:none;
 }
 
-#dialogBox .button:last-child{	margin-right:0;}
+#dialogBox .button:last-child, #loginBox .button:last-child{
+	margin-right:0;
+}
 
 
 /******************** Popup ******************************/
@@ -132,4 +134,20 @@
     font-size: 24px;
     color: white;
     font-family: 'Cuprum','Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+ }
+
+ /********************* Login popup ****************/
+ /*.block{
+    display: block;
+    margin-bottom: 10px;
+ }*/
+
+ #loginBox{
+    background-color:#060606;
+    width:auto;
+    position:fixed;
+    left:50%;
+    top:50%;
+    padding: 20px;
+    border-radius: 8px 8px 8px 8px;
  }

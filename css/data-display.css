@@ -151,3 +151,76 @@ td.price{
 td.stars{
 	width: 5%;
 }
+
+/**************************DATAVISUALISATION******************************************/
+.bar.Rød{
+	fill: #690b19;
+}
+
+.bar.Hvit{
+	fill: #f9d37e;
+}
+
+.bar.Rose{
+	fill: #ea9aa7;
+}
+
+.bar.Annet{
+	fill: #AAAAAA;
+}
+
+.bar.Champagne{
+	fill: #f9e4d1;
+}
+
+.bar.Dessertvin{
+	fill: #ffb19a;
+}
+
+.bar.Søtvin{
+	fill: #ba2e40;
+}
+
+.bar.Sherry{
+	fill: #cc1164;
+}
+
+.bar.Musserende{
+	fill: #ffb19a;
+}
+
+.bar.Akevitt{
+	fill: #f3e9dd;
+}
+
+.bar.Portvin{
+	fill: #640d15;
+}
+
+.bar.Tokaji{
+	fill: #c96f00;
+}
+
+.bar.Hetvin{
+	fill: #531e24;
+}
+
+.bar.Cognac{
+	fill: #983a0c;
+}
+
+.bar.Oransje{
+	fill: #983a0c;
+}
+
+.bar.Madeira{
+	fill: #982900;
+}
+
+.bar.Rom{
+	fill: #5c0027;
+}
+
+.arc path {
+  stroke: #fff;
+}

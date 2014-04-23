@@ -119,6 +119,8 @@ input.add:focus, input.required:focus, textarea.add:focus{
 	text-align: center;
 }
 
+/* This sucks, but I have to specify class, else the
+	flatUI default placeholder overrides this, I think */
 input.add::-webkit-input-placeholder, input.required::-webkit-input-placeholder {
     color: #818185;
 }
