@@ -4,8 +4,84 @@
 
 var BarChart = function(winedata, container){
 	var data = winedata.slice();
-	console.log(data);
-	var w = 960, h = 500;
+	var colors = {
+		'Rød':'#690b19',
+		'Hvit': '#f9d37e',
+		'Rose': '#ea9aa7',
+		'Annet': '#AAAAAA',
+		'Champagne': '#f9e4d1',
+		'Dessertvin': '#ffb19a',
+		'Søtvin': '#ba2e40',
+		'Sherry': '#cc1164',
+		'Musserende': '#ffb19a',
+		'Akevitt': '#f3e9dd',
+		'Portvin': '#640d15',
+		'Tokaji':'#c96f00',
+		'Hetvin':'#531e24',
+		'Cognac':'#983a0c',
+		'Oransje':'#983a0c',
+		'Madeira':'#982900',
+		'Rom':'#5c0027'
+	};
+	//console.log(data);
+
+	var width = 960,
+		height = 500,
+		radius = Math.min(width, height) / 2;
+	
+	var arc = d3.svg.arc()
+		.outerRadius(radius - 10)
+		.innerRadius(0);
+
+	var pie =d3.layout.pie()
+		.sort(null)
+		.value(function(d){
+			return d.frequency;
+		});
+
+	var svg = d3.select(container).append("svg")
+		.attr("width", width)
+		.attr("height", height)
+		.append("g")
+		.attr("transform", "translate(" + width/2 +
+			"," + height/2 + ")");
+
+
+	var g = svg.selectAll(".arc")
+		.data(pie(data))
+		.enter()
+		.append("g")
+		.attr("class", "arc");
+
+	g.append("path")
+		.attr("d", arc)
+		.style("fill", function(d, i){
+			return colors[data[i].type];
+		})
+		.on("mouseover", function(d) {
+	        svg.append("path")
+	          .attr("d", d3.select(this).attr("d"))
+	          .attr("id", "arcSelection")
+	          .style("fill", "none")
+	          .style("stroke", "#fff")
+	          .style("stroke-width", 2);
+	    })
+		.on("mouseout", function(d) {
+		    d3.select("#arcSelection").remove();
+		});
+	
+	g.append("text")
+		.attr("transform", function(d) { 
+			return "translate(" + arc.centroid(d) + ")"; 
+		})
+		.attr("dy", "1em")
+		.style("text-anchor", "middle")
+		.text(function(d, i){
+			return data[i].type;
+		});
+
+/////////////////////////////////////////////////	
+	/*var w = 960, h = 500;
 
 	var svg = d3.select(container)
 		.append("svg")
@@ -53,7 +129,9 @@ var BarChart = function(winedata, container){
 			return d.type + " (" + d.frequency + ")";
 		})
 		.attr("font-size", "15px")
-		.style("font-weigth", "bold");
+		.style("font-weigth", "bold");*/
+
+////////////////////////////////////////////////////
 	
 	/*var margin = {
 		top: 40,

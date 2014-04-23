@@ -361,6 +361,7 @@ DatabaseHandler.prototype.visualise = function(){
             });
             //Turns the loading bar off after search is done
             self.toggleLoadingBar();
+            console.log(self.result);
             BarChart(self.result, ".content");
         }
     })

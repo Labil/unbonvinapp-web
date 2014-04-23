@@ -133,6 +133,9 @@
                 die('There was an error running the query [' . $db->error . ']');
             }
             while($row = $result->fetch_assoc()){
+                if(preg_match("/\s/", $row['type']) || intval($row['count_type']) < 10){
+                    continue;
+                }
                 $resultArray[] = array('type' => $row['type'], 'count' => intval($row['count_type']));
             }
             $returnedRows = $result->num_rows;
