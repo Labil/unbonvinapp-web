@@ -12,26 +12,17 @@ TODOS:
 
 x Data visualisation with __D3.js__
 
-x Login system <-----uh husk å kanskje gjøre det FØR denne repoen blir public:p
+x Improve login system.
 
-x Pagination for queries that yield a ton of wines
-
-x Different stylesheets for different sizes n stuff / more flexible layout
-
-x Rewrite the backend api to use mysqli
-
-x Effect in adress bar to show what sub page the user is on (even tho it's a one page app).
+x Pagination for queries that yield a ton of wines? Runs pretty smooth without, though.
 
 x Testing
 
 x Refactoring of code
 
-x Shortcuts to search for the "best and cheapest" wines or the newest added wines
-
-x
 
 
-Currently live at http://plainbrain.net/unbonvinapp/
+Currently live at http://plainbrain.net/unbonvinapp/  <--- this version doesn't require you to log in. But please play nice with the database anyway :)
 
 ![unbonwineapp](http://www.plainbrain.net/github_img/unbonvinapp.jpg)
 
