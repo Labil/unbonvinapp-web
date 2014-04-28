@@ -1,5 +1,6 @@
 Un bon vin app
 ===============
+The title translates to "A good wine app" and is a pun on one of the phrases we were thought in french class for learning to pronounce all the nasal sounds ^^
 
 A wine database web app meant to accompany an android app that I'm concurrently developing. The page is in Norwegian, because all the data in the database is in Norwegian.
 
